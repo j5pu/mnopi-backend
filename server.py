@@ -45,7 +45,7 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
         SimpleHTTPServer.SimpleHTTPRequestHandler.do_GET(self)
 
     def do_POST(self):
-        #logging.warning("======= POST STARTED =======")
+        logging.warning("======= POST STARTED =======")
         #logging.warning(self.headers)
         form = cgi.FieldStorage(
             fp=self.rfile,
@@ -55,13 +55,22 @@ class ServerHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
                      })
         #logging.warning("======= POST VALUES =======")
 
-        post_data = json.loads(form.value)
-        backend.serve_page_visited(url=post_data["urlPageVisited"], user_key=post_data["idUser"])
+        if self.path == "/sendPageVisited":
+            post_data = json.loads(form.value)
+            backend.serve_page_visited(url=post_data["url"], user_key=post_data["idUser"])
+        elif self.path == "/sendHtmlVisited":
+            post_data = json.loads(form.value)
+            backend.serve_html_visited(url=post_data["url"], user_key=post_data["idUser"],
+                                       html_code=post_data["htmlString"])
+        elif self.path == "/sendSearch":
+            post_data = json.loads(form.value)
+            backend.serve_search_done(search_results=post_data["searchResults"], search_query=post_data["searchDone"],
+                                      user_key=post_data["idUser"])
 
         #logging.warning("URL visitada: " + url)
         #logging.warning("Usuario" + user_email)
 
-        SimpleHTTPServer.SimpleHTTPRequestHandler.do_GET(self)
+        #SimpleHTTPServer.SimpleHTTPRequestHandler.do_GET(self)
 
 Handler = ServerHandler
 

@@ -1,5 +1,6 @@
 from lxml import html
-import urllib2 #TODO: pensar si viene mejor el modulo Request
+import urllib2 #TODO: pensar si viene mejor el modulo Request+
+import mongo
 
 APPROVED_CATEGORIES_QUERY = "//td[text()=\"Approved\"]/parent::node()/td/b/text()"
 
@@ -74,16 +75,21 @@ def getCategories(domain):
     Returns list of OpenDNS categories for a domain
     """
 
-    page = urllib2.urlopen("http://domain.opendns.com/" + domain)
-    htmlCode = "".join(page.readlines()).replace("\n", "").replace("\t", "")
-    xmlTree = html.fromstring(htmlCode)
-    approved_categories = xmlTree.xpath(APPROVED_CATEGORIES_QUERY)
+    # First, search domain in pre-fetched categories. If the domain was not previously saved, query OpenDns
+    # Todo: habra que hacer algo para que con el tiempo se vuelva a hacer petición a opendns
+    approved_categories = mongo.get_domain_saved_categories(domain)
+    if approved_categories == None:
+        page = urllib2.urlopen("http://domain.opendns.com/" + domain)
+        htmlCode = "".join(page.readlines()).replace("\n", "").replace("\t", "")
+        xmlTree = html.fromstring(htmlCode)
+        approved_categories = xmlTree.xpath(APPROVED_CATEGORIES_QUERY)
 
-    # Check existence and adapt to our categories
-    for category in approved_categories:
-        if category not in CATEGORIES.keys():
-            raise OpenDNS_DOMException()
-    approved_categories = [CATEGORIES[cat] for cat in approved_categories]
+        # Check existence and adapt to our categories
+        for category in approved_categories:
+            if category not in CATEGORIES.keys():
+                raise OpenDNS_DOMException()
+        approved_categories = [CATEGORIES[cat] for cat in approved_categories]
+
+        mongo.set_domain_saved_categories(domain, approved_categories)
 
     return approved_categories
-
