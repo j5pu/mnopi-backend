@@ -19,16 +19,24 @@ def register_visit(page_visited, user):
                     "date" : datetime.datetime.utcnow()}
     db.pagesVisited.insert(page_visited) # TODO Anyadir control de errores o algo??
 
-def register_html(page_visited, user, html_code):
+def register_html(page_visited, user, html_code, relevant_properties=[]):
     """
     Saves html code in database for a visited page
     """
 
     db = mongo.mnopi
+
     html_visited = {"pageVisited" : page_visited,
                     "user" : user,
                     "date" : datetime.datetime.utcnow(),
                     "htmlCode" : html_code}
+
+    # Add special retrieved properties, such as meta data or title
+    if relevant_properties:
+        html_visited['properties'] = {}
+        for (property, value) in relevant_properties:
+            html_visited['properties'][property] = value
+
     db.htmlVisited.insert(html_visited)
 
 def register_search(search_query, search_results, user):
