@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{%  block content %}
+
+  <div class="text_container">
+    <section class="form">
+        <div class="basic_text">
+            <h1>Uso del plugin de mnopi</h1>
+            <p>
+                El plugin de mnopi se ejecuta sobre Chrome, por lo que es necesario tener instalado este navegador
+                para utilizarlo. Una vez descargado e instalado, hay que iniciar sesión desde el propio plugin pinchando en su icono.
+                Es posible cambiar en opciones los datos que quieres monitorizar.
+            </p>
+            <p>
+                Una vez logueado, el plugin empezará a enviar a los servidores de mnopi la información de tu navegación cuyo envío has permitido.
+                En cualquier momento se puede cancelar la monitorización. Para hacerlo, basta con volver a pulsar el botón de mnopi.
+            </p>
+            </br>
+            <h1>Instalación del plugin</h1>
+            <ol>
+                <li>Descargar el plugin de mnopi desde
+                    <a href="{% static "mnopi/plugin-mnopi-0.01.zip" %}">aquí</a> y descomprimirlo</li>
+                <li>Ejecutar Google Chrome, ir al menú y, en <i>Herramientas</i>, entrar en <i>Extensiones</i> </li>
+                <li>Dentro de extensiones, habilitar el <i>modo desarrollador</i></li>
+                <li>Pinchar en <i>Cargar extensión descomprimida</i> y seleccionar la carpeta que descomprimimos previamente</li>
+                <li>El plugin se habrá añadido a la lista de plugins, a la derecha de la barra de direcciones</li>
+            </ol>
+        </div>
+    </section>
+  </div>
+
+  <div class="container">
+      <section class="form">
+          <div class="basic_text">
+              <p style="text-align: center"><a href="{% static "mnopi/plugin-mnopi-0.01.zip" %}">Descargar plugin de mnopi</a></p>
+              <p style="text-align: center"><a href="{% static "mnopi/plugin-mnopi-0.01.zip" %}"><img src="{% static "mnopi/download.jpg" %}" style="height:70px;width:70px"></a></p>
+          </div>
+      </section>
+  </div>
+
+{% endblock content %}

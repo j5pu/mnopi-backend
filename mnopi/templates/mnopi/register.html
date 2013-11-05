@@ -1,0 +1,35 @@
+{%  extends "base.html" %}
+
+{%  block content %}
+
+  <div class="container">
+    <section class="form">
+      <h1>mnopi alpha - Registro</h1>
+      <form method="post" action="{% url 'new_user' %}">
+
+      {%  if error_message %}
+          <div><p class="error_message">{{ error_message }}</p></div>
+      {%  endif %}
+
+      {%  csrf_token %}
+      <div class="reg_section personal_info">
+      <h3>Identificador de usuario</h3>
+      <input type="text" name="user_key" value="" placeholder="Por ejemplo, una dirección de email">
+      </div>
+      <div class="reg_section password">
+      <h3>Contraseña</h3>
+      <input type="password" name="password" value="" placeholder="Tu contraseña">
+      <input type="password" name="confirm" value="" placeholder="Confirma contraseña">
+      </div>
+      <p class="terms">
+        <label>
+          <input type="checkbox" name="acceptance" id="acceptance">
+           Entiendo <a href="{% url 'conditions' %}" target="_blank">qué información</a> mía va a ser recogida
+        </label>
+      </p>
+      <p class="submit"><input type="submit" name="register" value="Registrarse"></p>
+      </form>
+    </section>
+  </div>
+
+{% endblock content %}

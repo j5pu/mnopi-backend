@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+  <div class="container">
+    <section class="form">
+      <h1>mnopi alpha - Login</h1>
+      <form method="post" action="{% url 'login' %}">
+
+      {%  if error_message %}
+          <div><p class="error_message">{{ error_message }}</p></div>
+      {%  endif %}
+
+      {%  csrf_token %}
+      <div class="reg_section personal_info">
+      <h3>Identificador de usuario</h3>
+      <input type="text" name="user_key" value="" placeholder="Tu identificador de usuario">
+      <h3>Contraseña</h3>
+      <input type="password" name="password" value="" placeholder="Tu contraseña">
+      </div>
+
+      <p class="submit"><input type="submit" name="login" value="Login"></p>
+      </form>
+    </section>
+  </div>
+
+  <div class="container">
+      <section class="form">
+          <p class="terms"><label>¿No tienes cuenta en Mnopi?</label></p>
+          <p class="register-login"><a href="{% url 'register' %}"><input type="submit" name="commit" value="Registrarse"></a></p>
+      </section>
+  </div>
+
+{% endblock content %}

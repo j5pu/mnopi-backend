@@ -2,6 +2,8 @@ from pymongo import MongoClient
 import datetime
 import logging
 
+from hashlib import sha256 # TODO: Check better security options
+
 class MongoNotLoadedException(Exception):
     pass
 
@@ -77,13 +79,48 @@ def get_domain_saved_categories(domain):
     else:
         return None
 
+def user_exists(user_key):
+    """
+    Checks if a given user exists in the database
+    """
+
+    db = mongo.mnopi
+    user = db.users.find_one({'user_key' : user_key})
+    if user:
+        return True
+    return False
+
+def authenticate_user(user_key, password):
+    """
+    Authenticates user with password
+    """
+
+    db = mongo.mnopi
+    user = db.users.find_one({'user_key' : user_key})
+    hashed_password = sha256(password).hexdigest()
+
+    return hashed_password == user['password']
+
+def add_user(user_key, password):
+    """
+    Adds a new user to the database. It doesn't check previous existence
+    """
+
+    hashed_password = sha256(password).hexdigest()
+
+    db = mongo.mnopi
+    new_user = {"user_key" : user_key,
+                "password" : hashed_password,
+                "categories" : {}}
+    db.users.save(new_user)
+
 def update_user(user_key, categories):
     """
     Updates the number of visits to categories for a given user, using the last page visited
     """
 
     db = mongo.mnopi
-    user = db.users.find_one({'email' : user_key})
+    user = db.users.find_one({'user_key' : user_key})
     for cat in categories:
         add_visit_to_category(user, cat)
     db.users.save(user)

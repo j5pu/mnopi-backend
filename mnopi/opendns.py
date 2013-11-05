@@ -1,6 +1,6 @@
 from lxml import html
 import urllib2 #TODO: pensar si viene mejor el modulo Request+
-import mongo
+from mnopi import mongo
 
 APPROVED_CATEGORIES_QUERY = "//td[text()=\"Approved\"]/parent::node()/td/b/text()"
 
@@ -76,7 +76,7 @@ def getCategories(domain):
     """
 
     # First, search domain in pre-fetched categories. If the domain was not previously saved, query OpenDns
-    # Todo: habra que hacer algo para que con el tiempo se vuelva a hacer petición a opendns
+    # Todo: habra que hacer algo para que con el tiempo se vuelva a hacer peticion a opendns
     approved_categories = mongo.get_domain_saved_categories(domain)
     if approved_categories == None:
         page = urllib2.urlopen("http://domain.opendns.com/" + domain)
