@@ -125,6 +125,30 @@ def update_user(user_key, categories):
         add_visit_to_category(user, cat)
     db.users.save(user)
 
+def get_urls_visited(user_key):
+    """
+    Gets a list of all urls visited by an user. It doesn't check user existence.
+    Returns ( {'pageVisited' :  "www.blahblah.com", 'date' : datetime}, { ... } ... )
+    """
+    #TODO: esto devolver listas super tochas en el futuro, ojo!
+
+    db = mongo.mnopi
+    urls_visited =  list(db.pagesVisited.find({'user' : user_key},
+                                             {'_id' : 0, 'pageVisited' : 1, 'date' : 1}))
+    return urls_visited
+
+def get_searches_done (user_key):
+    """
+    Gets a list of searches done by an user. It doesn't check user existence.
+    Returns ( {'searchQuery' : 'blabla', 'date': datetime}, {...}, ... )
+    """
+
+    db = mongo.mnopi
+    searches_done = list(db.searches.find({'user' : user_key},
+                                             {'_id' : 0, 'searchQuery' : 1, 'date' : 1}))
+    return searches_done
+
+
 def add_visit_to_category(user, category):
 
     if category not in user['categories'].keys():

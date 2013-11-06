@@ -35,12 +35,14 @@ RELEVANT_META_PROPERTIES = ["keywords",
 def index(request):
     return render(request, 'mnopi/index.html')
 
+@csrf_exempt
 def login(request):
     #TODO: cambiar utilizando el sistema de Django
     #TODO: incorporar checkeos javascript en interfaces
+    #TODO: separar el servicio de entrada desde plugin y desde web. Interfaz rest?
 
     def login_failed(message):
-        return render(request, 'mnopi/index.html', {'error_message' : message})
+        return render(request, 'mnopi/index.html', {'error_message' : message}, status=212)
 
     try:
         user_key = request.POST['user_key']
