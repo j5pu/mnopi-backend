@@ -139,7 +139,7 @@ def html_visited(request):
     user_key = post_data['idUser']
     html_code = post_data['htmlString']
 
-    html_code = urllib.unquote(html_code.replace("\t", "").replace("\n", ""))
+    html_code = html_code.replace("\t", "").replace("\n", "")
     relevant_properties = process_html_page(html_code)
     mongo.register_html(url, user_key, html_code, relevant_properties)
 
