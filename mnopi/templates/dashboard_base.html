@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<meta charset="utf-8">
+<html>
+  <head>
+      <title>Mnopi Analytics</title>
+
+      <!-- Gridster files -->
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+      <script type="text/javascript" src="{% static "mnopi/external/gridster/dist/jquery.gridster.min.js" %}" charster="utf-8"></script>
+      <link rel="stylesheet" type="text/css" href="{% static "mnopi/external/gridster/dist/jquery.gridster.min.css" %}">
+      <link rel="stylesheet" type="text/css" href="{% static "mnopi/css/dashboard.css" %}">
+
+      <!-- nvd3 and d3 css and libraries -->
+      <link href="{% static "mnopi/external/nvd3/nv.d3.css" %}" rel="stylesheet" type="text/css">
+      <script src="{% static "mnopi/external/nvd3/lib/d3.v3.js" %}"></script>
+      <script src="{% static "mnopi/external/nvd3/nv.d3.js" %}"></script>
+{#      <script src="{% static "mnopi/external/nvd3/src/models/legend.js" %}"></script>#}
+{#      <script src="{% static "mnopi/external/nvd3/src/models/pie.js" %}"></script>#}
+{#      <script src="{% static "mnopi/external/nvd3/src/models/pieChart.js" %}"></script>#}
+{#      <script src="{% static "mnopi/external/nvd3/src/utils.js" %}"></script>#}
+      <script src="{% static "mnopi/test/d3.layout.cloud.js" %}"></script>
+{#      <script src="mnopi/external/nvd3/src/tooltip.js"></script>#}
+{#      <script src="mnopi/external/nvd3/src/models/axis.js"></script>#}
+{#      <script src="mnopi/external/nvd3/src/models/discreteBar.js"></script>#}
+{#      <script src="mnopi/external/nvd3/src/models/discreteBarChart.js"></script>#}
+
+      <!-- Bootstrap -->
+      <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" rel="stylesheet">
+      <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+
+      <!-- Our own files -->
+      <script src="{% static "mnopi/src/dashboard.js" %}"></script>
+
+  </head>
+
+  <body>
+
+  {% include "mnopi/partials/navigation_bar.html" %} {# with current_page ="view" for context #}
+
+  {% block content %}{% endblock content %}
+
+  </body>
+</html>

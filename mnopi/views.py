@@ -1,17 +1,22 @@
 # coding=utf-8
 
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
+
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
+from django.views.generic import ListView
 
+from hashlib import sha256 # TODO: Check better security options
 import urlparse
 import json
-import re
-import urllib
+import simplejson
 
-import mongo
+from models import User, PageVisited, Search, UserCategorization
+import models_mongo
 import opendns
+from mnopimining import users
 
 PASS_MIN_LENGTH = 6
 
@@ -26,9 +31,6 @@ LOGIN_FIELDS_ERROR = "Introduce datos de login"
 LOGIN_USER_DOESNT_EXIST = "El usuario no existe"
 LOGIN_BAD_PASSWORD = "Contraseña incorrecta"
 
-RELEVANT_META_PROPERTIES = ["keywords",
-                            "description"]
-
 
 #TODO: Volver a poner y tratar el tema de csrf
 
@@ -42,7 +44,7 @@ def login(request):
     #TODO: separar el servicio de entrada desde plugin y desde web. Interfaz rest?
 
     def login_failed(message):
-        return render(request, 'mnopi/index.html', {'error_message' : message}, status=212)
+        return render(request, 'mnopi/index.html', {'error_message': message}, status=212)
 
     try:
         user_key = request.POST['user_key']
@@ -52,10 +54,13 @@ def login(request):
 
     if user_key == "" or password == "":
         return login_failed(LOGIN_FIELDS_ERROR)
-    elif not mongo.user_exists(user_key):
-        return login_failed(LOGIN_USER_DOESNT_EXIST)
-    elif not mongo.authenticate_user(user_key, password):
-        return login_failed(LOGIN_BAD_PASSWORD)
+    # elif not mongo.user_exists(user_key):
+    #     return login_failed(LOGIN_USER_DOESNT_EXIST)
+    #TODO: AUTENTICACION
+
+    user = User.objects.get(user_key=user_key)
+    # elif not mongo.authenticate_user(user_key, password):
+    #     return login_failed(LOGIN_BAD_PASSWORD)
 
     return render(request, 'mnopi/main.html')
 
@@ -68,7 +73,7 @@ def conditions(request):
 
 def new_user(request):
     """
-    Sign ups user to the system. It checks every parameter
+    Signs up user to the system. It checks every parameter
     """
 
     def registration_failed(message):
@@ -89,10 +94,13 @@ def new_user(request):
         return registration_failed(REGISTRATION_PASSWORD_ERROR)
     elif not request.POST.get('acceptance', False):
         return registration_failed(REGISTRATION_CONDITIONS_ERROR)
-    elif mongo.user_exists(user_key):
-        return render(request, 'mnopi/register.html', {'error_message' : REGISTRATION_USER_EXISTS})
+    # TODO: Autenticacion
+    # elif mongo.user_exists(user_key):
+    #     return render(request, 'mnopi/register.html', {'error_message' : REGISTRATION_USER_EXISTS})
 
-    mongo.add_user(user_key, password)
+    hashed_password = sha256(password).hexdigest()
+    User.objects.create(user_key=user_key, password=hashed_password)
+    # mongo.add_user(user_key, password)
 
     return render(request, 'mnopi/register_successful.html')
 
@@ -109,8 +117,9 @@ def page_visited(request):
     url_domain = urlparse.urlparse(url)[1]
     categories = opendns.getCategories(url_domain)
 
-    mongo.register_visit(url, user_key)
-    mongo.update_user(user_key, categories)
+    user = User.objects.get(user_key=user_key)
+    PageVisited.objects.create(user=user, page_visited=url)
+    user.update_categories_visited(categories)
 
     return HttpResponse()
 
@@ -124,7 +133,10 @@ def search_done(request):
     search_query = post_data['searchDone']
     user_key = post_data['idUser']
 
-    mongo.register_search(search_query, search_results, user_key)
+    user = User.objects.get(user_key=user_key)
+    Search.objects.create(search_query=search_query,
+                          search_results=search_results,
+                          user=user)
 
     return HttpResponse()
 
@@ -139,50 +151,110 @@ def html_visited(request):
     user_key = post_data['idUser']
     html_code = post_data['htmlString']
 
-    html_code = html_code.replace("\t", "").replace("\n", "")
-    relevant_properties = process_html_page(html_code)
-    mongo.register_html(url, user_key, html_code, relevant_properties)
+    # Automatic keywords mining is performed when creating the object
+    models_mongo.register_html_visited(page_visited=url, html_code=html_code, user=user_key)
+
+    # relevant_properties = get_html_metadata(html_code)
+    #
+    # keywords_freqs = {}
+    # keywords_freqs['text'] = keywords.get_freq_words(nltk.clean_html(html_code))
+    # keywords_freqs['metadata'] = keywords.get_freq_words(" ".join([x[1] for x in relevant_properties]))
+    #
+    # mongo.register_html(url, user_key, html_code, relevant_properties, keywords_freqs)
 
     return HttpResponse()
 
-def process_html_page(html_code):
+
+def user_keywords(request, user_key):
     """
-    Process html code and gets relevant properties
+    Returns the keywords associated with an user
     """
-    properties_list = []
+    #TODO: tentative name and function
 
-    # Retrieve important meta properties
-    meta_tags = re.findall("<meta.*?>", html_code)
-    for tag in meta_tags:
-        relevant_tag = match_relevant_meta(tag)
-        if relevant_tag:
-            properties_list.append(relevant_tag)
+    user = User.objects.get(user_key=user_key)
+    words = user.get_keywords_freqs_from_properties(50)
+    resp = simplejson.dumps(words) #TODO: reducir numero de palabras enviadas
 
-    # Title of page
-    title_match = re.search("<title>(.*)</title>", html_code)
-    if title_match:
-        title = title_match.groups()[0]
-        properties_list.append(("title", title))
+    return HttpResponse(resp, mimetype='application/json')
 
-    return properties_list
-
-def match_relevant_meta(meta_tag):
+def dashboard(request, user_key):
     """
-    Return tuples (name, content) of relevant meta properties
-    <meta name="description" content="Fancy webpage" -> ("description", "Fancy webpage")
+    View that retrieves data and shows dashboard to user
     """
-    for tag in RELEVANT_META_PROPERTIES:
-        name_matcher = re.compile("name.*?\"(.*?)\"")
-        match = name_matcher.search(meta_tag)
-        if match:
-            meta_name = match.groups()[0]
+    def extend_freqs(freqs):
+        words = []
+        for word in freqs:
+            for i in range(0, word[1]):
+                words.append(word[0])
 
-            # Check if the type of meta data is of our interest
-            if meta_name == tag:
-                content_matcher = re.compile("content.*?\"(.*?)\"")
-                match = content_matcher.search(meta_tag)
-                meta_content = match.groups()[0]
+        return words
 
-                return (meta_name, meta_content)
+    user = User.objects.get(user_key=user_key)
+    categories = user.categories.all()
+    visits_by_category = [UserCategorization.objects.get(user=user, category=cat).weigh for cat in categories]
+    #TODO: Falta por meter errores
+    visits_by_category_list = [{'category': x.name, 'visits': y} for (x, y) in zip(categories, visits_by_category)]
 
-    return None
+    metadata_keywords = user.get_keywords_freqs_from_properties(50)
+    metadata_keywords = extend_freqs(metadata_keywords)
+
+    site_keywords = user.get_keywords_freqs_from_html(30) #TODO: constantizar
+    site_keywords = [{'keyword': x, 'frequency': y} for (x, y) in site_keywords]
+
+    resp = {'visits_by_category': simplejson.dumps(visits_by_category_list),
+            'metadata_keywords': simplejson.dumps(metadata_keywords),
+            'site_keywords': simplejson.dumps(site_keywords)}
+
+    return render_to_response("mnopi/dashboard.html", resp, context_instance=RequestContext(request))
+
+
+class UserPagesVisitedList(ListView):
+
+    template_name = 'mnopi/pages_visited.html'
+    context_object_name = 'pages_visited'
+    paginate_by = 25
+
+    def get_queryset(self):
+        self.user = get_object_or_404(User, user_key=self.args[0])
+        return PageVisited.objects.filter(user=self.user)
+
+    def get_context_data(self, **kwargs):
+        context = super(UserPagesVisitedList, self).get_context_data(**kwargs)
+        context['user_name'] = self.user.user_key
+        return context
+
+class UserSearchesDoneList(ListView):
+
+    template_name = 'mnopi/searches_done.html'
+    context_object_name = 'searches_done'
+    paginate_by = 25
+
+    def get_queryset(self):
+        self.user = get_object_or_404(User, user_key=self.args[0])
+        return Search.objects.filter(user=self.user)
+
+    def get_context_data(self, **kwargs):
+        context = super(UserSearchesDoneList, self).get_context_data(**kwargs)
+        context['user_name'] = self.user.user_key
+        return context
+
+
+def test(request):
+    """
+    DUMMY method for test pages
+    """
+    def extend_freqs(freqs):
+        words = []
+        for word in freqs:
+            for i in range(0, freqs[word]):
+                words.append(word)
+
+        return words
+
+
+    words = users.get_user_keywords_from_properties("alfredo")
+    words = extend_freqs(words)
+
+    resp = simplejson.dumps(words) #TODO: reducir numero de palabras enviadas
+
+    return render_to_response("mnopi/test_tags.html", {'words': resp}, context_instance=RequestContext(request))

@@ -1,0 +1,51 @@
+{% extends "dashboard_base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{% static "mnopi/css/dashboard_tables.css" %}">
+
+<table class="hor-minimalist-a" summary="Pages visited" style="margin: 0 auto">
+    <thead>
+    	<tr>
+        	<th scope="col">Day</th>
+            <th scope="col">Hour</th>
+            <th scope="col">Url</th>
+            <th scope="col">Categories</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for page in pages_visited %}
+        <tr>
+            <td>{{ page.date|date:"D d M Y" }}</td>
+            <td>{{ page.date|date:"H:i" }}</td>
+            <td>{{ page.page_visited|truncatechars:100 }}</td>
+            <td>LOL</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="4" style="text-align: right">
+                {% if is_paginated %}
+                    <div style="position: relative; text-align: right">
+                        <span class="page-links">
+                            {% if page_obj.has_previous %}
+                                <a href="{% url 'user_visited_pages' user_name %}?page={{ page_obj.previous_page_number  }}"><</a>
+                            {% endif %}
+                            <span class="page-current">
+                                {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                            </span>
+                            {% if page_obj.has_next %}
+                                <a href="{% url 'user_visited_pages' user_name %}?page={{ page_obj.next_page_number  }}">></a>
+                            {% endif %}
+                        </span>
+                    </div>
+                {% endif %}
+            </td>
+        </tr>
+    </tfoot>
+</table>
+</div>
+
+{% endblock content %}

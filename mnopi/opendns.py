@@ -1,7 +1,7 @@
 from lxml import html
 import urllib2 #TODO: pensar si viene mejor el modulo Request+
-from mnopi import mongo
 
+from models import CategorizedDomain
 APPROVED_CATEGORIES_QUERY = "//td[text()=\"Approved\"]/parent::node()/td/b/text()"
 
 CATEGORIES = { "Academic Fraud" : "Academic Fraud",
@@ -77,8 +77,10 @@ def getCategories(domain):
 
     # First, search domain in pre-fetched categories. If the domain was not previously saved, query OpenDns
     # Todo: habra que hacer algo para que con el tiempo se vuelva a hacer peticion a opendns
-    approved_categories = mongo.get_domain_saved_categories(domain)
-    if approved_categories == None:
+    try:
+        approved_categories = CategorizedDomain.objects.get(domain=domain).categories.all()
+        approved_categories = [cat.name for cat in approved_categories]
+    except CategorizedDomain.DoesNotExist:
         page = urllib2.urlopen("http://domain.opendns.com/" + domain)
         htmlCode = "".join(page.readlines()).replace("\n", "").replace("\t", "")
         xmlTree = html.fromstring(htmlCode)
@@ -90,6 +92,8 @@ def getCategories(domain):
                 raise OpenDNS_DOMException()
         approved_categories = [CATEGORIES[cat] for cat in approved_categories]
 
-        mongo.set_domain_saved_categories(domain, approved_categories)
+        cat_domain = CategorizedDomain(domain=domain)
+        cat_domain.save()
+        cat_domain.add_categories(approved_categories)
 
     return approved_categories

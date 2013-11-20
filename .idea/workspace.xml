@@ -1,24 +1,253 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BookmarkManager">
+    <bookmark url="file://$PROJECT_DIR$/mnopi/mnopimining/language.py" line="31" mnemonic="9" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="0f576e6f-76bf-49e3-a62d-c399aae17995" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mnopi/templates/mnopi/main.html" afterPath="$PROJECT_DIR$/mnopi/templates/mnopi/main.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/examples/images/grey-minus.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/examples/images/grey-plus.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/icon128.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/icon48.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/examples/images/nvd3_sampleLineChart1.png" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/GruntFile.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/LICENSE.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/Makefile" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/README.md" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/test/ScatterChartTest.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/mnopimining/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/models/axis.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/deprecated/bar.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/deprecated/bar.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/models/boilerplate.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/bower.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/build.bat" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/examples/bullet.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/models/bullet.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/models/backup/bullet.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/examples/bulletChart.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/models/bulletChart.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/models/backup/bulletChart.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/core.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/examples/crossfilter.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/examples/crossfilterWithDimentions.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/examples/crossfilterWithTables.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/deprecated/cumulativeLine.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/deprecated/cumulativeLine.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/examples/cumulativeLineChart.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/deprecated/charts/cumulativeLineChart.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/models/cumulativeLineChart.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/test/d3.layout.cloud.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/css/dashboard.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/src/dashboard.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/templates/dashboard_base.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/css/dashboard_tables.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/models/discreteBar.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/examples/discreteBarChart.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/deprecated/charts/discreteBarChart.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/models/discreteBarChart.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/deprecated/discreteBarChartWithEnabledTooltip.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/deprecated/discreteBarChartWithEnabledTooltip.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/deprecated/discreteBarWithAxes.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/deprecated/discreteBarWithAxes.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/models/distribution.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/examples/historicalBar.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/models/historicalBar.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/examples/historicalBarChart.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/models/historicalBarChart.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/examples/horizon.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/mnopimining/html.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/models/indentedTree.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/examples/indentedtree.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/examples/index.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/test/interactiveBisectTest.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/interactiveLayer.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/intro.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/gridster/src/jquery.collision.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/gridster/src/jquery.coords.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/gridster/src/jquery.draggable.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/gridster/src/jquery.gridster.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/gridster/src/jquery.gridster.extras.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/gridster/src/jquery.gridster.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/mnopimining/keywords.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/mnopimining/language.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/examples/legend.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/models/legend.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/examples/line.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/models/line.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/deprecated/lineChart-old.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/examples/lineChart.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/deprecated/charts/lineChart.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/models/lineChart.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/deprecated/lineChartDaily.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/deprecated/charts/lineChartDaily.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/examples/lineChartSVGResize.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/test/lineChartTest.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/deprecated/linePlusBar.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/deprecated/linePlusBar.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/examples/linePlusBarChart.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/models/linePlusBarChart.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/examples/linePlusBarWithFocusChart.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/models/linePlusBarWithFocusChart.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/models/lineWithFisheye.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/examples/lineWithFisheyeChart.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/models/lineWithFisheyeChart.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/deprecated/lineWithFocus.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/deprecated/lineWithFocus.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/examples/lineWithFocusChart.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/models/lineWithFocusChart.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/deprecated/lineWithFourAxes.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/deprecated/lineWithFourAxes.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/deprecated/lineWithLegend.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/deprecated/lineWithLegend.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/models_mongo.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/deprecated/monthendAxis.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/examples/multiBar.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/models/multiBar.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/examples/multiBarChart.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/models/multiBarChart.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/test/multiBarChartTest.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/models/multiBarHorizontal.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/examples/multiBarHorizontalChart.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/models/multiBarHorizontalChart.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/deprecated/multiBarHorizontalWithLegend.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/deprecated/multiBarHorizontalWithLegend.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/models/multiBarTimeSeries.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/models/multiBarTimeSeriesChart.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/deprecated/multiBarWithLegend.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/deprecated/multiBarWithLegend.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/examples/multiChart.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/models/multiChart.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/examples/nations.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/templates/mnopi/partials/navigation_bar.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/nv.d3.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/nv.d3.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/nv.d3.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/nv.d3.min.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/nv.d3.min.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/models/ohlcBar.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/outro.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/package.json" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/templates/mnopi/pages_visited.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/examples/parallelCoordinates.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/models/parallelCoordinates.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/examples/pie.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/deprecated/pie.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/models/pie.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/examples/pieChart.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/models/pieChart.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/test/pieChartTest.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/test/polylinearTest.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/test/realTimeChartTest.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/examples/scatter.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/models/scatter.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/deprecated/scatterChart.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/examples/scatterChart.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/deprecated/scatterChart.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/models/scatterChart.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/deprecated/scatterFisheyeChart.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/examples/scatterPlusLineChart.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/models/scatterPlusLineChart.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/deprecated/scatterWithLegend.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/deprecated/scatterWithLegend.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/templates/mnopi/searches_done.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/examples/sparkline.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/models/sparkline.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/examples/sparklinePlus.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/models/sparklinePlus.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/examples/stackedArea.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/deprecated/stackedArea.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/models/stackedArea.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/deprecated/stackedAreaChart.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/examples/stackedAreaChart.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/deprecated/charts/stackedAreaChart.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/models/stackedAreaChart.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/test/stackedAreaChartTest.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/deprecated/stackedAreaChart_old.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/deprecated/stackedAreaWithLegend.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/deprecated/stackedAreaWithLegend.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/examples/stream_layers.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/templates/mnopi/test.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/test/testScript.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/templates/mnopi/test_tags.html" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/test/teststyle.css" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/tooltip.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/mnopimining/users.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/gridster/src/utils.js" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/static/mnopi/external/nvd3/src/utils.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../mnopi-plugin/html/background.html" afterPath="$PROJECT_DIR$/../mnopi-plugin/html/background.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../mnopi-plugin/src/background.js" afterPath="$PROJECT_DIR$/../mnopi-plugin/src/background.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mnopi/templates/base.html" afterPath="$PROJECT_DIR$/mnopi/templates/base.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../mnopi-plugin/src/connection.js" afterPath="$PROJECT_DIR$/../mnopi-plugin/src/connection.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mnopi/templates/mnopi/index.html" afterPath="$PROJECT_DIR$/mnopi/templates/mnopi/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mnopi/models.py" afterPath="$PROJECT_DIR$/mnopi/models.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mnopi/mongo.py" afterPath="$PROJECT_DIR$/mnopi/mongo.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mnopi/opendns.py" afterPath="$PROJECT_DIR$/mnopi/opendns.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../mnopi-plugin/prepare_plugin.sh" afterPath="$PROJECT_DIR$/../mnopi-plugin/prepare_plugin.sh" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mnopiBackend/settings.py" afterPath="$PROJECT_DIR$/mnopiBackend/settings.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../mnopi-plugin/src/tools.js" afterPath="$PROJECT_DIR$/../mnopi-plugin/src/tools.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mnopi/urls.py" afterPath="$PROJECT_DIR$/mnopi/urls.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mnopiBackend/urls.py" afterPath="$PROJECT_DIR$/mnopiBackend/urls.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mnopi/views.py" afterPath="$PROJECT_DIR$/mnopi/views.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="mnopiBackend.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1383725314589" ignored="false" />
+    <file path="/Dummy.txt" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384934785678" ignored="false" />
     <file path="/requirements.txt" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1383664964475" ignored="false" />
-    <file path="/settings.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1383668851910" ignored="false" />
+    <file path="/settings.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384789801426" ignored="false" />
     <file path="/plugin.js" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1383747016731" ignored="false" />
     <file path="/conditions.html" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1383726234237" ignored="false" />
-    <file path="/mongo.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1383728314602" ignored="false" />
-    <file path="/Python Console" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1383728396736" ignored="false" />
-    <file path="/views.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1383731315358" ignored="false" />
-    <file path="/fragment.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1383732330222" ignored="false" />
+    <file path="/mongo.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384528391799" ignored="false" />
+    <file path="/Python Console" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384872816202" ignored="false" />
+    <file path="/views.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384954341990" ignored="false" />
+    <file path="/fragment.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384956700372" ignored="false" />
     <file path="/connection.js" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1383738444515" ignored="false" />
     <file path="/popup.html" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1383742237083" ignored="false" />
     <file path="/options.js" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1383742091358" ignored="false" />
-    <file path="/*.regexp" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1383742309573" ignored="false" />
+    <file path="/*.regexp" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384792069130" ignored="false" />
+    <file path="/prepare_plugin.sh" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1383748478965" ignored="false" />
+    <file path="/background.html" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384247723032" ignored="false" />
+    <file path="/background.js" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384264454739" ignored="false" />
+    <file path="/tools.js" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384259541298" ignored="false" />
+    <file path="/language.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384342230178" ignored="false" />
+    <file path="/keywords.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384773982278" ignored="false" />
+    <file path="/users.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384770838715" ignored="false" />
+    <file path="/urls.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384954145686" ignored="false" />
+    <file path="/test.html" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384430531942" ignored="false" />
+    <file path="/dashboard.css" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384448117607" ignored="false" />
+    <file path="/test_grid.html" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384434723443" ignored="false" />
+    <file path="/dashboard.js" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384444649932" ignored="false" />
+    <file path="/dashboard.html" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384941358073" ignored="false" />
+    <file path="$PROJECT_DIR$/../labelee/route/calculateRoutes.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384505779080" ignored="false" />
+    <file path="$PROJECT_DIR$/../labelee/static-media/js/helpers/base.js" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384505779080" ignored="false" />
+    <file path="$PROJECT_DIR$/../labelee/route/services.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384505779081" ignored="false" />
+    <file path="$PROJECT_DIR$/../labelee/dashboard/models.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384505779081" ignored="false" />
+    <file path="$PROJECT_DIR$/../labelee/map_editor/api_2/services/factory.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384505779082" ignored="false" />
+    <file path="/navigation_bar.html" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384957165915" ignored="false" />
+    <file path="/usr/local/lib/python2.7/dist-packages/django/template/defaulttags.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384516037619" ignored="false" />
+    <file path="/models.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384878274799" ignored="false" />
+    <file path="/html.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384769679025" ignored="false" />
+    <file path="/usr/local/lib/python2.7/dist-packages/django/db/models/fields/files.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384778505375" ignored="false" />
+    <file path="/usr/local/lib/python2.7/dist-packages/django/db/models/options.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384778505374" ignored="false" />
+    <file path="/usr/local/lib/python2.7/dist-packages/django/http/__init__.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384775589854" ignored="false" />
+    <file path="/usr/local/lib/python2.7/dist-packages/django/contrib/comments/models.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384775589854" ignored="false" />
+    <file path="/usr/local/lib/python2.7/dist-packages/django/db/models/manager.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384783376481" ignored="false" />
+    <file path="/usr/local/lib/python2.7/dist-packages/django/contrib/auth/models.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384778505374" ignored="false" />
+    <file path="/usr/local/lib/python2.7/dist-packages/django/contrib/admin/models.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384776323382" ignored="false" />
+    <file path="/usr/local/lib/python2.7/dist-packages/django/shortcuts/__init__.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384775589855" ignored="false" />
+    <file path="/usr/local/lib/python2.7/dist-packages/django/contrib/sitemaps/templates/sitemap.xml" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384776323381" ignored="false" />
+    <file path="/usr/local/lib/python2.7/dist-packages/django/contrib/gis/templates/gis/sitemaps/geo_sitemap.xml" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384776323381" ignored="false" />
+    <file path="/usr/local/lib/python2.7/dist-packages/django/contrib/sitemaps/tests/templates/custom_sitemap_index.xml" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384776323382" ignored="false" />
+    <file path="/usr/local/lib/python2.7/dist-packages/django/contrib/sitemaps/tests/templates/custom_sitemap.xml" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384776323382" ignored="false" />
+    <file path="/usr/local/lib/python2.7/dist-packages/django/contrib/sitemaps/templates/sitemap_index.xml" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384776323382" ignored="false" />
+    <file path="/usr/local/lib/python2.7/dist-packages/django/db/models/fields/__init__.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384783376481" ignored="false" />
+    <file path="/models_mongo.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384877879631" ignored="false" />
+    <file path="/opendns.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384873940462" ignored="false" />
+    <file path="/dashboard_base.html" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384941244024" ignored="false" />
+    <file path="/pages_visited.html" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384953748681" ignored="false" />
+    <file path="/dashboard_tables.css" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384948156251" ignored="false" />
+    <file path="/searches_done.html" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384956812608" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,90 +261,281 @@
   <component name="DaemonCodeAnalyzer">
     <disable_hints />
   </component>
+  <component name="DockManager">
+    <window id="1">
+      <content type="file-editors">
+        <state>
+          <splitter split-orientation="horizontal" split-proportion="0.47875">
+            <split-first>
+              <leaf>
+                <file leaf-file-name="views.py" pinned="false" current="false" current-in-tab="false">
+                  <entry file="file://$PROJECT_DIR$/mnopi/views.py">
+                    <provider selected="true" editor-type-id="text-editor">
+                      <state line="218" column="24" selection-start="7341" selection-end="7341" vertical-scroll-proportion="0.0">
+                        <folding>
+                          <element signature="e#16#71#0" expanded="true" />
+                        </folding>
+                      </state>
+                    </provider>
+                  </entry>
+                </file>
+                <file leaf-file-name="opendns.py" pinned="false" current="false" current-in-tab="false">
+                  <entry file="file://$PROJECT_DIR$/mnopi/opendns.py">
+                    <provider selected="true" editor-type-id="text-editor">
+                      <state line="81" column="48" selection-start="3568" selection-end="3568" vertical-scroll-proportion="0.0">
+                        <folding />
+                      </state>
+                    </provider>
+                  </entry>
+                </file>
+                <file leaf-file-name="models_mongo.py" pinned="false" current="false" current-in-tab="false">
+                  <entry file="file://$PROJECT_DIR$/mnopi/models_mongo.py">
+                    <provider selected="true" editor-type-id="text-editor">
+                      <state line="32" column="53" selection-start="1164" selection-end="1164" vertical-scroll-proportion="0.0">
+                        <folding />
+                      </state>
+                    </provider>
+                  </entry>
+                </file>
+                <file leaf-file-name="base.html" pinned="false" current="false" current-in-tab="false">
+                  <entry file="file://$PROJECT_DIR$/mnopi/templates/base.html">
+                    <provider selected="true" editor-type-id="text-editor">
+                      <state line="34" column="7" selection-start="1044" selection-end="1044" vertical-scroll-proportion="-22.173914">
+                        <folding />
+                      </state>
+                    </provider>
+                  </entry>
+                </file>
+                <file leaf-file-name="navigation_bar.html" pinned="false" current="false" current-in-tab="true">
+                  <entry file="file://$PROJECT_DIR$/mnopi/templates/mnopi/partials/navigation_bar.html">
+                    <provider selected="true" editor-type-id="text-editor">
+                      <state line="13" column="23" selection-start="594" selection-end="603" vertical-scroll-proportion="0.1869607">
+                        <folding />
+                      </state>
+                    </provider>
+                  </entry>
+                </file>
+                <file leaf-file-name="models.py" pinned="false" current="false" current-in-tab="false">
+                  <entry file="file://$PROJECT_DIR$/mnopi/models.py">
+                    <provider selected="true" editor-type-id="text-editor">
+                      <state line="65" column="31" selection-start="2141" selection-end="2141" vertical-scroll-proportion="0.0">
+                        <folding>
+                          <marker date="1384878272882" expanded="true" signature="495:751" placeholder="..." />
+                          <marker date="1384878272882" expanded="true" signature="724:751" placeholder="..." />
+                        </folding>
+                      </state>
+                    </provider>
+                  </entry>
+                </file>
+                <file leaf-file-name="register.html" pinned="false" current="false" current-in-tab="false">
+                  <entry file="file://$PROJECT_DIR$/mnopi/templates/mnopi/register.html">
+                    <provider selected="true" editor-type-id="text-editor">
+                      <state line="33" column="0" selection-start="1165" selection-end="1165" vertical-scroll-proportion="-21.52174">
+                        <folding />
+                      </state>
+                    </provider>
+                  </entry>
+                </file>
+                <file leaf-file-name="pages_visited.html" pinned="false" current="false" current-in-tab="false">
+                  <entry file="file://$PROJECT_DIR$/mnopi/templates/mnopi/pages_visited.html">
+                    <provider selected="true" editor-type-id="text-editor">
+                      <state line="29" column="37" selection-start="867" selection-end="867" vertical-scroll-proportion="-18.913044">
+                        <folding>
+                          <element signature="e#231#253#0" expanded="true" />
+                          <element signature="e#803#828#0" expanded="true" />
+                          <element signature="e#893#938#0" expanded="true" />
+                        </folding>
+                      </state>
+                    </provider>
+                  </entry>
+                </file>
+                <file leaf-file-name="mongo.py" pinned="false" current="false" current-in-tab="false">
+                  <entry file="file://$PROJECT_DIR$/mnopi/mongo.py">
+                    <provider selected="true" editor-type-id="text-editor">
+                      <state line="41" column="27" selection-start="1174" selection-end="1174" vertical-scroll-proportion="0.0">
+                        <folding />
+                      </state>
+                    </provider>
+                  </entry>
+                </file>
+                <file leaf-file-name="users.py" pinned="false" current="false" current-in-tab="false">
+                  <entry file="file://$PROJECT_DIR$/mnopi/mnopimining/users.py">
+                    <provider selected="true" editor-type-id="text-editor">
+                      <state line="45" column="20" selection-start="1433" selection-end="1433" vertical-scroll-proportion="0.0">
+                        <folding />
+                      </state>
+                    </provider>
+                  </entry>
+                </file>
+              </leaf>
+            </split-first>
+            <split-second>
+              <leaf>
+                <file leaf-file-name="mongo.py" pinned="false" current="false" current-in-tab="false">
+                  <entry file="file://$PROJECT_DIR$/mnopi/mongo.py">
+                    <provider selected="true" editor-type-id="text-editor">
+                      <state line="144" column="33" selection-start="4053" selection-end="4053" vertical-scroll-proportion="0.0">
+                        <folding />
+                      </state>
+                    </provider>
+                  </entry>
+                </file>
+                <file leaf-file-name="dashboard.html" pinned="false" current="false" current-in-tab="false">
+                  <entry file="file://$PROJECT_DIR$/mnopi/templates/mnopi/dashboard.html">
+                    <provider selected="true" editor-type-id="text-editor">
+                      <state line="21" column="27" selection-start="856" selection-end="856" vertical-scroll-proportion="-13.695652">
+                        <folding />
+                      </state>
+                    </provider>
+                  </entry>
+                </file>
+                <file leaf-file-name="dashboard.js" pinned="false" current="false" current-in-tab="false">
+                  <entry file="file://$PROJECT_DIR$/mnopi/static/mnopi/src/dashboard.js">
+                    <provider selected="true" editor-type-id="text-editor">
+                      <state line="13" column="28" selection-start="289" selection-end="289" vertical-scroll-proportion="0.0">
+                        <folding />
+                      </state>
+                    </provider>
+                  </entry>
+                </file>
+                <file leaf-file-name="models.py" pinned="false" current="false" current-in-tab="true">
+                  <entry file="file://$PROJECT_DIR$/mnopi/models.py">
+                    <provider selected="true" editor-type-id="text-editor">
+                      <state line="77" column="21" selection-start="2612" selection-end="2612" vertical-scroll-proportion="0.3851287">
+                        <folding />
+                      </state>
+                    </provider>
+                  </entry>
+                </file>
+                <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
+                  <entry file="file://$PROJECT_DIR$/mnopi/templates/mnopi/index.html">
+                    <provider selected="true" editor-type-id="text-editor">
+                      <state line="14" column="45" selection-start="380" selection-end="380" vertical-scroll-proportion="0.0">
+                        <folding />
+                      </state>
+                    </provider>
+                  </entry>
+                </file>
+                <file leaf-file-name="dashboard.css" pinned="false" current="false" current-in-tab="false">
+                  <entry file="file://$PROJECT_DIR$/mnopi/static/mnopi/css/dashboard.css">
+                    <provider selected="true" editor-type-id="text-editor">
+                      <state line="45" column="23" selection-start="665" selection-end="665" vertical-scroll-proportion="0.0">
+                        <folding />
+                      </state>
+                    </provider>
+                  </entry>
+                </file>
+                <file leaf-file-name="settings.py" pinned="false" current="false" current-in-tab="false">
+                  <entry file="file://$PROJECT_DIR$/mnopiBackend/settings.py">
+                    <provider selected="true" editor-type-id="text-editor">
+                      <state line="46" column="47" selection-start="1363" selection-end="1363" vertical-scroll-proportion="0.0">
+                        <folding />
+                      </state>
+                    </provider>
+                  </entry>
+                </file>
+                <file leaf-file-name="register.html" pinned="false" current="false" current-in-tab="false">
+                  <entry file="file://$PROJECT_DIR$/mnopi/templates/mnopi/register.html">
+                    <provider selected="true" editor-type-id="text-editor">
+                      <state line="19" column="25" selection-start="609" selection-end="609" vertical-scroll-proportion="0.0">
+                        <folding />
+                      </state>
+                    </provider>
+                  </entry>
+                </file>
+                <file leaf-file-name="test.html" pinned="false" current="false" current-in-tab="false">
+                  <entry file="file://$PROJECT_DIR$/mnopi/templates/mnopi/test.html">
+                    <provider selected="true" editor-type-id="text-editor">
+                      <state line="15" column="15" selection-start="258" selection-end="258" vertical-scroll-proportion="0.0">
+                        <folding />
+                      </state>
+                    </provider>
+                  </entry>
+                </file>
+              </leaf>
+            </split-second>
+          </splitter>
+        </state>
+      </content>
+    </window>
+  </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
     <favorites_list name="mnopiBackend" />
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="popup.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../mnopi-plugin/html/popup.html">
+      <file leaf-file-name="views.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mnopi/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="12" selection-start="822" selection-end="822" vertical-scroll-proportion="-5.7">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="options.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../mnopi-plugin/html/options.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="61" column="7" selection-start="2468" selection-end="2468" vertical-scroll-proportion="-38.125">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="background.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../mnopi-plugin/html/background.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="10" selection-start="30" selection-end="30" vertical-scroll-proportion="-1.25">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="background.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../mnopi-plugin/src/background.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="389" column="38" selection-start="11633" selection-end="11633" vertical-scroll-proportion="-4.464286">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="connection.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../mnopi-plugin/src/connection.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="0" selection-start="320" selection-end="320" vertical-scroll-proportion="0.0">
+            <state line="238" column="22" selection-start="8063" selection-end="8063" vertical-scroll-proportion="0.0">
               <folding>
-                <element signature="n#!!doc" expanded="true" />
+                <element signature="e#16#71#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="manifest.json" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../mnopi-plugin/manifest.json">
+      <file leaf-file-name="searches_done.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mnopi/templates/mnopi/searches_done.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="23" selection-start="617" selection-end="617" vertical-scroll-proportion="-11.25">
+            <state line="28" column="42" selection-start="851" selection-end="851" vertical-scroll-proportion="-9.826087">
+              <folding>
+                <element signature="e#231#253#0" expanded="true" />
+                <element signature="e#744#769#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pages_visited.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mnopi/templates/mnopi/pages_visited.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="27" column="12" selection-start="774" selection-end="774" vertical-scroll-proportion="-5.869565">
+              <folding>
+                <marker date="1384953850214" expanded="true" signature="253:1765" placeholder="..." />
+                <marker date="1384953850214" expanded="true" signature="265:455" placeholder="..." />
+                <marker date="1384953850214" expanded="true" signature="275:442" placeholder="..." />
+                <marker date="1384953850214" expanded="true" signature="467:748" placeholder="..." />
+                <marker date="1384953850214" expanded="true" signature="516:718" placeholder="..." />
+                <marker date="1384953850214" expanded="true" signature="760:1756" placeholder="..." />
+                <marker date="1384953850214" expanded="true" signature="773:1743" placeholder="..." />
+                <marker date="1384953850214" expanded="true" signature="810:827" placeholder="..." />
+                <marker date="1384953850214" expanded="true" signature="828:1729" placeholder="..." />
+                <marker date="1384953850214" expanded="true" signature="900:937" placeholder="..." />
+                <marker date="1384953850214" expanded="true" signature="938:1683" placeholder="..." />
+                <marker date="1384953850214" expanded="true" signature="988:1656" placeholder="..." />
+                <marker date="1384953850214" expanded="true" signature="1274:1402" placeholder="..." />
+                <marker date="1384953850214" expanded="true" signature="1459:1585" placeholder="                                &lt;a href=&quot;{% url 'user_visited_pages' user=user.user_key page=page_obj.next_page_... %}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="urls.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mnopi/urls.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="12" column="52" selection-start="548" selection-end="548" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#0#39#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="navigation_bar.html" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/mnopi/templates/mnopi/partials/navigation_bar.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="22" column="27" selection-start="920" selection-end="920" vertical-scroll-proportion="0.61946905">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.html" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/mnopi/templates/mnopi/main.html">
+      <file leaf-file-name="urls.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mnopiBackend/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="68" selection-start="1086" selection-end="1086" vertical-scroll-proportion="0.5164319">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="plugin.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../mnopi-plugin/src/plugin.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="17" selection-start="903" selection-end="903" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="options.js" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../mnopi-plugin/src/options.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="40" selection-start="422" selection-end="422" vertical-scroll-proportion="0.0">
+            <state line="9" column="50" selection-start="258" selection-end="258" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -140,28 +560,123 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/mnopiBackend/requirements.txt" />
-        <option value="$PROJECT_DIR$/mnopiBackend/settings.py" />
-        <option value="$PROJECT_DIR$/mnopi/templates/mnopi/conditions.html" />
+        <option value="$PROJECT_DIR$/mnopi/templates/mnopi/index.html" />
+        <option value="$PROJECT_DIR$/mnopiBackend/urls.py" />
         <option value="$PROJECT_DIR$/mnopi/mongo.py" />
+        <option value="$PROJECT_DIR$/mnopiBackend/settings.py" />
+        <option value="$PROJECT_DIR$/mnopi/opendns.py" />
+        <option value="$PROJECT_DIR$/mnopi/models_mongo.py" />
+        <option value="$PROJECT_DIR$/mnopi/models.py" />
+        <option value="$PROJECT_DIR$/mnopi/templates/base.html" />
+        <option value="$PROJECT_DIR$/mnopi/templates/mnopi/dashboard_base.html" />
+        <option value="$PROJECT_DIR$/mnopi/templates/mnopi/dashboard.html" />
+        <option value="$PROJECT_DIR$/mnopi/static/mnopi/css/dashboard_tables.css" />
+        <option value="$PROJECT_DIR$/mnopi/templates/mnopi/pages_visited.html" />
+        <option value="$PROJECT_DIR$/mnopi/urls.py" />
         <option value="$PROJECT_DIR$/mnopi/views.py" />
-        <option value="$PROJECT_DIR$/../mnopi-plugin/background.js" />
-        <option value="$PROJECT_DIR$/../mnopi-plugin/plugin.js" />
-        <option value="$PROJECT_DIR$/../mnopi-plugin/manifest.json" />
-        <option value="$PROJECT_DIR$/../mnopi-plugin/html/background.html" />
-        <option value="$PROJECT_DIR$/../mnopi-plugin/src/connection.js" />
-        <option value="$PROJECT_DIR$/../mnopi-plugin/src/background.js" />
-        <option value="$PROJECT_DIR$/../mnopi-plugin/src/options.js" />
-        <option value="$PROJECT_DIR$/../mnopi-plugin/html/popup.html" />
-        <option value="$PROJECT_DIR$/../mnopi-plugin/src/plugin.js" />
-        <option value="$PROJECT_DIR$/mnopi/templates/mnopi/main.html" />
+        <option value="$PROJECT_DIR$/mnopi/templates/mnopi/searches_done.html" />
+        <option value="$PROJECT_DIR$/mnopi/templates/mnopi/partials/navigation_bar.html" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1366" />
-    <option name="width" value="1600" />
-    <option name="height" value="1200" />
+    <option name="y" value="456" />
+    <option name="width" value="1366" />
+    <option name="height" value="720" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+          <State>
+            <id>ActionScript specificJavaScript</id>
+          </State>
+          <State>
+            <id>Assignment issuesJavaScript</id>
+          </State>
+          <State>
+            <id>CSS</id>
+          </State>
+          <State>
+            <id>Code quality toolsJavaScript</id>
+          </State>
+          <State>
+            <id>Code style issuesJavaScript</id>
+          </State>
+          <State>
+            <id>CoffeeScript</id>
+          </State>
+          <State>
+            <id>Control flow issuesJavaScript</id>
+          </State>
+          <State>
+            <id>DOM issuesJavaScript</id>
+          </State>
+          <State>
+            <id>Data flow issuesJavaScript</id>
+          </State>
+          <State>
+            <id>Django</id>
+          </State>
+          <State>
+            <id>Error handlingJavaScript</id>
+          </State>
+          <State>
+            <id>GeneralCoffeeScript</id>
+          </State>
+          <State>
+            <id>GeneralJavaScript</id>
+          </State>
+          <State>
+            <id>HTML</id>
+          </State>
+          <State>
+            <id>Internationalization issues</id>
+          </State>
+          <State>
+            <id>JavaScript</id>
+          </State>
+          <State>
+            <id>JavaScript function metricsJavaScript</id>
+          </State>
+          <State>
+            <id>JavaScript validity issuesJavaScript</id>
+          </State>
+          <State>
+            <id>Naming conventionsJavaScript</id>
+          </State>
+          <State>
+            <id>Potentially confusing code constructsJavaScript</id>
+          </State>
+          <State>
+            <id>Probable bugsCoffeeScript</id>
+          </State>
+          <State>
+            <id>Probable bugsJavaScript</id>
+          </State>
+          <State>
+            <id>Python</id>
+          </State>
+          <State>
+            <id>SQL</id>
+          </State>
+          <State>
+            <id>Spelling</id>
+          </State>
+          <State>
+            <id>XML</id>
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>Buildout</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -170,7 +685,7 @@
     <OptionsSetting value="true" id="Update" />
     <OptionsSetting value="true" id="Status" />
     <OptionsSetting value="true" id="Edit" />
-    <ConfirmationsSetting value="0" id="Add" />
+    <ConfirmationsSetting value="2" id="Add" />
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectReloadState">
@@ -189,6 +704,53 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope">
+        <subPane subId="Default">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+        <subPane subId="Problems" />
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="mnopi-plugin">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+        <subPane subId="Changed Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="mnopi-plugin">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -203,16 +765,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="mnopi-plugin" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mnopiBackend" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="mnopiBackend" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -282,21 +834,39 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="mnopi" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mnopiBackend" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mnopiBackend" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mnopi" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="static" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="recentsLimit" value="5" />
-    <property name="options.lastSelected" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="options.lastSelected" value="preferences.keymap" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../mnopi-plugin" />
     <property name="restartRequiresConfirmation" value="true" />
+    <property name="DefaultHtmlFileTemplate" value="Html5" />
     <property name="GoToClass.includeJavaFiles" value="false" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
@@ -310,14 +880,59 @@
     </option>
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/../mnopi-plugin/images" />
+      <recent name="$PROJECT_DIR$/mnopi/static/mnopi" />
+      <recent name="$PROJECT_DIR$/mnopi/static/mnopi/javascript/nvd3" />
+      <recent name="$PROJECT_DIR$/mnopi/static/mnopi/javascript" />
+      <recent name="$PROJECT_DIR$/mnopi/static/mnopi/javascript/gridster" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/mnopi/templates" />
+      <recent name="$PROJECT_DIR$/mnopi/static/mnopi" />
       <recent name="$PROJECT_DIR$/../mnopi-plugin/css" />
       <recent name="$PROJECT_DIR$/../mnopi-plugin/html" />
       <recent name="$PROJECT_DIR$/../mnopi-plugin/src" />
-      <recent name="$PROJECT_DIR$/../mnopi-plugin/images" />
     </key>
   </component>
   <component name="RunManager" selected="Django server.mnopiBackend">
+    <configuration default="true" type="DjangoTestsConfigurationType" factoryName="Django tests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="mnopiBackend" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="TARGET" value="" />
+      <option name="SETTINGS_FILE" value="" />
+      <option name="CUSTOM_SETTINGS" value="false" />
+      <option name="USE_OPTIONS" value="false" />
+      <option name="OPTIONS" value="" />
+      <method />
+    </configuration>
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="mnopiBackend" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <method />
+    </configuration>
     <configuration default="true" type="Python.DjangoServer" factoryName="Django server">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -341,6 +956,29 @@
       <option name="customRunCommand" value="" />
       <method />
     </configuration>
+    <configuration default="true" type="tests" factoryName="Unittests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="mnopiBackend" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="PUREUNITTEST" value="true" />
+      <option name="PARAMS" value="" />
+      <option name="USE_PARAM" value="false" />
+      <method />
+    </configuration>
     <configuration default="true" type="tests" factoryName="Doctests">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -350,7 +988,7 @@
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="mnopi-plugin" />
+      <module name="mnopiBackend" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="" />
       <option name="CLASS_NAME" value="" />
@@ -361,9 +999,16 @@
       <option name="USE_PATTERN" value="false" />
       <method />
     </configuration>
+    <configuration default="true" type="JavascriptDebugSession" factoryName="Remote" singleton="true">
+      <JSRemoteDebuggerConfigurationSettings>
+        <option name="engineId" value="embedded" />
+        <option name="fileUrl" />
+      </JSRemoteDebuggerConfigurationSettings>
+      <method />
+    </configuration>
     <configuration default="true" type="JavascriptDebugSession" factoryName="Local" singleton="true">
       <JSDebuggerConfigurationSettings>
-        <option name="engineId" />
+        <option name="engineId" value="embedded" />
         <option name="fileUrl" />
       </JSDebuggerConfigurationSettings>
       <method />
@@ -391,8 +1036,10 @@
       <option name="useCustomRunCommand" value="false" />
       <option name="customRunCommand" value="" />
       <RunnerSettings RunnerId="PyDebugRunner" />
+      <RunnerSettings RunnerId="PythonCover" />
       <RunnerSettings RunnerId="PythonRunner" />
       <ConfigurationWrapper RunnerId="PyDebugRunner" />
+      <ConfigurationWrapper RunnerId="PythonCover" />
       <ConfigurationWrapper RunnerId="PythonRunner" />
       <method />
     </configuration>
@@ -427,23 +1074,23 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1366" y="0" width="1600" height="1200" extended-state="0" />
-    <editor active="true" />
+    <frame x="0" y="456" width="1366" height="720" extended-state="0" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32959852" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26533166" sideWeight="0.6704015" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39962652" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2723824" sideWeight="0.68245614" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38070175" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32959852" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33520076" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38178635" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31754386" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32749563" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -481,7 +1128,7 @@
     <option name="INCLUDE_TEXT_INTO_PATCH" value="false" />
     <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
     <option name="SHOW_FILE_HISTORY_DETAILS" value="true" />
-    <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
+    <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="false" />
     <option name="SHOW_DIRTY_RECURSIVELY" value="false" />
     <option name="LIMIT_HISTORY" value="true" />
     <option name="MAXIMUM_HISTORY_ROWS" value="1000" />
@@ -508,112 +1155,165 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="3" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/mnopi/views.py</url>
+          <line>54</line>
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/mnopi/views.py</url>
+          <line>48</line>
+          <option name="timeStamp" value="19" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/mnopi/views.py</url>
+          <line>197</line>
+          <option name="timeStamp" value="26" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="python-line">
+          <url>file://$PROJECT_DIR$/mnopi/views.py</url>
+          <line>233</line>
+          <option name="timeStamp" value="30" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="31" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../mnopi-plugin/images/icon48.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../mnopi-plugin/images/icon128.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../mnopi-plugin/images/icon16.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../mnopi-plugin/images/icon.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../mnopi-plugin/src/observer.js">
+    <entry file="file://$PROJECT_DIR$/mnopi/templates/base.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="5" selection-start="1409" selection-end="1409" vertical-scroll-proportion="0.0">
+        <state line="34" column="7" selection-start="1044" selection-end="1044" vertical-scroll-proportion="-22.173914">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../mnopi-plugin/html/background.html">
+    <entry file="file://$PROJECT_DIR$/mnopi/static/mnopi/css/dashboard_tables.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="10" selection-start="30" selection-end="30" vertical-scroll-proportion="-1.25">
+        <state line="25" column="1" selection-start="391" selection-end="391" vertical-scroll-proportion="-4.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavascriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/HTML5.js">
+    <entry file="file://$PROJECT_DIR$/mnopiBackend/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1331" column="0" selection-start="23369" selection-end="23369" vertical-scroll-proportion="0.33333334">
+        <state line="9" column="50" selection-start="258" selection-end="258" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../mnopi-plugin/html/options.html">
+    <entry file="file://$PROJECT_DIR$/mnopi/templates/mnopi/register.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="61" column="7" selection-start="2468" selection-end="2468" vertical-scroll-proportion="-38.125">
+        <state line="33" column="0" selection-start="1165" selection-end="1165" vertical-scroll-proportion="-21.52174">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../mnopi-plugin/html/popup.html">
+    <entry file="file://$PROJECT_DIR$/mnopi/mnopimining/keywords.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="12" selection-start="822" selection-end="822" vertical-scroll-proportion="-5.7">
+        <state line="65" column="37" selection-start="2306" selection-end="2306" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../mnopi-plugin/prepare_plugin.sh">
+    <entry file="file://$PROJECT_DIR$/mnopi/templates/dashboard_base.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="34" selection-start="98" selection-end="98" vertical-scroll-proportion="0.11312217">
+        <state line="36" column="8" selection-start="1952" selection-end="1952" vertical-scroll-proportion="-23.47826">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../mnopi-plugin/src/options.js">
+    <entry file="file://$PROJECT_DIR$/mnopi/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="40" selection-start="422" selection-end="422" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../mnopi-plugin/src/plugin.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="17" selection-start="903" selection-end="903" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../mnopi-plugin/src/background.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="389" column="38" selection-start="11633" selection-end="11633" vertical-scroll-proportion="-4.464286">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../mnopi-plugin/src/connection.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="0" selection-start="320" selection-end="320" vertical-scroll-proportion="0.0">
+        <state line="12" column="52" selection-start="548" selection-end="548" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#0#39#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../mnopi-plugin/manifest.json">
+    <entry file="file://$PROJECT_DIR$/mnopi/mongo.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="23" selection-start="617" selection-end="617" vertical-scroll-proportion="-11.25">
+        <state line="41" column="27" selection-start="1174" selection-end="1174" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mnopi/templates/mnopi/main.html">
+    <entry file="file://$PROJECT_DIR$/mnopi/templates/mnopi/dashboard.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="68" selection-start="1086" selection-end="1086" vertical-scroll-proportion="0.5164319">
+        <state line="21" column="27" selection-start="856" selection-end="856" vertical-scroll-proportion="-13.695652">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/lib/python2.7/dist-packages/django/views/decorators/csrf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="76" column="0" selection-start="2684" selection-end="2684" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/lib/python2.7/dist-packages/django/core/handlers/base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="121" column="40" selection-start="5340" selection-end="5340" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mnopi/templates/mnopi/pages_visited.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="12" selection-start="774" selection-end="774" vertical-scroll-proportion="-5.869565">
+          <folding>
+            <marker date="1384953850214" expanded="true" signature="253:1765" placeholder="..." />
+            <marker date="1384953850214" expanded="true" signature="265:455" placeholder="..." />
+            <marker date="1384953850214" expanded="true" signature="275:442" placeholder="..." />
+            <marker date="1384953850214" expanded="true" signature="467:748" placeholder="..." />
+            <marker date="1384953850214" expanded="true" signature="516:718" placeholder="..." />
+            <marker date="1384953850214" expanded="true" signature="760:1756" placeholder="..." />
+            <marker date="1384953850214" expanded="true" signature="773:1743" placeholder="..." />
+            <marker date="1384953850214" expanded="true" signature="810:827" placeholder="..." />
+            <marker date="1384953850214" expanded="true" signature="828:1729" placeholder="..." />
+            <marker date="1384953850214" expanded="true" signature="900:937" placeholder="..." />
+            <marker date="1384953850214" expanded="true" signature="938:1683" placeholder="..." />
+            <marker date="1384953850214" expanded="true" signature="988:1656" placeholder="..." />
+            <marker date="1384953850214" expanded="true" signature="1274:1402" placeholder="..." />
+            <marker date="1384953850214" expanded="true" signature="1459:1585" placeholder="                                &lt;a href=&quot;{% url 'user_visited_pages' user=user.user_key page=page_obj.next_page_... %}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mnopi/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="65" column="31" selection-start="2141" selection-end="2141" vertical-scroll-proportion="0.0">
+          <folding>
+            <marker date="1384878272882" expanded="true" signature="495:751" placeholder="..." />
+            <marker date="1384878272882" expanded="true" signature="724:751" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mnopi/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="238" column="22" selection-start="8063" selection-end="8063" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#16#71#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mnopi/templates/mnopi/searches_done.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="42" selection-start="851" selection-end="851" vertical-scroll-proportion="-9.826087">
+          <folding>
+            <element signature="e#231#253#0" expanded="true" />
+            <element signature="e#744#769#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mnopi/templates/mnopi/partials/navigation_bar.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="27" selection-start="920" selection-end="920" vertical-scroll-proportion="0.61946905">
           <folding />
         </state>
       </provider>

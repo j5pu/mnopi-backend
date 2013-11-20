@@ -1,0 +1,53 @@
+{% extends "dashboard_base.html" %}
+
+{% block content %}
+
+  <script>
+      visits_by_category = {{ visits_by_category|safe }};
+      metadata_keywords = {{ metadata_keywords|safe }};
+      site_keywords = {{ site_keywords|safe }}
+  </script>
+
+
+      <section class="demo">
+          <div class="gridster">
+              <ul>
+                  <li data-row="1" data-col="1" data-sizex="1" data-sizey="1"><h1>Holaa</h1></li>
+                  <li data-row="2" data-col="1" data-sizex="1" data-sizey="1">Adios</li>
+                  <li data-row="3" data-col="1" data-sizex="1" data-sizey="1">Probandoooo</li>
+
+                  <li data-row="1" data-col="2" data-sizex="4" data-sizey="4"><svg id="categories_chart" class="mypiechart"></svg></li>
+                  <li data-row="2" data-col="2" data-sizex="2" data-sizey="2"></li>
+
+                  <li data-row="1" data-col="4" data-sizex="4" data-sizey="4"><div id="tagword"></div></li>
+                  <li data-row="2" data-col="4" data-sizex="2" data-sizey="1"></li>
+                  <li data-row="3" data-col="4" data-sizex="1" data-sizey="1"></li>
+
+                  <li data-row="1" data-col="5" data-sizex="1" data-sizey="1"></li>
+                  <li data-row="3" data-col="5" data-sizex="1" data-sizey="1"></li>
+
+                  <li data-row="1" data-col="6" data-sizex="1" data-sizey="1"></li>
+                  <li data-row="2" data-col="6" data-sizex="5" data-sizey="3">
+  <div id="chart1">
+      <svg></svg>
+  </div></li>
+              </ul>
+          </div>
+      </section>
+
+  <style>
+      #chart1 svg{
+          height: 500px;
+          min-width: 100px;
+          min-height: 100px;
+/*
+  margin: 10px;
+  Minimum height and width is a good idea to prevent negative SVG dimensions...
+  For example width should be =< margin.left + margin.right + 1,
+  of course 1 pixel for the entire chart would not be very useful, BUT should not have errors
+*/
+      }
+
+  </style>
+
+{% endblock content %}

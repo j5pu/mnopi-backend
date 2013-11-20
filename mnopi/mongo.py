@@ -1,3 +1,7 @@
+"""
+Mongo.py . Model layer for mongo.py
+WARNING: This module is deprecated
+"""
 from pymongo import MongoClient
 import datetime
 import logging
@@ -21,7 +25,7 @@ def register_visit(page_visited, user):
                     "date" : datetime.datetime.utcnow()}
     db.pagesVisited.insert(page_visited) # TODO Anyadir control de errores o algo??
 
-def register_html(page_visited, user, html_code, relevant_properties=[]):
+def register_html(page_visited, user, html_code, relevant_properties=[], keywords_freq=[]):
     """
     Saves html code in database for a visited page
     """
@@ -31,7 +35,8 @@ def register_html(page_visited, user, html_code, relevant_properties=[]):
     html_visited = {"pageVisited" : page_visited,
                     "user" : user,
                     "date" : datetime.datetime.utcnow(),
-                    "htmlCode" : html_code}
+                    "htmlCode" : html_code,
+                    "keywordsFreq" : keywords_freq}
 
     # Add special retrieved properties, such as meta data or title
     if relevant_properties:
@@ -164,3 +169,32 @@ def mongo_init():
         mongo = MongoClient()
     except:
         raise MongoNotLoadedException
+
+def retrieve_user_html_visited(user):
+    """
+    Retrieves all html pages visited by an user
+    """
+    #TODO: Alerta, esto puede volverse hiper mega tocho
+
+    db = mongo.mnopi
+    html_visited = list(db.htmlVisited.find({'user' : user}))
+    return html_visited
+
+def retrieve_user_html_keywords_freqs(user):
+    """
+    Retrieves list of keywords/frequency for each html saved in the database
+    """
+
+    db = mongo.mnopi
+    keywords_list = list(db.htmlVisited.find({'user' : user}, {'_id': 0, 'keywordsFreq': 1}))
+    keywords_list = [x['keywordsFreq'] for x in keywords_list]
+    return keywords_list
+
+def get_user_categories(user):
+    """
+    Gets a list of categories and number of pages visited in that category
+    for a user
+    """
+    db = mongo.mnopi
+    categories = db.users.find_one({'user_key': user}, {'_id': 0, 'categories': 1})
+    return categories['categories']

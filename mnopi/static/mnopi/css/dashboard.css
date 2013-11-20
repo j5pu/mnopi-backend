@@ -1,0 +1,69 @@
+/* Styles for charts */
+
+body {
+    overflow-y:scroll;
+}
+
+.mypiechart {
+    width: 600px;
+    border: 2px;
+}
+
+/* Styles for gridster */
+
+body {
+    background-color: #FFFFFF;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    font-size: x-small;
+    color: #000000;
+}
+
+ul, ol {
+    list-style: none;
+}
+
+h1 {
+  margin-bottom: 12px;
+  text-align: center;
+  font-size: 30px;
+  font-weight: 400;
+}
+
+h3 {
+  font-size: 25px;
+  font-weight: 600;
+  color: #051bff;
+}
+
+/* Gridster styles */
+.demo {
+    margin: 1em 0;
+    padding: 2em 0 5.5em;
+    background: rgba(0, 0, 0, 0); /* fondo cuadritos */
+}
+
+.demo:hover .gridster {
+    opacity: 1;
+}
+
+.gridster {
+    width: 940px;
+    margin: 0 auto;
+
+    opacity: .8;
+
+    -webkit-transition: opacity .6s;
+    -moz-transition: opacity .6s;
+    -o-transition: opacity .6s;
+    -ms-transition: opacity .6s;
+    transition: opacity .6s;
+}
+
+.gridster .gs-w {
+    background: rgba(38, 59, 44, 0.18);
+    cursor: pointer;
+    -webkit-box-shadow: 0 0 5px rgba(2, 52, 255, 0.29);
+    box-shadow: 0 0 5px rgba(2, 52, 255, 0.29);
+    z-index: 2
+}
