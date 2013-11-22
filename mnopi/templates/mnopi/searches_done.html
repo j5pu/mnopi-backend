@@ -29,13 +29,13 @@
                     <div style="position: relative; text-align: right">
                         <span class="page-links">
                             {% if page_obj.has_previous %}
-                                <a href="{% url 'user_searches_done' user_name %}?page={{ page_obj.previous_page_number  }}"><</a>
+                                <a href="{% url 'user_searches_done' %}?page={{ page_obj.previous_page_number  }}"><</a>
                             {% endif %}
                             <span class="page-current">
                                 {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
                             </span>
                             {% if page_obj.has_next %}
-                                <a href="{% url 'user_searches_done' user_name %}?page={{ page_obj.next_page_number  }}">></a>
+                                <a href="{% url 'user_searches_done' %}?page={{ page_obj.next_page_number  }}">></a>
                             {% endif %}
                         </span>
                     </div>

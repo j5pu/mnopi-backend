@@ -9,7 +9,7 @@
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </button>
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="{% url "dashboard" %}">
         <img src="{% static "mnopi/icon48.png" %}" style="height:20px">
         Mnopi Analytics
     </a>
@@ -23,8 +23,8 @@
       <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">History<b class="caret"></b></a>
         <ul class="dropdown-menu">
-          <li><a href="#">Pages visited</a></li>
-          <li><a href="#">Searches</a></li>
+          <li><a href="{% url "user_visited_pages" %}">Pages visited</a></li>
+          <li><a href="{% url "user_searches_done" %}">Searches</a></li>
         </ul>
       </li>
       <li class="dropdown">
@@ -44,11 +44,11 @@
       <button type="submit" class="btn btn-default">Submit</button>
     </form>
     <ul class="nav navbar-nav navbar-right">
-      <li><a href="#">Link</a></li>
+      <li><a href="{% url "plugin" %}">Download plugin</a></li>
       <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">User <b class="caret"></b></a>
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">User: {{ user.username }} <b class="caret"></b></a>
         <ul class="dropdown-menu">
-          <li><a href="#">Logout</a></li>
+          <li><a href="{% url "logout" %}">Logout</a></li>
           <li><a href="#">Profile</a></li>
           <li class="divider"></li>
           <li><a href="#">Delete data</a></li>

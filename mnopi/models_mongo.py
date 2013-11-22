@@ -1,8 +1,10 @@
 from mnopimining import html, keywords, language
 
+from HTMLParser import HTMLParser
 import datetime
 import nltk
 from pymongo import MongoClient
+
 
 db = MongoClient().mnopi # TODO: casque cuando no hay
 
@@ -50,11 +52,19 @@ class HtmlVisited(object):
 
     def _clean_html_text(self):
         """Computes the site clear text without html code"""
-        self.clean_html = nltk.clean_html(self.html_code)
+
+        # Even in unicode, there could be html entities like &aocute
+        parser = HTMLParser()
+        unescaped_text = parser.unescape(self.html_code)
+
+        self.clean_html = nltk.clean_html(unescaped_text)
 
     def _process_properties(self):
         """Computes site properties from html metadata"""
-        self.properties = html.get_html_metadata(self.html_code)
+        parser = HTMLParser()
+        unescaped_text = parser.unescape(self.html_code)
+
+        self.properties = html.get_html_metadata(unescaped_text)
 
     def _detect_language(self):
         """Detects the language of the page"""
@@ -66,7 +76,3 @@ class HtmlVisited(object):
             'text': keywords.get_freq_words(self.clean_html, self.language),
             'metadata': keywords.get_freq_words(" ".join(self.properties.values()), self.language)
         }
-
-
-
-

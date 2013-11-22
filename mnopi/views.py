@@ -1,14 +1,16 @@
 # coding=utf-8
-
 from django.shortcuts import render, render_to_response
-
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView
+from django.contrib.auth import authenticate, login, logout
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
-from hashlib import sha256 # TODO: Check better security options
 import urlparse
 import json
 import simplejson
@@ -35,11 +37,13 @@ LOGIN_BAD_PASSWORD = "Contraseña incorrecta"
 #TODO: Volver a poner y tratar el tema de csrf
 
 def index(request):
-    return render(request, 'mnopi/index.html')
+    if request.user.is_authenticated():
+        return HttpResponseRedirect(reverse('mnopi.views.dashboard'))
+    else:
+        return render(request, 'mnopi/index.html')
 
 @csrf_exempt
-def login(request):
-    #TODO: cambiar utilizando el sistema de Django
+def login_user(request):
     #TODO: incorporar checkeos javascript en interfaces
     #TODO: separar el servicio de entrada desde plugin y desde web. Interfaz rest?
 
@@ -47,29 +51,33 @@ def login(request):
         return render(request, 'mnopi/index.html', {'error_message': message}, status=212)
 
     try:
-        user_key = request.POST['user_key']
+        username = request.POST['user_key']
         password = request.POST['password']
     except(KeyError):
         return login_failed(LOGIN_FIELDS_ERROR)
 
-    if user_key == "" or password == "":
+    if username == "" or password == "":
         return login_failed(LOGIN_FIELDS_ERROR)
-    # elif not mongo.user_exists(user_key):
-    #     return login_failed(LOGIN_USER_DOESNT_EXIST)
-    #TODO: AUTENTICACION
 
-    user = User.objects.get(user_key=user_key)
-    # elif not mongo.authenticate_user(user_key, password):
-    #     return login_failed(LOGIN_BAD_PASSWORD)
+    user = authenticate(username=username, password=password)
+    if user is not None and user.is_active:
+        login(request, user)
+        return HttpResponseRedirect(reverse('mnopi.views.dashboard'))
+    else:
+        return login_failed(LOGIN_BAD_PASSWORD)
 
-    return render(request, 'mnopi/main.html')
-
+def logout_user(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('mnopi.views.index'))
 
 def register(request):
     return render(request, 'mnopi/register.html')
 
 def conditions(request):
     return render(request, 'mnopi/conditions.html')
+
+def plugin(request):
+    return render(request, 'mnopi/plugin.html')
 
 def new_user(request):
     """
@@ -80,27 +88,24 @@ def new_user(request):
         return render(request, 'mnopi/register.html', {'error_message' : message})
 
     try:
-        user_key = request.POST['user_key']
+        username = request.POST['user_key']
         password = request.POST['password']
         password_repeat = request.POST['confirm']
     except(KeyError):
         return registration_failed(REGISTRATION_FIELDS_ERROR)
 
-    if user_key == "":
+    if username == "":
         return registration_failed(REGISTRATION_USER_EMPTY)
     elif password != password_repeat:
         return registration_failed(REGISTRATION_PASSWORDS_DONT_MATCH)
-    elif len(password) < PASS_MIN_LENGTH:
+    elif len(username) < PASS_MIN_LENGTH:
         return registration_failed(REGISTRATION_PASSWORD_ERROR)
     elif not request.POST.get('acceptance', False):
         return registration_failed(REGISTRATION_CONDITIONS_ERROR)
-    # TODO: Autenticacion
-    # elif mongo.user_exists(user_key):
-    #     return render(request, 'mnopi/register.html', {'error_message' : REGISTRATION_USER_EXISTS})
+    if User.objects.filter(username=username).count() != 0:
+        return registration_failed(REGISTRATION_USER_EXISTS)
 
-    hashed_password = sha256(password).hexdigest()
-    User.objects.create(user_key=user_key, password=hashed_password)
-    # mongo.add_user(user_key, password)
+    User.objects.create_user(username=username, password=password)
 
     return render(request, 'mnopi/register_successful.html')
 
@@ -112,12 +117,12 @@ def page_visited(request):
 
     post_data = json.loads(request.body)
     url = post_data['url']
-    user_key = post_data['idUser']
+    username = post_data['idUser']
 
     url_domain = urlparse.urlparse(url)[1]
     categories = opendns.getCategories(url_domain)
 
-    user = User.objects.get(user_key=user_key)
+    user = User.objects.get(username=username)
     PageVisited.objects.create(user=user, page_visited=url)
     user.update_categories_visited(categories)
 
@@ -131,9 +136,9 @@ def search_done(request):
     post_data = json.loads(request.body)
     search_results = post_data['searchResults']
     search_query = post_data['searchDone']
-    user_key = post_data['idUser']
+    username = post_data['idUser']
 
-    user = User.objects.get(user_key=user_key)
+    user = User.objects.get(username=username)
     Search.objects.create(search_query=search_query,
                           search_results=search_results,
                           user=user)
@@ -148,11 +153,11 @@ def html_visited(request):
 
     post_data = json.loads(request.body)
     url = post_data['url']
-    user_key = post_data['idUser']
+    username = post_data['idUser']
     html_code = post_data['htmlString']
 
     # Automatic keywords mining is performed when creating the object
-    models_mongo.register_html_visited(page_visited=url, html_code=html_code, user=user_key)
+    models_mongo.register_html_visited(page_visited=url, html_code=html_code, user=username)
 
     # relevant_properties = get_html_metadata(html_code)
     #
@@ -164,20 +169,21 @@ def html_visited(request):
 
     return HttpResponse()
 
-
-def user_keywords(request, user_key):
+@login_required
+def user_keywords(request, username):
     """
     Returns the keywords associated with an user
     """
     #TODO: tentative name and function
 
-    user = User.objects.get(user_key=user_key)
+    user = User.objects.get(username=username)
     words = user.get_keywords_freqs_from_properties(50)
     resp = simplejson.dumps(words) #TODO: reducir numero de palabras enviadas
 
     return HttpResponse(resp, mimetype='application/json')
 
-def dashboard(request, user_key):
+@login_required
+def dashboard(request):
     """
     View that retrieves data and shows dashboard to user
     """
@@ -189,7 +195,7 @@ def dashboard(request, user_key):
 
         return words
 
-    user = User.objects.get(user_key=user_key)
+    user = get_object_or_404(User, username=request.user.username)
     categories = user.categories.all()
     visits_by_category = [UserCategorization.objects.get(user=user, category=cat).weigh for cat in categories]
     #TODO: Falta por meter errores
@@ -207,21 +213,20 @@ def dashboard(request, user_key):
 
     return render_to_response("mnopi/dashboard.html", resp, context_instance=RequestContext(request))
 
-
 class UserPagesVisitedList(ListView):
 
     template_name = 'mnopi/pages_visited.html'
     context_object_name = 'pages_visited'
     paginate_by = 25
 
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(UserPagesVisitedList, self).dispatch(*args, **kwargs)
+
     def get_queryset(self):
-        self.user = get_object_or_404(User, user_key=self.args[0])
+        self.user = get_object_or_404(User, username=self.request.user.username)
         return PageVisited.objects.filter(user=self.user)
 
-    def get_context_data(self, **kwargs):
-        context = super(UserPagesVisitedList, self).get_context_data(**kwargs)
-        context['user_name'] = self.user.user_key
-        return context
 
 class UserSearchesDoneList(ListView):
 
@@ -229,14 +234,13 @@ class UserSearchesDoneList(ListView):
     context_object_name = 'searches_done'
     paginate_by = 25
 
-    def get_queryset(self):
-        self.user = get_object_or_404(User, user_key=self.args[0])
-        return Search.objects.filter(user=self.user)
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(UserSearchesDoneList, self).dispatch(*args, **kwargs)
 
-    def get_context_data(self, **kwargs):
-        context = super(UserSearchesDoneList, self).get_context_data(**kwargs)
-        context['user_name'] = self.user.user_key
-        return context
+    def get_queryset(self):
+        self.user = get_object_or_404(User, username=self.request.user.username)
+        return Search.objects.filter(user=self.user)
 
 
 def test(request):

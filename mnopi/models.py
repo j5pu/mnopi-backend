@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
 from nltk import FreqDist
 
@@ -6,7 +7,7 @@ import models_mongo
 
 # TODO: Documentar modelo
 
-USER_KEY_MAX_LENGTH = 40
+username_MAX_LENGTH = 40
 PASSWORD_MAX_LENGTH = 100
 URL_MAX_LENGTH = 500
 SEARCH_QUERY_MAX_LENGTH = 300
@@ -21,9 +22,10 @@ class UserCategory(models.Model):
     class Meta:
         db_table = "user_category"
 
-class User(models.Model):
-    user_key = models.CharField(max_length=USER_KEY_MAX_LENGTH)
-    password = models.CharField(max_length=PASSWORD_MAX_LENGTH)
+class User(AbstractUser):
+    """
+    Extends Django basic authorization user
+    """
     categories = models.ManyToManyField(UserCategory, through='UserCategorization')
 
     class Meta:
@@ -33,7 +35,7 @@ class User(models.Model):
         """
         Computes keywords frequency from the users list of precomputed keywords from html
         """
-        keywords = models_mongo.get_user_html_keywords_freqs(user=self.user_key)
+        keywords = models_mongo.get_user_html_keywords_freqs(user=self.username)
         word_freqs = FreqDist()
         for page_keywords in keywords:
             word_freqs += page_keywords['text']
@@ -48,7 +50,7 @@ class User(models.Model):
         """
         Computes keywords for a user using meta data in the visited pages
         """
-        keywords = models_mongo.get_user_html_keywords_freqs(user=self.user_key)
+        keywords = models_mongo.get_user_html_keywords_freqs(user=self.username)
         word_freqs = FreqDist()
         for page_keywords in keywords:
             word_freqs += page_keywords['metadata']
@@ -70,6 +72,8 @@ class User(models.Model):
                                                          defaults={'weigh': 0})
             categorization.weigh += 1
             categorization.save()
+
+
 
 
 

@@ -132,6 +132,10 @@ INSTALLED_APPS = (
     'mnopi',
 )
 
+AUTH_USER_MODEL = "mnopi.User"
+
+LOGIN_URL = "/"
+
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.

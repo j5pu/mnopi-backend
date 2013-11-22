@@ -5,12 +5,14 @@ urlpatterns = patterns(
     'mnopi.views',
 
     url(r'^$', 'index', name='index'),
-    url(r'^login', 'login', name='login'),
+    url(r'^login', 'login_user', name='login'),
+    url(r'^logout', 'logout_user', name='logout'),
     url(r'^register', 'register', name='register'),
     url(r'^conditions', 'conditions', name='conditions'),
-    url(r'^dashboard/(\w+)/$', 'dashboard', name='dashboard'),
-    url(r'^dashboard/(\w+)/pages', UserPagesVisitedList.as_view(), name='user_visited_pages'),
-    url(r'^dashboard/(\w+)/searches', UserSearchesDoneList.as_view(), name='user_searches_done'),
+    url(r'^plugin', 'plugin', name='plugin'),
+    url(r'^dashboard/$', 'dashboard', name='dashboard'),
+    url(r'^dashboard/pages', UserPagesVisitedList.as_view(), name='user_visited_pages'),
+    url(r'^dashboard/searches', UserSearchesDoneList.as_view(), name='user_searches_done'),
     url(r'^test', 'test'),
 
     # POST services
