@@ -8,36 +8,50 @@
       site_keywords = {{ site_keywords|safe }}
   </script>
 
-
+    <div>
+    <h1>{{ user.username }}'s data summary</h1>
+    <hr>
+    </div>
       <section class="demo">
           <div class="gridster">
-              <ul>
-                  <li data-row="1" data-col="1" data-sizex="1" data-sizey="1"><h1>Holaa</h1></li>
-                  <li data-row="2" data-col="1" data-sizex="1" data-sizey="1">Adios</li>
-                  <li data-row="3" data-col="1" data-sizex="1" data-sizey="1">Probandoooo</li>
-
-                  <li data-row="1" data-col="2" data-sizex="4" data-sizey="4"><svg id="categories_chart" class="mypiechart"></svg></li>
-                  <li data-row="2" data-col="2" data-sizex="2" data-sizey="2"></li>
-
-                  <li data-row="1" data-col="4" data-sizex="4" data-sizey="4"><div id="tagword"></div></li>
-                  <li data-row="2" data-col="4" data-sizex="2" data-sizey="1"></li>
-                  <li data-row="3" data-col="4" data-sizex="1" data-sizey="1"></li>
-
-                  <li data-row="1" data-col="5" data-sizex="1" data-sizey="1"></li>
-                  <li data-row="3" data-col="5" data-sizex="1" data-sizey="1"></li>
-
-                  <li data-row="1" data-col="6" data-sizex="1" data-sizey="1"></li>
-                  <li data-row="2" data-col="6" data-sizex="5" data-sizey="3">
-  <div id="chart1">
-      <svg></svg>
-  </div></li>
+              <ul><li data-row="1" data-col="1" data-sizex="3" data-sizey="3">
+                     <h4 style="text-align: center; text-decoration: underline">User profile</h4>
+                     <svg id="categories_chart" class="mypiechart"></svg>
+                  </li>
+                  <li data-row="1" data-col="2" data-sizex="2" data-sizey="3">
+                      <h4 style="text-align: center; text-decoration: underline">Keywords cloud</h4>
+                      <div id="tagword"></div>
+                  </li>
+                  <li data-row="1" data-col="3" data-sizex="2" data-sizey="1">
+                      <h4 style="text-align: center; text-decoration: underline">Last searched elements</h4>
+                      <div>
+                      <ol>
+                      {% for search in last_searches %}
+                          <li>{{ search|truncatechars:35 }}</li>
+                      {% endfor %}
+                      </ol>
+                      </div>
+                  </li>
+                  <li data-row="2" data-col="3" data-sizex="2" data-sizey="2">
+                      <h4 style="text-align: center; text-decoration: underline">Last pages visited</h4>
+                      <div>
+                      <ol>
+                      {% for page in last_pages %}
+                          <li>{{ page|truncatechars:35 }}</li>
+                      {% endfor %}
+                      </ol>
+                      </div>
+                  </li>
+                  <li data-row="2" data-col="1" data-sizex="7" data-sizey="3">
+                      <h4 style="text-align: center; text-decoration: underline">Keywords hall of fame</h4>
+                      <div id="chart1"><svg></svg></div>
+                  </li>
               </ul>
           </div>
       </section>
-
   <style>
       #chart1 svg{
-          height: 500px;
+          height: 430px;
           min-width: 100px;
           min-height: 100px;
 /*

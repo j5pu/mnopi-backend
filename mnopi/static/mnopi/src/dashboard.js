@@ -8,8 +8,8 @@ $(function(){ //DOM Ready
 
     // Piechart
     nv.addGraph(function() {
-        var width = 600,
-            height = 600;
+        var width = 450,
+            height = 450;
 
         var chart = nv.models.pieChart()
             .x(function(d) { return d.category })
@@ -33,7 +33,7 @@ $(function(){ //DOM Ready
     // Tag cloud
     var fill = d3.scale.category20();
 
-    d3.layout.cloud().size([1000, 1000])
+    d3.layout.cloud().size([290, 500])
         .words(metadata_keywords.map(function(d) {
             return {text: d, size: 10 + Math.random() * 90};
         }))
@@ -46,8 +46,8 @@ $(function(){ //DOM Ready
 
     function draw(words) {
         d3.select("#tagword").append("svg")
-            .attr("width", 1000)
-            .attr("height", 1000)
+            .attr("width", 290)
+            .attr("height", 500)
             .append("g")
             .attr("transform", "translate(150,150)")
             .selectAll("text")

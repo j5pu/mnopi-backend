@@ -1,4 +1,7 @@
+
 from django.db import models
+from django.db import connection
+
 from django.contrib.auth.models import AbstractUser
 
 from nltk import FreqDist
@@ -6,6 +9,8 @@ from nltk import FreqDist
 import models_mongo
 
 # TODO: Documentar modelo
+# Ojo, hay una redundandia en el modelo entre las categorias de las paginas visitadas y el peso de cada
+# categoria con el usuario. Esto esta hecho aposta por temas de rendimiento
 
 username_MAX_LENGTH = 40
 PASSWORD_MAX_LENGTH = 100
@@ -61,6 +66,47 @@ class User(AbstractUser):
             return zip(word_freqs.keys()[:keywords_limit],
                        word_freqs.values()[:keywords_limit])
 
+    def get_domains_by_category(self):
+        """
+        Computes a list of categories and the sites visited by the user for each one
+        Works only on OpenDns categorized domains
+        Returns a dict with domains listed by category:
+             {"News/Media": ["elpais.com", "www.elmundo.es", ...],
+              "CategoryX" : ["blabla.com", ...] }
+        """
+        sql = ('SELECT domain, user_category.name as category '
+               'FROM users INNER JOIN pages_visited ON (users.id = pages_visited.user_id) '
+                          'INNER JOIN domains ON (pages_visited.domain_id = domains.id) '
+                          'INNER JOIN domains_categories ON (domains.id = domains_categories.categorizeddomain_id) '
+                          'INNER JOIN user_category ON (domains_categories.usercategory_id = user_category.id) '
+               'WHERE username = %s')
+
+        cursor = connection.cursor()
+        cursor.execute(sql, [self.username])
+
+        categorized_domains = {}
+        for (domain, category) in cursor.fetchall():
+            if category in categorized_domains:
+                categorized_domains[category].append(domain)
+            else:
+                categorized_domains[category] = [domain]
+
+        return categorized_domains
+
+    def get_visits_by_category(self):
+        """
+        Gets a dict of categories and number of visits to each category by an user
+        Uses database redundancy data, it is faster than getting the same information with
+        the method get_domains_by_category
+
+        Returns [('category' : "CategoryX", 'visits' : 5),
+                 ('category' : "CategoryY", 'visits' : 23) ...]
+        """
+        categories = self.categories.all()
+        visits_by_category = [UserCategorization.objects.get(user=self, category=cat).weigh for cat in categories]
+        visits_by_category_list = [{'category': x.name, 'visits': y} for (x, y) in zip(categories, visits_by_category)]
+        return visits_by_category_list
+
     def update_categories_visited(self, categories):
         """
         Updates the number of visits to categories for a given user
@@ -73,35 +119,6 @@ class User(AbstractUser):
             categorization.weigh += 1
             categorization.save()
 
-
-
-
-
-class UserCategorization(models.Model):
-    user = models.ForeignKey(User)
-    category = models.ForeignKey(UserCategory)
-    weigh = models.IntegerField()
-
-    class Meta:
-        db_table = "user_categorization"
-
-class PageVisited(models.Model):
-    user = models.ForeignKey(User)
-    page_visited = models.CharField(max_length=URL_MAX_LENGTH)
-    date = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        db_table = "pages_visited"
-
-
-class Search(models.Model):
-    search_query = models.CharField(max_length=SEARCH_QUERY_MAX_LENGTH)
-    search_results = models.CharField(max_length=URL_MAX_LENGTH)
-    user = models.ForeignKey(User)
-    date = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        db_table = "searches"
 
 class CategorizedDomain(models.Model):
     domain = models.CharField(max_length=URL_MAX_LENGTH)
@@ -118,3 +135,29 @@ class CategorizedDomain(models.Model):
         database_categories = [UserCategory.objects.get(name=cat) for cat in categories]
         for cat in database_categories:
             self.categories.add(cat)
+
+class UserCategorization(models.Model):
+    user = models.ForeignKey(User)
+    category = models.ForeignKey(UserCategory)
+    weigh = models.IntegerField()
+
+    class Meta:
+        db_table = "user_categorization"
+
+class PageVisited(models.Model):
+    user = models.ForeignKey(User)
+    page_visited = models.CharField(max_length=URL_MAX_LENGTH)
+    domain = models.ForeignKey(CategorizedDomain)
+    date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = "pages_visited"
+
+class Search(models.Model):
+    search_query = models.CharField(max_length=SEARCH_QUERY_MAX_LENGTH)
+    search_results = models.CharField(max_length=URL_MAX_LENGTH)
+    user = models.ForeignKey(User)
+    date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = "searches"

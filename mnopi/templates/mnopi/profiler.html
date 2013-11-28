@@ -1,0 +1,37 @@
+{% extends "dashboard_base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{% static "mnopi/css/dashboard_tables.css" %}">
+
+<script>
+function showTable(id){
+    if ($('#category' + id).css('display') == 'none'){
+        $('#category' + id).css({'display':''})
+    } else {
+        $('#category' + id).css({'display':'none'})
+    }
+
+}
+</script>
+
+{% for category, domains in domains_by_category.items %}
+    <span onclick="showTable({{ forloop.counter }})" style="font-size: 52">Category: {{ category }} (show)</span>
+    <hr>
+    <table id="category{{ forloop.counter }}" class="hor-minimalist-a" style="margin: 0 auto; display:none">
+        <tbody>
+        <tr>
+        {% for domain in domains %}
+            <td>{{ domain }}</td>
+            {% if forloop.counter|divisibleby:5 %}
+        </tr>
+        <tr>
+        {% endif %}
+        {% endfor %}
+        </tr>
+        </tbody>
+    </table>
+{% endfor %}
+
+{% endblock content %}

@@ -5,22 +5,18 @@
 
 <link rel="stylesheet" type="text/css" href="{% static "mnopi/css/dashboard_tables.css" %}">
 
-<table class="hor-minimalist-a" summary="Pages visited" style="margin: 0 auto">
+<table class="hor-minimalist-a" summary="Site keywords" style="margin: 0 auto">
     <thead>
     	<tr>
-        	<th scope="col">Day</th>
-            <th scope="col">Hour</th>
-            <th scope="col">Url</th>
-{#            <th scope="col">Categories</th>#}
+        	<th scope="col">Keywords</th>
+            <th scope="col">Frequency</th>
         </tr>
     </thead>
     <tbody>
-    {% for page in pages_visited %}
+    {% for keyword in site_keywords %}
         <tr>
-            <td>{{ page.date|date:"D d M Y" }}</td>
-            <td>{{ page.date|date:"H:i" }}</td>
-            <td>{{ page.page_visited|truncatechars:100 }}</td>
-{#            <td>LOL</td>#}
+            <td>{{ keyword.keyword|truncatechars:100 }}</td>
+            <td>{{ keyword.frequency }}</td>
         </tr>
     {% endfor %}
     </tbody>
@@ -31,13 +27,13 @@
                     <div style="position: relative; text-align: right">
                         <span class="page-links">
                             {% if page_obj.has_previous %}
-                                <a href="{% url 'user_visited_pages' %}?page={{ page_obj.previous_page_number  }}"><</a>
+                                <a href="{% url 'user_site_keywords' %}?page={{ page_obj.previous_page_number  }}"><</a>
                             {% endif %}
                             <span class="page-current">
                                 {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
                             </span>
                             {% if page_obj.has_next %}
-                                <a href="{% url 'user_visited_pages' %}?page={{ page_obj.next_page_number  }}">></a>
+                                <a href="{% url 'user_site_keywords' %}?page={{ page_obj.next_page_number  }}">></a>
                             {% endif %}
                         </span>
                     </div>
