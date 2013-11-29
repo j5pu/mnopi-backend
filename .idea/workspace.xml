@@ -6,9 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="0f576e6f-76bf-49e3-a62d-c399aae17995" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../mnopi-plugin/src/connection.js" afterPath="$PROJECT_DIR$/../mnopi-plugin/src/connection.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mnopi/templates/mnopi/plugin.html" afterPath="$PROJECT_DIR$/mnopi/templates/mnopi/plugin.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../mnopi-plugin/prepare_plugin.sh" afterPath="$PROJECT_DIR$/../mnopi-plugin/prepare_plugin.sh" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="mnopiBackend.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -90,70 +88,44 @@
     <window id="2">
       <content type="file-editors">
         <state>
-          <splitter split-orientation="horizontal" split-proportion="0.5">
-            <split-first>
-              <leaf>
-                <file leaf-file-name="csrf.py" pinned="false" current="false" current-in-tab="false">
-                  <entry file="file:///usr/local/lib/python2.7/dist-packages/django/views/decorators/csrf.py">
-                    <provider selected="true" editor-type-id="text-editor">
-                      <state line="39" column="16" selection-start="1425" selection-end="1425" vertical-scroll-proportion="0.0">
-                        <folding />
-                      </state>
-                    </provider>
-                  </entry>
-                </file>
-                <file leaf-file-name="plugin.js" pinned="false" current="false" current-in-tab="false">
-                  <entry file="file://$PROJECT_DIR$/../mnopi-plugin/src/plugin.js">
-                    <provider selected="true" editor-type-id="text-editor">
-                      <state line="34" column="8" selection-start="1329" selection-end="1329" vertical-scroll-proportion="0.0">
-                        <folding />
-                      </state>
-                    </provider>
-                  </entry>
-                </file>
-                <file leaf-file-name="connection.js" pinned="false" current="true" current-in-tab="true">
-                  <entry file="file://$PROJECT_DIR$/../mnopi-plugin/src/connection.js">
-                    <provider selected="true" editor-type-id="text-editor">
-                      <state line="5" column="26" selection-start="204" selection-end="204" vertical-scroll-proportion="0.14705883">
-                        <folding />
-                      </state>
-                    </provider>
-                  </entry>
-                </file>
-              </leaf>
-            </split-first>
-            <split-second>
-              <leaf>
-                <file leaf-file-name="csrf.py" pinned="false" current="false" current-in-tab="false">
-                  <entry file="file:///usr/local/lib/python2.7/dist-packages/django/views/decorators/csrf.py">
-                    <provider selected="true" editor-type-id="text-editor">
-                      <state line="30" column="0" selection-start="1031" selection-end="1031" vertical-scroll-proportion="0.0">
-                        <folding />
-                      </state>
-                    </provider>
-                  </entry>
-                </file>
-                <file leaf-file-name="background.js" pinned="false" current="false" current-in-tab="false">
-                  <entry file="file://$PROJECT_DIR$/../mnopi-plugin/src/background.js">
-                    <provider selected="true" editor-type-id="text-editor">
-                      <state line="426" column="17" selection-start="12733" selection-end="12733" vertical-scroll-proportion="0.0">
-                        <folding />
-                      </state>
-                    </provider>
-                  </entry>
-                </file>
-                <file leaf-file-name="pages_visited.html" pinned="false" current="false" current-in-tab="true">
-                  <entry file="file://$PROJECT_DIR$/mnopi/templates/mnopi/pages_visited.html">
-                    <provider selected="true" editor-type-id="text-editor">
-                      <state line="3" column="11" selection-start="71" selection-end="71" vertical-scroll-proportion="0.038961038">
-                        <folding />
-                      </state>
-                    </provider>
-                  </entry>
-                </file>
-              </leaf>
-            </split-second>
-          </splitter>
+          <leaf>
+            <file leaf-file-name="csrf.py" pinned="false" current="false" current-in-tab="false">
+              <entry file="file:///usr/local/lib/python2.7/dist-packages/django/views/decorators/csrf.py">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state line="30" column="0" selection-start="1031" selection-end="1031" vertical-scroll-proportion="0.0">
+                    <folding />
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file leaf-file-name="background.js" pinned="false" current="false" current-in-tab="false">
+              <entry file="file://$PROJECT_DIR$/../mnopi-plugin/src/background.js">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state line="426" column="17" selection-start="12733" selection-end="12733" vertical-scroll-proportion="0.0">
+                    <folding />
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file leaf-file-name="connection.js" pinned="false" current="true" current-in-tab="true">
+              <entry file="file://$PROJECT_DIR$/../mnopi-plugin/src/connection.js">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state line="12" column="26" selection-start="373" selection-end="373" vertical-scroll-proportion="0.14986376">
+                    <folding />
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file leaf-file-name="pages_visited.html" pinned="false" current="false" current-in-tab="false">
+              <entry file="file://$PROJECT_DIR$/mnopi/templates/mnopi/pages_visited.html">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state line="23" column="13" selection-start="727" selection-end="727" vertical-scroll-proportion="-15.0">
+                    <folding />
+                  </state>
+                </provider>
+              </entry>
+            </file>
+          </leaf>
         </state>
       </content>
     </window>
@@ -753,7 +725,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="320" y="456" width="960" height="720" extended-state="0" />
+    <frame x="320" y="456" width="960" height="720" extended-state="1" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -863,7 +835,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mnopi/templates/mnopi/profiler.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="20" selection-start="902" selection-end="902" vertical-scroll-proportion="0.4174397" />
+        <state line="30" column="20" selection-start="902" selection-end="902" vertical-scroll-proportion="0.4174397">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file:///usr/local/lib/python2.7/dist-packages/django/http/response.py">
@@ -908,23 +882,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/local/lib/python2.7/dist-packages/django/views/decorators/csrf.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="16" selection-start="1425" selection-end="1425" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../mnopi-plugin/src/plugin.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="34" column="8" selection-start="1329" selection-end="1329" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../mnopi-plugin/src/background.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="426" column="17" selection-start="12733" selection-end="12733" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -950,16 +910,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file:///usr/local/lib/python2.7/dist-packages/django/views/decorators/csrf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="0" selection-start="1031" selection-end="1031" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../mnopi-plugin/src/background.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="426" column="17" selection-start="12733" selection-end="12733" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/mnopi/templates/mnopi/pages_visited.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="11" selection-start="71" selection-end="71" vertical-scroll-proportion="0.038961038">
+        <state line="23" column="13" selection-start="727" selection-end="727" vertical-scroll-proportion="-15.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../mnopi-plugin/src/connection.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="26" selection-start="204" selection-end="204" vertical-scroll-proportion="0.14705883">
+        <state line="12" column="26" selection-start="373" selection-end="373" vertical-scroll-proportion="0.14986376">
           <folding />
         </state>
       </provider>
