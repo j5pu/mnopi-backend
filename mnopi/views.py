@@ -116,7 +116,7 @@ def new_user(request):
         return registration_failed(REGISTRATION_USER_EMPTY)
     elif password != password_repeat:
         return registration_failed(REGISTRATION_PASSWORDS_DONT_MATCH)
-    elif len(username) < PASS_MIN_LENGTH:
+    elif len(password) < PASS_MIN_LENGTH:
         return registration_failed(REGISTRATION_PASSWORD_ERROR)
     elif not request.POST.get('acceptance', False):
         return registration_failed(REGISTRATION_CONDITIONS_ERROR)

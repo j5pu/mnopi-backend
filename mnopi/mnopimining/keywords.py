@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 from nltk.tokenize import word_tokenize
+
 from nltk.corpus import stopwords
 from nltk.stem.snowball import SnowballStemmer
 from nltk import FreqDist
 
 import string
-
-import language
 
 REMOVE_PUNCTUATION_MAPPING = dict.fromkeys(map(ord, string.punctuation))
 SPANISH_STOPWORDS_UNICODE = [unicode(word, 'utf-8') for word in stopwords.words('spanish')]

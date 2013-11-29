@@ -6,7 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="0f576e6f-76bf-49e3-a62d-c399aae17995" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../mnopi-plugin/src/connection.js" afterPath="$PROJECT_DIR$/../mnopi-plugin/src/connection.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mnopi/mnopimining/keywords.py" afterPath="$PROJECT_DIR$/mnopi/mnopimining/keywords.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../mnopi-plugin/prepare_plugin.sh" afterPath="$PROJECT_DIR$/../mnopi-plugin/prepare_plugin.sh" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mnopi/views.py" afterPath="$PROJECT_DIR$/mnopi/views.py" />
     </list>
     <ignored path="mnopiBackend.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -17,7 +19,7 @@
     <file path="/conditions.html" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1383726234237" ignored="false" />
     <file path="/mongo.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384528391799" ignored="false" />
     <file path="/Python Console" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1385546544880" ignored="false" />
-    <file path="/views.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1385568960824" ignored="false" />
+    <file path="/views.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1385749584436" ignored="false" />
     <file path="/fragment.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1385545290057" ignored="false" />
     <file path="/connection.js" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1385551500735" ignored="false" />
     <file path="/popup.html" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1385568440190" ignored="false" />
@@ -128,7 +130,7 @@
             <file leaf-file-name="dashboard_base.html" pinned="false" current="false" current-in-tab="true">
               <entry file="file://$PROJECT_DIR$/mnopi/templates/dashboard_base.html">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state line="33" column="0" selection-start="1932" selection-end="1932" vertical-scroll-proportion="0.45918366">
+                  <state line="28" column="56" selection-start="1697" selection-end="1697" vertical-scroll-proportion="0.38961038">
                     <folding />
                   </state>
                 </provider>
@@ -154,11 +156,13 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="views.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="views.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mnopi/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="83" column="9" selection-start="2934" selection-end="2934" vertical-scroll-proportion="0.0">
-              <folding />
+            <state line="121" column="64" selection-start="4170" selection-end="4170" vertical-scroll-proportion="0.72286373">
+              <folding>
+                <element signature="e#15#70#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -172,10 +176,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="language.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="language.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mnopi/mnopimining/language.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="10" column="26" selection-start="131" selection-end="131" vertical-scroll-proportion="0.34642032">
+            <state line="2" column="0" selection-start="39" selection-end="39" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -202,8 +206,19 @@
       <file leaf-file-name="meta_keywords.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mnopi/templates/mnopi/meta_keywords.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="0" selection-start="80" selection-end="80" vertical-scroll-proportion="0.0">
+            <state line="7" column="79" selection-start="254" selection-end="254" vertical-scroll-proportion="-2.6086957">
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="keywords.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mnopi/mnopimining/keywords.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="84" column="7" selection-start="2965" selection-end="2965" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="e#24#63#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -254,7 +269,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/mnopi/opendns.py" />
         <option value="$PROJECT_DIR$/mnopi/models.py" />
         <option value="$PROJECT_DIR$/mnopi/templates/mnopi/partials/navigation_bar.html" />
         <option value="$PROJECT_DIR$/mnopi/templates/mnopi/profiler.html" />
@@ -265,11 +279,12 @@
         <option value="$PROJECT_DIR$/../mnopi-plugin/css/style.css" />
         <option value="$PROJECT_DIR$/../mnopi-plugin/html/popup.html" />
         <option value="$PROJECT_DIR$/../mnopi-plugin/src/plugin.js" />
-        <option value="$PROJECT_DIR$/mnopi/views.py" />
         <option value="$PROJECT_DIR$/../mnopi-plugin/src/background.js" />
         <option value="$PROJECT_DIR$/mnopi/templates/mnopi/pages_visited.html" />
         <option value="$PROJECT_DIR$/mnopi/templates/mnopi/plugin.html" />
         <option value="$PROJECT_DIR$/../mnopi-plugin/src/connection.js" />
+        <option value="$PROJECT_DIR$/mnopi/mnopimining/keywords.py" />
+        <option value="$PROJECT_DIR$/mnopi/views.py" />
       </list>
     </option>
   </component>
@@ -516,101 +531,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="static" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mnopi" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mnopiBackend" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mnopiBackend" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mnopi" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="static" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mnopi" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="external" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nvd3" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mnopiBackend" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mnopiBackend" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mnopi" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="static" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mnopi" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="external" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="nvd3" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mnopiBackend" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mnopiBackend" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mnopi" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="static" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mnopi" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="external" />
+              <option name="myItemId" value="mnopimining" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -834,13 +755,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="456" width="1368" height="721" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2219697" sideWeight="0.84118676" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2219697" sideWeight="0.84118676" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4450262" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22878788" sideWeight="0.28446773" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31754386" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -934,23 +855,9 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file:///usr/local/lib/python2.7/dist-packages/django/http/response.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="256" column="8" selection-start="9489" selection-end="9489" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/local/lib/python2.7/dist-packages/django/core/handlers/base.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="191" column="0" selection-start="9081" selection-end="9081" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mnopi/templates/mnopi/meta_keywords.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="0" selection-start="80" selection-end="80" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -979,13 +886,6 @@
     <entry file="file://$PROJECT_DIR$/../mnopi-plugin/src/plugin.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="34" column="8" selection-start="1329" selection-end="1329" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mnopi/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="83" column="9" selection-start="2934" selection-end="2934" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -1032,17 +932,42 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mnopi/templates/dashboard_base.html">
+    <entry file="file://$PROJECT_DIR$/mnopi/mnopimining/language.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="0" selection-start="1932" selection-end="1932" vertical-scroll-proportion="0.45918366">
+        <state line="2" column="0" selection-start="39" selection-end="39" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mnopi/mnopimining/language.py">
+    <entry file="file://$PROJECT_DIR$/mnopi/templates/mnopi/meta_keywords.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="26" selection-start="131" selection-end="131" vertical-scroll-proportion="0.34642032">
+        <state line="7" column="79" selection-start="254" selection-end="254" vertical-scroll-proportion="-2.6086957">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mnopi/mnopimining/keywords.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="84" column="7" selection-start="2965" selection-end="2965" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#24#63#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mnopi/templates/dashboard_base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="56" selection-start="1697" selection-end="1697" vertical-scroll-proportion="0.38961038">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mnopi/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="121" column="64" selection-start="4170" selection-end="4170" vertical-scroll-proportion="0.72286373">
+          <folding>
+            <element signature="e#15#70#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
