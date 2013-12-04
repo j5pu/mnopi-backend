@@ -1,5 +1,6 @@
 from mnopimining import html, keywords, language
 
+
 from HTMLParser import HTMLParser
 import datetime
 import nltk
@@ -18,6 +19,42 @@ def register_html_visited(page_visited, user, html_code):
 def get_user_html_visited(user):
     """ Gets the complete html code history of an user """
     return list(db.htmlVisited.find({'user': user}))
+
+def get_non_processed_keywords():
+    """
+    Retrieves list of keywords/frequency for every page not processed
+    The page is then marked as processed.
+    Returns a list of dictionaries of the form
+              {'user': 'alfredo',
+               'site_keywords_freq': {u'keyword_1': 2, u'keyword_2': 5 ...}
+               'metadata_keywords_freq: {u'keyword_1': 2, u'keyword_2': 5 ...}}
+    one for each html page
+    """
+    not_processed_pages = db.htmlVisited.find({'processed': {'$exists': False}})
+    users_keywords = []
+    for not_processed_page in not_processed_pages:
+        users_keywords.append({'user': not_processed_page['user'],
+                              'site_keywords_freq': not_processed_page['keywords_freq']['text'],
+                              'metadata_keywords_freq': not_processed_page['keywords_freq']['metadata']})
+        not_processed_page['processed'] = True
+        db.htmlVisited.save(not_processed_page)
+
+    return users_keywords
+
+def get_user_keywords(username):
+    """
+    Retrieves the dictionary of keywords/frequency stored for an user
+    """
+    user_keywords = db.userKeywords.find_one({'user': username})
+    if user_keywords == None:
+        return {'user': username,
+                'site_keywords_freq': {},
+                'metadata_keywords_freq': {}}
+    else:
+        return user_keywords
+
+def set_users_keywords(user_keywords_document):
+    db.userKeywords.save(user_keywords_document)
 
 def get_user_html_keywords_freqs(user):
     """ Retrieves list of keywords/frequency for each html saved in the database """

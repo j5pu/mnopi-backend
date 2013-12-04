@@ -18,7 +18,10 @@ URL_MAX_LENGTH = 500
 SEARCH_QUERY_MAX_LENGTH = 300
 CATEGORY_MAX_LENGTH = 50
 TAXONOMY_MAX_LENGTH = 10
+KEYWORD_MAX_LENGTH = 50
 
+METADATA_KEYWORD = 1
+SITE_KEYWORD = 2
 
 class UserCategory(models.Model):
     name = models.CharField(max_length=CATEGORY_MAX_LENGTH)
@@ -39,6 +42,8 @@ class User(AbstractUser):
     def get_keywords_freqs_from_html(self, keywords_limit=None):
         """
         Computes keywords frequency from the users list of precomputed keywords from html
+        DEPRECATED: use get_site_keywords
+        TODO: Refactor for testing purposes
         """
         keywords = models_mongo.get_user_html_keywords_freqs(user=self.username)
         word_freqs = FreqDist()
@@ -54,6 +59,8 @@ class User(AbstractUser):
     def get_keywords_freqs_from_properties(self, keywords_limit=None):
         """
         Computes keywords for a user using meta data in the visited pages
+        DEPRECATED: use get_keywords
+        TODO: Refactor for testing purposes
         """
         keywords = models_mongo.get_user_html_keywords_freqs(user=self.username)
         word_freqs = FreqDist()
@@ -65,6 +72,34 @@ class User(AbstractUser):
         else:
             return zip(word_freqs.keys()[:keywords_limit],
                        word_freqs.values()[:keywords_limit])
+
+    def get_keywords(self, type, keywords_limit=None):
+        """
+        Order the precomputed list of keywords for an user and returns keywords frequency
+        Type can be METADATA_KEYWORDS or SITE_KEYWORD
+        """
+        if type == SITE_KEYWORD:
+            keywords_freq = models_mongo.get_user_keywords(self.username)['site_keywords_freq']
+        else:
+            keywords_freq = models_mongo.get_user_keywords(self.username)['metadata_keywords_freq']
+
+        keywords_freq_list = zip(keywords_freq.keys(), keywords_freq.values())
+        keywords_freq_list.sort(cmp=lambda x, y: cmp(x[1], y[1]), reverse=True)
+        return keywords_freq_list[:keywords_limit]
+
+    # TODO: DELETE models keyword and userkeywordfrequency
+    # def add_keywords(self, kws_freq, type):
+    #     """
+    #     Adds a list of keywords/frequencies to the user current list
+    #     Type should be one of the constants METADATA_KEYWORD or SITE_KEYWORD
+    #     """
+    #
+    #     for keyword in kws_freq:
+    #         keyword_object, created = Keyword.objects.get_or_create(keyword=keyword)
+    #         user_kw_freq, created = UserKeywordFrequency.objects.get_or_create \
+    #                 (user=self, keyword=keyword_object, type=type)
+    #         user_kw_freq.frequency += kws_freq[keyword]
+    #         user_kw_freq.save()
 
     def get_domains_by_category(self):
         """
@@ -119,6 +154,27 @@ class User(AbstractUser):
             categorization.weigh += 1
             categorization.save()
 
+# class Keyword(models.Model):
+#     keyword = models.CharField(max_length=KEYWORD_MAX_LENGTH)
+#
+#     class Meta:
+#         db_table = "keywords"
+#
+# class UserKeywordFrequency(models.Model):
+#
+#     TYPE_OF_KEYWORD = (
+#         (METADATA_KEYWORD, 'Metadata keyword'),
+#         (SITE_KEYWORD, 'Site keyword')
+#     )
+#
+#     user = models.ForeignKey(User)
+#     keyword = models.ForeignKey(Keyword)
+#     frequency = models.IntegerField(default=0)
+#     type = models.IntegerField(choices=TYPE_OF_KEYWORD,
+#                                default=SITE_KEYWORD)
+#
+#     class Meta:
+#         db_table = "user_keyword_usage"
 
 class CategorizedDomain(models.Model):
     domain = models.CharField(max_length=URL_MAX_LENGTH)

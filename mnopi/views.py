@@ -16,7 +16,7 @@ import urlparse
 import json
 import simplejson
 
-from models import User, PageVisited, Search, UserCategorization, CategorizedDomain
+from models import User, PageVisited, Search, CategorizedDomain, SITE_KEYWORD, METADATA_KEYWORD
 import models_mongo
 import opendns
 from mnopimining import users
@@ -222,10 +222,10 @@ def dashboard(request):
     user = get_object_or_404(User, username=request.user.username)
     visits_by_category_list = user.get_visits_by_category()
 
-    metadata_keywords = user.get_keywords_freqs_from_properties(30)
+    metadata_keywords = user.get_keywords(METADATA_KEYWORD, 30)
     metadata_keywords = extend_freqs(metadata_keywords)
 
-    site_keywords = user.get_keywords_freqs_from_html(30) #TODO: constantizar
+    site_keywords = user.get_keywords(SITE_KEYWORD, 30) #TODO: constantizar
     site_keywords = [{'keyword': x, 'frequency': y} for (x, y) in site_keywords]
 
     last_searches = [search.search_query for search in
@@ -290,8 +290,8 @@ class UserSiteKeywordsList(ListView):
 
     def get_queryset(self):
         self.user = get_object_or_404(User, username=self.request.user.username)
-        site_keywords = self.user.get_keywords_freqs_from_html(
-            UserSiteKeywordsList.KEYWORDS_LIMIT)
+        site_keywords = self.user.get_keywords(SITE_KEYWORD,
+                                               UserSiteKeywordsList.KEYWORDS_LIMIT)
         site_keywords = [{'keyword': x, 'frequency': y} for (x, y) in site_keywords]
         return site_keywords
 
@@ -313,8 +313,8 @@ class UserMetaKeywordsList(ListView):
 
     def get_queryset(self):
         self.user = get_object_or_404(User, username=self.request.user.username)
-        meta_keywords = self.user.get_keywords_freqs_from_properties(
-            UserMetaKeywordsList.KEYWORDS_LIMIT)
+        meta_keywords = self.user.get_keywords(METADATA_KEYWORD,
+                                               UserMetaKeywordsList.KEYWORDS_LIMIT)
         meta_keywords = [{'keyword': x, 'frequency': y} for (x, y) in meta_keywords]
         return meta_keywords
 

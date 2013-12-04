@@ -5,26 +5,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0f576e6f-76bf-49e3-a62d-c399aae17995" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/management/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/management/commands/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/mnopi/management/commands/process_keywords.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../mnopi-plugin/src/connection.js" afterPath="$PROJECT_DIR$/../mnopi-plugin/src/connection.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mnopi/mnopimining/keywords.py" afterPath="$PROJECT_DIR$/mnopi/mnopimining/keywords.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mnopi/models.py" afterPath="$PROJECT_DIR$/mnopi/models.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mnopi/models_mongo.py" afterPath="$PROJECT_DIR$/mnopi/models_mongo.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../mnopi-plugin/prepare_plugin.sh" afterPath="$PROJECT_DIR$/../mnopi-plugin/prepare_plugin.sh" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mnopi/views.py" afterPath="$PROJECT_DIR$/mnopi/views.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="mnopiBackend.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1385719418065" ignored="false" />
+    <file path="/Dummy.txt" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1386144892527" ignored="false" />
     <file path="/requirements.txt" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1383664964475" ignored="false" />
     <file path="/settings.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1385126112276" ignored="false" />
     <file path="/plugin.js" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1385634266944" ignored="false" />
     <file path="/conditions.html" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1383726234237" ignored="false" />
     <file path="/mongo.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384528391799" ignored="false" />
     <file path="/Python Console" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1385546544880" ignored="false" />
-    <file path="/views.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1385749584436" ignored="false" />
+    <file path="/views.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1386149554161" ignored="false" />
     <file path="/fragment.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1385545290057" ignored="false" />
     <file path="/connection.js" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1385551500735" ignored="false" />
     <file path="/popup.html" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1385568440190" ignored="false" />
     <file path="/options.js" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1383742091358" ignored="false" />
-    <file path="/*.regexp" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1385651078740" ignored="false" />
+    <file path="/*.regexp" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1386000358455" ignored="false" />
     <file path="/prepare_plugin.sh" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1383748478965" ignored="false" />
     <file path="/background.html" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384247723032" ignored="false" />
     <file path="/background.js" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1385641834469" ignored="false" />
@@ -45,7 +50,7 @@
     <file path="$PROJECT_DIR$/../labelee/map_editor/api_2/services/factory.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384505779082" ignored="false" />
     <file path="/navigation_bar.html" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1385464845079" ignored="false" />
     <file path="/usr/local/lib/python2.7/dist-packages/django/template/defaulttags.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384516037619" ignored="false" />
-    <file path="/models.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1385462380557" ignored="false" />
+    <file path="/models.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1386149531500" ignored="false" />
     <file path="/html.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384769679025" ignored="false" />
     <file path="/usr/local/lib/python2.7/dist-packages/django/db/models/fields/files.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384778505375" ignored="false" />
     <file path="/usr/local/lib/python2.7/dist-packages/django/db/models/options.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384778505374" ignored="false" />
@@ -61,7 +66,7 @@
     <file path="/usr/local/lib/python2.7/dist-packages/django/contrib/sitemaps/tests/templates/custom_sitemap.xml" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384776323382" ignored="false" />
     <file path="/usr/local/lib/python2.7/dist-packages/django/contrib/sitemaps/templates/sitemap_index.xml" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384776323382" ignored="false" />
     <file path="/usr/local/lib/python2.7/dist-packages/django/db/models/fields/__init__.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384783376481" ignored="false" />
-    <file path="/models_mongo.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1385140659283" ignored="false" />
+    <file path="/models_mongo.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1386079946641" ignored="false" />
     <file path="/opendns.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1385385081263" ignored="false" />
     <file path="/dashboard_base.html" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384941244024" ignored="false" />
     <file path="/pages_visited.html" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1384953748681" ignored="false" />
@@ -73,6 +78,7 @@
     <file path="/profiler.html" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1385467454119" ignored="false" />
     <file path="/style.css" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1385568383581" ignored="false" />
     <file path="/plugin.html" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1385650773294" ignored="false" />
+    <file path="/process_keywords.py" changelist="0f576e6f-76bf-49e3-a62d-c399aae17995" time="1386146026832" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,62 +96,140 @@
     <window id="2">
       <content type="file-editors">
         <state>
-          <leaf>
-            <file leaf-file-name="csrf.py" pinned="false" current="false" current-in-tab="false">
-              <entry file="file:///usr/local/lib/python2.7/dist-packages/django/views/decorators/csrf.py">
-                <provider selected="true" editor-type-id="text-editor">
-                  <state line="30" column="0" selection-start="1031" selection-end="1031" vertical-scroll-proportion="0.0">
-                    <folding />
-                  </state>
-                </provider>
-              </entry>
-            </file>
-            <file leaf-file-name="background.js" pinned="false" current="false" current-in-tab="false">
-              <entry file="file://$PROJECT_DIR$/../mnopi-plugin/src/background.js">
-                <provider selected="true" editor-type-id="text-editor">
-                  <state line="426" column="17" selection-start="12733" selection-end="12733" vertical-scroll-proportion="0.0">
-                    <folding />
-                  </state>
-                </provider>
-              </entry>
-            </file>
-            <file leaf-file-name="connection.js" pinned="false" current="false" current-in-tab="false">
-              <entry file="file://$PROJECT_DIR$/../mnopi-plugin/src/connection.js">
-                <provider selected="true" editor-type-id="text-editor">
-                  <state line="12" column="26" selection-start="373" selection-end="373" vertical-scroll-proportion="0.0">
-                    <folding />
-                  </state>
-                </provider>
-              </entry>
-            </file>
-            <file leaf-file-name="dashboard.html" pinned="false" current="false" current-in-tab="false">
-              <entry file="file://$PROJECT_DIR$/mnopi/templates/mnopi/dashboard.html">
-                <provider selected="true" editor-type-id="text-editor">
-                  <state line="20" column="0" selection-start="658" selection-end="658" vertical-scroll-proportion="-13.043478">
-                    <folding />
-                  </state>
-                </provider>
-              </entry>
-            </file>
-            <file leaf-file-name="dashboard_base.html" pinned="false" current="false" current-in-tab="true">
-              <entry file="file://$PROJECT_DIR$/mnopi/templates/dashboard_base.html">
-                <provider selected="true" editor-type-id="text-editor">
-                  <state line="28" column="56" selection-start="1697" selection-end="1697" vertical-scroll-proportion="0.38961038">
-                    <folding />
-                  </state>
-                </provider>
-              </entry>
-            </file>
-            <file leaf-file-name="pages_visited.html" pinned="false" current="false" current-in-tab="false">
-              <entry file="file://$PROJECT_DIR$/mnopi/templates/mnopi/pages_visited.html">
-                <provider selected="true" editor-type-id="text-editor">
-                  <state line="23" column="13" selection-start="727" selection-end="727" vertical-scroll-proportion="-15.0">
-                    <folding />
-                  </state>
-                </provider>
-              </entry>
-            </file>
-          </leaf>
+          <splitter split-orientation="horizontal" split-proportion="0.5">
+            <split-first>
+              <leaf>
+                <file leaf-file-name="views.py" pinned="false" current="false" current-in-tab="true">
+                  <entry file="file://$PROJECT_DIR$/mnopi/views.py">
+                    <provider selected="true" editor-type-id="text-editor">
+                      <state line="50" column="66" selection-start="1819" selection-end="1819" vertical-scroll-proportion="0.7035647">
+                        <folding>
+                          <element signature="e#15#70#0" expanded="true" />
+                        </folding>
+                      </state>
+                    </provider>
+                  </entry>
+                </file>
+                <file leaf-file-name="csrf.py" pinned="false" current="false" current-in-tab="false">
+                  <entry file="file:///usr/local/lib/python2.7/dist-packages/django/views/decorators/csrf.py">
+                    <provider selected="true" editor-type-id="text-editor">
+                      <state line="30" column="0" selection-start="1031" selection-end="1031" vertical-scroll-proportion="0.0">
+                        <folding />
+                      </state>
+                    </provider>
+                  </entry>
+                </file>
+                <file leaf-file-name="background.js" pinned="false" current="false" current-in-tab="false">
+                  <entry file="file://$PROJECT_DIR$/../mnopi-plugin/src/background.js">
+                    <provider selected="true" editor-type-id="text-editor">
+                      <state line="426" column="17" selection-start="12733" selection-end="12733" vertical-scroll-proportion="0.0">
+                        <folding />
+                      </state>
+                    </provider>
+                  </entry>
+                </file>
+                <file leaf-file-name="connection.js" pinned="false" current="false" current-in-tab="false">
+                  <entry file="file://$PROJECT_DIR$/../mnopi-plugin/src/connection.js">
+                    <provider selected="true" editor-type-id="text-editor">
+                      <state line="12" column="26" selection-start="373" selection-end="373" vertical-scroll-proportion="0.0">
+                        <folding />
+                      </state>
+                    </provider>
+                  </entry>
+                </file>
+                <file leaf-file-name="dashboard.html" pinned="false" current="false" current-in-tab="false">
+                  <entry file="file://$PROJECT_DIR$/mnopi/templates/mnopi/dashboard.html">
+                    <provider selected="true" editor-type-id="text-editor">
+                      <state line="20" column="0" selection-start="658" selection-end="658" vertical-scroll-proportion="0.0">
+                        <folding />
+                      </state>
+                    </provider>
+                  </entry>
+                </file>
+                <file leaf-file-name="dashboard_base.html" pinned="false" current="false" current-in-tab="false">
+                  <entry file="file://$PROJECT_DIR$/mnopi/templates/dashboard_base.html">
+                    <provider selected="true" editor-type-id="text-editor">
+                      <state line="43" column="7" selection-start="2114" selection-end="2114" vertical-scroll-proportion="0.0">
+                        <folding />
+                      </state>
+                    </provider>
+                  </entry>
+                </file>
+                <file leaf-file-name="models.py" pinned="false" current="false" current-in-tab="false">
+                  <entry file="file://$PROJECT_DIR$/mnopi/models.py">
+                    <provider selected="true" editor-type-id="text-editor">
+                      <state line="87" column="50" selection-start="3069" selection-end="3069" vertical-scroll-proportion="0.0">
+                        <folding>
+                          <marker date="1386149590412" expanded="true" signature="824:6271" placeholder="..." />
+                          <marker date="1386149590412" expanded="true" signature="2447:3069" placeholder="..." />
+                          <marker date="1386149590412" expanded="true" signature="3175:3725" placeholder="..." />
+                          <marker date="1386149590412" expanded="true" signature="3186:3353" placeholder="&quot;&quot;&quot;...&quot;&quot;&quot;" />
+                          <marker date="1386149590412" expanded="true" signature="5776:6271" placeholder="..." />
+                          <marker date="1386149590412" expanded="true" signature="6303:6419" placeholder="..." />
+                          <marker date="1386149590412" expanded="true" signature="6387:6419" placeholder="..." />
+                          <marker date="1386149590412" expanded="true" signature="6465:6898" placeholder="..." />
+                          <marker date="1386149590412" expanded="true" signature="6856:6898" placeholder="..." />
+                        </folding>
+                      </state>
+                    </provider>
+                  </entry>
+                </file>
+                <file leaf-file-name="mongo.py" pinned="false" current="false" current-in-tab="false">
+                  <entry file="file://$PROJECT_DIR$/mnopi/mongo.py">
+                    <provider selected="true" editor-type-id="text-editor">
+                      <state line="132" column="26" selection-start="3563" selection-end="3563" vertical-scroll-proportion="0.0">
+                        <folding />
+                      </state>
+                    </provider>
+                  </entry>
+                </file>
+                <file leaf-file-name="models_mongo.py" pinned="false" current="false" current-in-tab="false">
+                  <entry file="file://$PROJECT_DIR$/mnopi/models_mongo.py">
+                    <provider selected="true" editor-type-id="text-editor">
+                      <state line="39" column="47" selection-start="1548" selection-end="1548" vertical-scroll-proportion="0.0">
+                        <folding />
+                      </state>
+                    </provider>
+                  </entry>
+                </file>
+                <file leaf-file-name="pages_visited.html" pinned="false" current="false" current-in-tab="false">
+                  <entry file="file://$PROJECT_DIR$/mnopi/templates/mnopi/pages_visited.html">
+                    <provider selected="true" editor-type-id="text-editor">
+                      <state line="23" column="13" selection-start="727" selection-end="727" vertical-scroll-proportion="0.0">
+                        <folding />
+                      </state>
+                    </provider>
+                  </entry>
+                </file>
+              </leaf>
+            </split-first>
+            <split-second>
+              <leaf>
+                <file leaf-file-name="models_mongo.py" pinned="false" current="false" current-in-tab="true">
+                  <entry file="file://$PROJECT_DIR$/mnopi/models_mongo.py">
+                    <provider selected="true" editor-type-id="text-editor">
+                      <state line="52" column="9" selection-start="1922" selection-end="1922" vertical-scroll-proportion="0.7169118">
+                        <folding>
+                          <element signature="e#0#48#0" expanded="true" />
+                        </folding>
+                      </state>
+                    </provider>
+                  </entry>
+                </file>
+                <file leaf-file-name="models.py" pinned="false" current="false" current-in-tab="false">
+                  <entry file="file://$PROJECT_DIR$/mnopi/models.py">
+                    <provider selected="true" editor-type-id="text-editor">
+                      <state line="58" column="19" selection-start="1728" selection-end="1728" vertical-scroll-proportion="0.0">
+                        <folding>
+                          <element signature="e#1#29#0" expanded="true" />
+                        </folding>
+                      </state>
+                    </provider>
+                  </entry>
+                </file>
+              </leaf>
+            </split-second>
+          </splitter>
         </state>
       </content>
     </window>
@@ -159,36 +243,45 @@
       <file leaf-file-name="views.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mnopi/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="121" column="64" selection-start="4170" selection-end="4170" vertical-scroll-proportion="0.72286373">
+            <state line="281" column="0" selection-start="9554" selection-end="9555" vertical-scroll-proportion="0.6462264">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="process_keywords.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mnopi/management/commands/process_keywords.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="35" column="66" selection-start="1495" selection-end="1495" vertical-scroll-proportion="0.0">
               <folding>
-                <element signature="e#15#70#0" expanded="true" />
+                <element signature="e#239#280#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="plugin.html" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mnopi/templates/mnopi/plugin.html">
+      <file leaf-file-name="manage.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/manage.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="14" selection-start="1605" selection-end="1605" vertical-scroll-proportion="0.0">
+            <state line="10" column="0" selection-start="255" selection-end="255" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="language.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mnopi/mnopimining/language.py">
+      <file leaf-file-name="__init__.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mnopi/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="0" selection-start="39" selection-end="39" vertical-scroll-proportion="0.0">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="response.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file:///usr/local/lib/python2.7/dist-packages/django/http/response.py">
+      <file leaf-file-name="__init__.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mnopi/management/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="256" column="8" selection-start="9489" selection-end="9489" vertical-scroll-proportion="0.0">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -206,19 +299,8 @@
       <file leaf-file-name="meta_keywords.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mnopi/templates/mnopi/meta_keywords.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="7" column="79" selection-start="254" selection-end="254" vertical-scroll-proportion="-2.6086957">
+            <state line="7" column="79" selection-start="254" selection-end="254" vertical-scroll-proportion="0.0">
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="keywords.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mnopi/mnopimining/keywords.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="84" column="7" selection-start="2965" selection-end="2965" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="e#24#63#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -269,12 +351,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/mnopi/models.py" />
-        <option value="$PROJECT_DIR$/mnopi/templates/mnopi/partials/navigation_bar.html" />
-        <option value="$PROJECT_DIR$/mnopi/templates/mnopi/profiler.html" />
-        <option value="$PROJECT_DIR$/mnopi/static/mnopi/src/dashboard.js" />
-        <option value="$PROJECT_DIR$/mnopi/templates/mnopi/dashboard.html" />
-        <option value="$PROJECT_DIR$/mnopi/urls.py" />
         <option value="$PROJECT_DIR$/../mnopi-plugin/html/options.html" />
         <option value="$PROJECT_DIR$/../mnopi-plugin/css/style.css" />
         <option value="$PROJECT_DIR$/../mnopi-plugin/html/popup.html" />
@@ -284,15 +360,20 @@
         <option value="$PROJECT_DIR$/mnopi/templates/mnopi/plugin.html" />
         <option value="$PROJECT_DIR$/../mnopi-plugin/src/connection.js" />
         <option value="$PROJECT_DIR$/mnopi/mnopimining/keywords.py" />
+        <option value="$PROJECT_DIR$/mnopi/mongo.py" />
+        <option value="$PROJECT_DIR$/mnopi/management/__init__.py" />
+        <option value="$PROJECT_DIR$/mnopi/management/commands/__init__.py" />
+        <option value="$PROJECT_DIR$/mnopi/models_mongo.py" />
+        <option value="$PROJECT_DIR$/mnopi/management/commands/process_keywords.py" />
+        <option value="$PROJECT_DIR$/mnopi/models.py" />
         <option value="$PROJECT_DIR$/mnopi/views.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-1" />
-    <option name="y" value="456" />
-    <option name="width" value="1368" />
-    <option name="height" value="721" />
+    <option name="x" value="1365" />
+    <option name="width" value="1602" />
+    <option name="height" value="1201" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -414,53 +495,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope">
-        <subPane subId="Default">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-        <subPane subId="Problems" />
-        <subPane subId="Project Files">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="mnopi-plugin">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-        <subPane subId="Changed Files">
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT USER_OBJECT="Root">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT USER_OBJECT="mnopi-plugin">
-              <option name="myItemId" value="" />
-              <option name="myItemType" value="" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -513,6 +547,20 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="mnopiBackend" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mnopiBackend" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mnopiBackend" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="mnopi" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -535,6 +583,93 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mnopiBackend" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mnopiBackend" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mnopi" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="management" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mnopiBackend" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mnopiBackend" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mnopi" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="management" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="commands" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scope">
+        <subPane subId="Default">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+        <subPane subId="Problems" />
+        <subPane subId="Project Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="mnopi-plugin">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+        <subPane subId="Changed Files">
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT USER_OBJECT="mnopi-plugin">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -542,14 +677,14 @@
   <component name="PropertiesComponent">
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="options.lastSelected" value="preferences.keymap" />
     <property name="recentsLimit" value="5" />
-    <property name="restartRequiresConfirmation" value="true" />
+    <property name="options.lastSelected" value="preferences.keymap" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../mnopi-plugin" />
+    <property name="restartRequiresConfirmation" value="true" />
     <property name="DefaultHtmlFileTemplate" value="Html5" />
-    <property name="options.searchVisible" value="true" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="GoToClass.includeJavaFiles" value="false" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -607,33 +742,10 @@
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="mnopi-plugin" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="PARAMETERS" value="" />
-      <method />
-    </configuration>
-    <configuration default="true" type="tests" factoryName="Unittests">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="mnopiBackend" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <option name="PUREUNITTEST" value="true" />
-      <option name="PARAMS" value="" />
-      <option name="USE_PARAM" value="false" />
+      <option name="PARAMETERS" value="" />
       <method />
     </configuration>
     <configuration default="true" type="Python.DjangoServer" factoryName="Django server">
@@ -657,6 +769,29 @@
       <option name="runNoReload" value="false" />
       <option name="useCustomRunCommand" value="false" />
       <option name="customRunCommand" value="" />
+      <method />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Unittests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="mnopiBackend" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <option name="PUREUNITTEST" value="true" />
+      <option name="PARAMS" value="" />
+      <option name="USE_PARAM" value="false" />
       <method />
     </configuration>
     <configuration default="true" type="tests" factoryName="Doctests">
@@ -708,7 +843,7 @@
       <module name="mnopiBackend" />
       <option name="launchJavascriptDebuger" value="false" />
       <option name="port" value="8000" />
-      <option name="host" value="192.168.1.36" />
+      <option name="host" value="192.168.1.12" />
       <option name="additionalOptions" value="" />
       <option name="browserUrl" value="" />
       <option name="runTestServer" value="false" />
@@ -754,23 +889,23 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="456" width="1368" height="721" extended-state="6" />
+    <frame x="1365" y="0" width="1602" height="1201" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32635254" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2219697" sideWeight="0.84118676" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4450262" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1981982" sideWeight="0.8518519" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30890054" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22878788" sideWeight="0.28446773" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31754386" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15881327" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14814815" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32635254" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -835,43 +970,20 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="python-line">
-          <url>file://$PROJECT_DIR$/mnopi/views.py</url>
-          <line>41</line>
-          <option name="timeStamp" value="35" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="python-line">
-          <url>file://$PROJECT_DIR$/mnopi/models.py</url>
-          <option name="timeStamp" value="39" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="python-line">
-          <url>file://$PROJECT_DIR$/mnopi/views.py</url>
-          <line>72</line>
-          <option name="timeStamp" value="42" />
-        </line-breakpoint>
-      </breakpoints>
-      <option name="time" value="44" />
+      <option name="time" value="48" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file:///usr/local/lib/python2.7/dist-packages/django/core/handlers/base.py">
+    <entry file="file://$PROJECT_DIR$/mnopi/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="191" column="0" selection-start="9081" selection-end="9081" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mnopi/urls.py">
+    <entry file="file://$PROJECT_DIR$/manage.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="0" selection-start="146" selection-end="146" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mnopiBackend/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="53" selection-start="260" selection-end="260" vertical-scroll-proportion="0.0">
+        <state line="10" column="0" selection-start="255" selection-end="255" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -883,16 +995,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../mnopi-plugin/src/plugin.js">
+    <entry file="file://$PROJECT_DIR$/mnopiBackend/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="8" selection-start="1329" selection-end="1329" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mnopi/templates/mnopi/plugin.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="14" selection-start="1605" selection-end="1605" vertical-scroll-proportion="0.0">
+        <state line="8" column="53" selection-start="260" selection-end="260" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -911,13 +1016,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mnopi/templates/mnopi/pages_visited.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="13" selection-start="727" selection-end="727" vertical-scroll-proportion="-15.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../mnopi-plugin/src/connection.js">
       <provider selected="true" editor-type-id="text-editor">
         <state line="12" column="26" selection-start="373" selection-end="373" vertical-scroll-proportion="0.0">
@@ -927,47 +1025,76 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mnopi/templates/mnopi/dashboard.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="0" selection-start="658" selection-end="658" vertical-scroll-proportion="-13.043478">
+        <state line="20" column="0" selection-start="658" selection-end="658" vertical-scroll-proportion="0.0">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mnopi/mnopimining/language.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="0" selection-start="39" selection-end="39" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mnopi/templates/mnopi/meta_keywords.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="79" selection-start="254" selection-end="254" vertical-scroll-proportion="-2.6086957">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mnopi/mnopimining/keywords.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="84" column="7" selection-start="2965" selection-end="2965" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#24#63#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mnopi/templates/dashboard_base.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="56" selection-start="1697" selection-end="1697" vertical-scroll-proportion="0.38961038">
+        <state line="43" column="7" selection-start="2114" selection-end="2114" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mnopi/mongo.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="132" column="26" selection-start="3563" selection-end="3563" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mnopi/templates/mnopi/pages_visited.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="13" selection-start="727" selection-end="727" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mnopi/management/commands/process_keywords.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="66" selection-start="1495" selection-end="1495" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="e#239#280#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mnopi/management/commands/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mnopi/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="87" column="50" selection-start="3069" selection-end="3069" vertical-scroll-proportion="0.0">
+          <folding>
+            <marker date="1386149590412" expanded="true" signature="824:6271" placeholder="..." />
+            <marker date="1386149590412" expanded="true" signature="2447:3069" placeholder="..." />
+            <marker date="1386149590412" expanded="true" signature="3175:3725" placeholder="..." />
+            <marker date="1386149590412" expanded="true" signature="3186:3353" placeholder="&quot;&quot;&quot;...&quot;&quot;&quot;" />
+            <marker date="1386149590412" expanded="true" signature="5776:6271" placeholder="..." />
+            <marker date="1386149590412" expanded="true" signature="6303:6419" placeholder="..." />
+            <marker date="1386149590412" expanded="true" signature="6387:6419" placeholder="..." />
+            <marker date="1386149590412" expanded="true" signature="6465:6898" placeholder="..." />
+            <marker date="1386149590412" expanded="true" signature="6856:6898" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mnopi/models_mongo.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="39" column="47" selection-start="1548" selection-end="1548" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mnopi/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="121" column="64" selection-start="4170" selection-end="4170" vertical-scroll-proportion="0.72286373">
-          <folding>
-            <element signature="e#15#70#0" expanded="true" />
-          </folding>
+        <state line="281" column="0" selection-start="9554" selection-end="9555" vertical-scroll-proportion="0.6462264">
+          <folding />
         </state>
       </provider>
     </entry>
