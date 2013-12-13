@@ -80,7 +80,7 @@ def getCategories(domain, add_if_does_not_exist=True):
     # Transaction protects from other threads creating same domain
     # Todo: habra que hacer algo para que con el tiempo se vuelva a hacer peticion a opendns
     approved_categories = []
-    with transaction.commit_on_success:
+    with transaction.commit_on_success():
         if CategorizedDomain.objects.filter(domain=domain).exists():
             approved_categories = CategorizedDomain.objects.get(domain=domain).categories.all()
             approved_categories = [cat.name for cat in approved_categories]
