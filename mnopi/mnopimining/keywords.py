@@ -49,6 +49,17 @@ def clean_stopwords(words, language='english'):
 
     return no_stop_words
 
+def clean_invalid_words(words):
+    """
+    Removes some special tokens that are not worthy to save
+    """
+    valid_words = []
+    for word in words:
+        if not word.isdigit() and not len(word) == 1:
+            valid_words.append(word)
+
+    return valid_words
+
 def stem_words(words, language='english'):
     """
     Stems words in a list of words
@@ -73,6 +84,7 @@ def get_words(text, stem=False, language='english'):
     lower_tokenized_words = [token.lower() for token in tokenized_words]
     no_punct_words = remove_punctuation(lower_tokenized_words)
     no_stop_words = clean_stopwords(no_punct_words, language)
+    #valid_words = clean_invalid_words(no_stop_words)
     if stem:
         stemmed_words = stem_words(no_stop_words, language)
         return stemmed_words
