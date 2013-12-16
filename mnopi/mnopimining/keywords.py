@@ -84,7 +84,7 @@ def get_words(text, stem=False, language='english'):
     lower_tokenized_words = [token.lower() for token in tokenized_words]
     no_punct_words = remove_punctuation(lower_tokenized_words)
     no_stop_words = clean_stopwords(no_punct_words, language)
-    #valid_words = clean_invalid_words(no_stop_words)
+    valid_words = clean_invalid_words(no_stop_words)
     if stem:
         stemmed_words = stem_words(no_stop_words, language)
         return stemmed_words
