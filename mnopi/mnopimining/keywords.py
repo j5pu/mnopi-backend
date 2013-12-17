@@ -86,10 +86,10 @@ def get_words(text, stem=False, language='english'):
     no_stop_words = clean_stopwords(no_punct_words, language)
     valid_words = clean_invalid_words(no_stop_words)
     if stem:
-        stemmed_words = stem_words(no_stop_words, language)
+        stemmed_words = stem_words(valid_words, language)
         return stemmed_words
     else:
-        return no_stop_words
+        return valid_words
 
 def get_freq_words(text, language='english'):
     """
