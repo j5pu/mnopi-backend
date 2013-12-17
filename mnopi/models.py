@@ -87,20 +87,6 @@ class User(AbstractUser):
         keywords_freq_list.sort(cmp=lambda x, y: cmp(x[1], y[1]), reverse=True)
         return keywords_freq_list[:keywords_limit]
 
-    # TODO: DELETE models keyword and userkeywordfrequency
-    # def add_keywords(self, kws_freq, type):
-    #     """
-    #     Adds a list of keywords/frequencies to the user current list
-    #     Type should be one of the constants METADATA_KEYWORD or SITE_KEYWORD
-    #     """
-    #
-    #     for keyword in kws_freq:
-    #         keyword_object, created = Keyword.objects.get_or_create(keyword=keyword)
-    #         user_kw_freq, created = UserKeywordFrequency.objects.get_or_create \
-    #                 (user=self, keyword=keyword_object, type=type)
-    #         user_kw_freq.frequency += kws_freq[keyword]
-    #         user_kw_freq.save()
-
     def get_domains_by_category(self):
         """
         Computes a list of categories and the sites visited by the user for each one
@@ -109,7 +95,7 @@ class User(AbstractUser):
              {"News/Media": ["elpais.com", "www.elmundo.es", ...],
               "CategoryX" : ["blabla.com", ...] }
         """
-        sql = ('SELECT domain, user_category.name as category '
+        sql = ('SELECT DISTINCT domain, user_category.name as category '
                'FROM users INNER JOIN pages_visited ON (users.id = pages_visited.user_id) '
                           'INNER JOIN domains ON (pages_visited.domain_id = domains.id) '
                           'INNER JOIN domains_categories ON (domains.id = domains_categories.categorizeddomain_id) '
