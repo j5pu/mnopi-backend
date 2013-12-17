@@ -33,16 +33,9 @@ def clean_stopwords(words, language='english'):
     """
     no_stop_words = []
     for word in words:
-        # TODO: review esto, de momento se queda que ni español ni english es aceptado, habria que quitar english siempre
-        # y tambien quitar el idioma nativo, por ejjmplo a mi me sale quie twitter es ingles y no me quita las stop de
-        # espanyol
-        # OTRA OPCION ES QUITAR DIRECTAMENTE TODAS
-        # TODO: falta tambien por ver quitar las palabras comunes sin tildes (mal escritas)
-        # never include English stopwords, as it is ubiquitous in the web
-        # if (not word in stopwords.words(language) and
-        #         (language == 'english' or\
-        #         not word in stopwords.words('english'))):
-        #     no_stop_words.append(word)
+
+        # TODO: For the moment only English and Spanish words are deleted. Points to be reviewed:
+        #    - Spanish stopwords without tildes (bad written)
         if (not word in stopwords.words('english') and
         not word in SPANISH_STOPWORDS_UNICODE):
             no_stop_words.append(word)

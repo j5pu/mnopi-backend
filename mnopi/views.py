@@ -19,22 +19,8 @@ import simplejson
 from models import User, PageVisited, Search, CategorizedDomain, SITE_KEYWORD, METADATA_KEYWORD
 import models_mongo
 import opendns
-from mnopimining import users
+import constants
 
-PASS_MIN_LENGTH = 6
-
-REGISTRATION_FIELDS_ERROR = "Rellena todos los campos del formulario"
-REGISTRATION_USER_EXISTS = "El usuario ya existe"
-REGISTRATION_USER_EMPTY = "Introduce un identificador de usuario"
-REGISTRATION_PASSWORDS_DONT_MATCH = "Las contraseñas no coinciden"
-REGISTRATION_PASSWORD_ERROR = "La contraseña tiene que tener al menos " + str(PASS_MIN_LENGTH) + " caracteres"
-REGISTRATION_CONDITIONS_ERROR = "Debes leer y aceptar las condiciones de uso"
-
-LOGIN_FIELDS_ERROR = "Introduce datos de login"
-LOGIN_USER_DOESNT_EXIST = "El usuario no existe"
-LOGIN_BAD_PASSWORD = "Contraseña incorrecta"
-
-CURRENT_VERSION = "alpha2"
 
 #TODO: Volver a poner y tratar el tema de csrf
 
@@ -54,17 +40,17 @@ def login_user(request):
         username = request.POST['user_key']
         password = request.POST['password']
     except(KeyError):
-        return login_failed(LOGIN_FIELDS_ERROR)
+        return login_failed(constants.LOGIN_FIELDS_ERROR)
 
     if username == "" or password == "":
-        return login_failed(LOGIN_FIELDS_ERROR)
+        return login_failed(constants.LOGIN_FIELDS_ERROR)
 
     user = authenticate(username=username, password=password)
     if user is not None and user.is_active:
         login(request, user)
         return HttpResponseRedirect(reverse('mnopi.views.dashboard'))
     else:
-        return login_failed(LOGIN_BAD_PASSWORD)
+        return login_failed(constants.LOGIN_BAD_PASSWORD)
 
 @csrf_exempt
 def plugin_login(request):
@@ -76,7 +62,7 @@ def plugin_login(request):
     except(KeyError):
         return HttpResponse("err")
 
-    if version != CURRENT_VERSION: #TODO: Constantizar en un fichero como dios manda
+    if version != constants.CURRENT_VERSION:
         return HttpResponse("version_error")
     user = authenticate(username=username, password=password)
     if user is not None and user.is_active:
@@ -110,18 +96,18 @@ def new_user(request):
         password = request.POST['password']
         password_repeat = request.POST['confirm']
     except(KeyError):
-        return registration_failed(REGISTRATION_FIELDS_ERROR)
+        return registration_failed(constants.REGISTRATION_FIELDS_ERROR)
 
     if username == "":
-        return registration_failed(REGISTRATION_USER_EMPTY)
+        return registration_failed(constants.REGISTRATION_USER_EMPTY)
     elif password != password_repeat:
-        return registration_failed(REGISTRATION_PASSWORDS_DONT_MATCH)
-    elif len(password) < PASS_MIN_LENGTH:
-        return registration_failed(REGISTRATION_PASSWORD_ERROR)
+        return registration_failed(constants.REGISTRATION_PASSWORDS_DONT_MATCH)
+    elif len(password) < constants.PASS_MIN_LENGTH:
+        return registration_failed(constants.REGISTRATION_PASSWORD_ERROR)
     elif not request.POST.get('acceptance', False):
-        return registration_failed(REGISTRATION_CONDITIONS_ERROR)
+        return registration_failed(constants.REGISTRATION_CONDITIONS_ERROR)
     if User.objects.filter(username=username).count() != 0:
-        return registration_failed(REGISTRATION_USER_EXISTS)
+        return registration_failed(constants.REGISTRATION_USER_EXISTS)
 
     User.objects.create_user(username=username, password=password)
 
@@ -184,12 +170,12 @@ def html_visited(request):
 def user_keywords(request, username):
     """
     Returns the keywords associated with an user
+    DEPRECATED, use it only for testing purposes
     """
-    #TODO: tentative name and function
 
     user = User.objects.get(username=username)
-    words = user.get_keywords_freqs_from_properties(50)
-    resp = simplejson.dumps(words) #TODO: reducir numero de palabras enviadas
+    words = user.get_keywords_freqs_from_properties(constants.USER_KEYWORDS_NUMBER)
+    resp = simplejson.dumps(words)
 
     return HttpResponse(resp, mimetype='application/json')
 
@@ -222,16 +208,18 @@ def dashboard(request):
     user = get_object_or_404(User, username=request.user.username)
     visits_by_category_list = user.get_visits_by_category()
 
-    metadata_keywords = user.get_keywords(METADATA_KEYWORD, 30)
+    metadata_keywords = user.get_keywords(METADATA_KEYWORD, constants.DASHBOARD_MAIN_METADATA_KEYWORDS_NUMBER)
     metadata_keywords = extend_freqs(metadata_keywords)
 
-    site_keywords = user.get_keywords(SITE_KEYWORD, 30) #TODO: constantizar
+    site_keywords = user.get_keywords(SITE_KEYWORD, constants.DASHBOARD_MAIN_USER_KEYWORDS_NUMBER)
     site_keywords = [{'keyword': x, 'frequency': y} for (x, y) in site_keywords]
 
     last_searches = [search.search_query for search in
-                     Search.objects.filter(user=user).order_by('-date')[0:4]]
+                     Search.objects.filter(user=user).order_by('-date')
+                     [0:constants.DASHBOARD_MAIN_SEARCHES_NUMBER]]
     last_pages = [page.page_visited for page in
-                  PageVisited.objects.filter(user=request.user).order_by('-date')[0:12]]
+                  PageVisited.objects.filter(user=request.user).order_by('-date')
+                  [0:constants.DASHBOARD_MAIN_PAGES_VISITED_NUMBER]]
 
     resp = {'visits_by_category': simplejson.dumps(visits_by_category_list),
             'metadata_keywords': simplejson.dumps(metadata_keywords),
@@ -241,11 +229,12 @@ def dashboard(request):
 
     return render_to_response("mnopi/dashboard.html", resp, context_instance=RequestContext(request))
 
+
 class UserPagesVisitedList(ListView):
 
     template_name = 'mnopi/pages_visited.html'
     context_object_name = 'pages_visited'
-    paginate_by = 25
+    paginate_by = constants.USER_PAGES_VISITED_PER_PAGE
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
@@ -263,7 +252,7 @@ class UserSearchesDoneList(ListView):
 
     template_name = 'mnopi/searches_done.html'
     context_object_name = 'searches_done'
-    paginate_by = 25
+    paginate_by = constants.USER_SEARCHES_PER_PAGE
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
@@ -278,11 +267,11 @@ class UserSearchesDoneList(ListView):
 
 class UserSiteKeywordsList(ListView):
 
-    KEYWORDS_LIMIT = 200
+    KEYWORDS_LIMIT = constants.USER_KEYWORDS_LIST_TOTAL
 
     template_name = 'mnopi/site_keywords.html'
     context_object_name = 'site_keywords'
-    paginate_by = 25
+    paginate_by = constants.USER_KEYWORDS_PER_PAGE
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
@@ -301,11 +290,11 @@ class UserMetaKeywordsList(ListView):
     from meta html attributes
     """
 
-    KEYWORDS_LIMIT = 200
+    KEYWORDS_LIMIT = constants.USER_METADATA_KEYWORDS_LIST_TOTAL
 
     template_name = 'mnopi/meta_keywords.html'
     context_object_name = 'meta_keywords'
-    paginate_by = 25
+    paginate_by = constants.USER_METADATA_KEYWORDS_PER_PAGE
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
@@ -317,24 +306,3 @@ class UserMetaKeywordsList(ListView):
                                                UserMetaKeywordsList.KEYWORDS_LIMIT)
         meta_keywords = [{'keyword': x, 'frequency': y} for (x, y) in meta_keywords]
         return meta_keywords
-
-
-def test(request):
-    """
-    DUMMY method for test pages
-    """
-    def extend_freqs(freqs):
-        words = []
-        for word in freqs:
-            for i in range(0, freqs[word]):
-                words.append(word)
-
-        return words
-
-
-    words = users.get_user_keywords_from_properties("alfredo")
-    words = extend_freqs(words)
-
-    resp = simplejson.dumps(words) #TODO: reducir numero de palabras enviadas
-
-    return render_to_response("mnopi/test_tags.html", {'words': resp}, context_instance=RequestContext(request))

@@ -20,7 +20,6 @@ urlpatterns = patterns(
     url(r'^dashboard/site_keywords', UserSiteKeywordsList.as_view(), name='user_site_keywords'),
     url(r'^dashboard/meta_keywords', UserMetaKeywordsList.as_view(), name='user_meta_keywords'),
     url(r'^profiler', 'profiler', name='profiler'),
-    url(r'^test', 'test'),
 
     # POST services
     url(r'^new_user', 'new_user', name='new_user'),
@@ -28,7 +27,8 @@ urlpatterns = patterns(
     url(r'^sendSearch', 'search_done', name='search_done'),
     url(r'^sendHtmlVisited', 'html_visited', name='html_visited'),
 
-    # GET services
+    # Deprecated, use it only for testing purposes
+    # TODO: DELETE on production
     url(r'^keywords/(\w+)/$', 'user_keywords', name='user_keywords'),
 
 )
