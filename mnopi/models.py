@@ -154,28 +154,6 @@ class User(AbstractUser):
             categorization.weigh += 1
             categorization.save()
 
-# class Keyword(models.Model):
-#     keyword = models.CharField(max_length=KEYWORD_MAX_LENGTH)
-#
-#     class Meta:
-#         db_table = "keywords"
-#
-# class UserKeywordFrequency(models.Model):
-#
-#     TYPE_OF_KEYWORD = (
-#         (METADATA_KEYWORD, 'Metadata keyword'),
-#         (SITE_KEYWORD, 'Site keyword')
-#     )
-#
-#     user = models.ForeignKey(User)
-#     keyword = models.ForeignKey(Keyword)
-#     frequency = models.IntegerField(default=0)
-#     type = models.IntegerField(choices=TYPE_OF_KEYWORD,
-#                                default=SITE_KEYWORD)
-#
-#     class Meta:
-#         db_table = "user_keyword_usage"
-
 class CategorizedDomain(models.Model):
     domain = models.CharField(max_length=URL_MAX_LENGTH)
     categories = models.ManyToManyField(UserCategory)
