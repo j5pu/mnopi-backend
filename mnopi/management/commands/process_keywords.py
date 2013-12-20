@@ -5,8 +5,6 @@ which are recorded in keywords SQL tables, so they are easily accessed when
 needed
 """
 import mnopi.models_mongo as models_mongo
-
-
 from django.core.management.base import BaseCommand
 
 class Command(BaseCommand):

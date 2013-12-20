@@ -102,6 +102,7 @@ class User(AbstractUser):
                           'INNER JOIN user_category ON (domains_categories.usercategory_id = user_category.id) '
                'WHERE username = %s')
 
+        # Username automatically escaped
         cursor = connection.cursor()
         cursor.execute(sql, [self.username])
 
