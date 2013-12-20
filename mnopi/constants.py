@@ -4,7 +4,7 @@ Application customizable constants
 """
 
 # Current software version, beginning with alpha1
-CURRENT_VERSION = "alpha2"
+CURRENT_VERSION = "alpha3"
 
 USER_KEYWORDS_NUMBER = 50
 
