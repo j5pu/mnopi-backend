@@ -16,9 +16,11 @@ urlpatterns = patterns(
     url(r'^dashboard/pages/(?P<limit>\d+)/', UserPagesVisitedList.as_view(), name='user_visited_pages'),
     url(r'^dashboard/searches/$', UserSearchesDoneList.as_view(), name='user_searches_done'),
     url(r'^dashboard/searches/(?P<limit>\d+)/', UserPagesVisitedList.as_view(), name='user_visited_pages'),
+    url(r'^dashboard/search/', 'search_user_data', name='search_user_data'),
 
     url(r'^dashboard/site_keywords', UserSiteKeywordsList.as_view(), name='user_site_keywords'),
     url(r'^dashboard/meta_keywords', UserMetaKeywordsList.as_view(), name='user_meta_keywords'),
+    url(r'^dashboard/search_results', 'search_results', name='search_results'),
     url(r'^profiler', 'profiler', name='profiler'),
 
     # POST services

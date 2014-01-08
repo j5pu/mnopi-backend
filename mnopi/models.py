@@ -73,15 +73,24 @@ class User(AbstractUser):
             return zip(word_freqs.keys()[:keywords_limit],
                        word_freqs.values()[:keywords_limit])
 
-    def get_keywords(self, type, keywords_limit=None):
+    def get_keywords_hash(self, type):
         """
-        Order the precomputed list of keywords for an user and returns keywords frequency
-        Type can be METADATA_KEYWORDS or SITE_KEYWORD
+        Gets the precomputed dict of keywords for an user and their associated frequencies
+        Type can be METADATA_KEYWORDS or SITE_KEYWORDS
         """
         if type == SITE_KEYWORD:
             keywords_freq = models_mongo.get_user_keywords(self.username)['site_keywords_freq']
         else:
             keywords_freq = models_mongo.get_user_keywords(self.username)['metadata_keywords_freq']
+
+        return keywords_freq
+
+    def get_ordered_keywords_list(self, type, keywords_limit=None):
+        """
+        Order the precomputed list of keywords for an user and returns keywords frequency
+        Type can be METADATA_KEYWORDS or SITE_KEYWORDS
+        """
+        keywords_freq = self.get_keywords_hash(type)
 
         keywords_freq_list = zip(keywords_freq.keys(), keywords_freq.values())
         keywords_freq_list.sort(cmp=lambda x, y: cmp(x[1], y[1]), reverse=True)

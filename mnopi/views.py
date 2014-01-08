@@ -1,6 +1,7 @@
 # coding=utf-8
 from django.shortcuts import render, render_to_response
 
+
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
@@ -82,6 +83,9 @@ def conditions(request):
 
 def plugin(request):
     return render(request, 'mnopi/plugin.html')
+
+def search_results(request):
+    return render(request, 'mnopi/search_results.html')
 
 def new_user(request):
     """
@@ -208,10 +212,10 @@ def dashboard(request):
     user = get_object_or_404(User, username=request.user.username)
     visits_by_category_list = user.get_visits_by_category()
 
-    metadata_keywords = user.get_keywords(METADATA_KEYWORD, constants.DASHBOARD_MAIN_METADATA_KEYWORDS_NUMBER)
+    metadata_keywords = user.get_ordered_keywords_list(METADATA_KEYWORD, constants.DASHBOARD_MAIN_METADATA_KEYWORDS_NUMBER)
     metadata_keywords = extend_freqs(metadata_keywords)
 
-    site_keywords = user.get_keywords(SITE_KEYWORD, constants.DASHBOARD_MAIN_USER_KEYWORDS_NUMBER)
+    site_keywords = user.get_ordered_keywords_list(SITE_KEYWORD, constants.DASHBOARD_MAIN_USER_KEYWORDS_NUMBER)
     site_keywords = [{'keyword': x, 'frequency': y} for (x, y) in site_keywords]
 
     last_searches = [search.search_query for search in
@@ -229,6 +233,35 @@ def dashboard(request):
 
     return render_to_response("mnopi/dashboard.html", resp, context_instance=RequestContext(request))
 
+@login_required
+def search_user_data(request):
+    """
+    Searches user data from user information
+    Currently searched data: Metadata and user keywords
+    Returns dictionary of the form
+        {'word_searched' : 'word_queried',
+         'metadata_frequency' : 5,  #(-1 if not found)
+         'site_frequency' : 2, #(-1 if not found)
+        }
+    """
+    keyword_query = request.GET['query']
+    search_results = {}
+    search_results['word_searched'] = keyword_query
+
+    user = get_object_or_404(User, username=request.user.username)
+    metadata_keywords = user.get_keywords_hash(METADATA_KEYWORD)
+    if keyword_query in metadata_keywords:
+        search_results['metadata_frequency'] = metadata_keywords[keyword_query]
+    else:
+        search_results['metadata_frequency'] = -1
+
+    site_keywords = user.get_keywords_hash(SITE_KEYWORD)
+    if keyword_query in site_keywords:
+        search_results['site_frequency'] = site_keywords[keyword_query]
+    else:
+        search_results['site_frequency'] = -1
+
+    return render_to_response("mnopi/search_results.html", search_results, context_instance=RequestContext(request))
 
 class UserPagesVisitedList(ListView):
 
@@ -279,7 +312,7 @@ class UserSiteKeywordsList(ListView):
 
     def get_queryset(self):
         self.user = get_object_or_404(User, username=self.request.user.username)
-        site_keywords = self.user.get_keywords(SITE_KEYWORD,
+        site_keywords = self.user.get_ordered_keywords_list(SITE_KEYWORD,
                                                UserSiteKeywordsList.KEYWORDS_LIMIT)
         site_keywords = [{'keyword': x, 'frequency': y} for (x, y) in site_keywords]
         return site_keywords
@@ -302,7 +335,7 @@ class UserMetaKeywordsList(ListView):
 
     def get_queryset(self):
         self.user = get_object_or_404(User, username=self.request.user.username)
-        meta_keywords = self.user.get_keywords(METADATA_KEYWORD,
+        meta_keywords = self.user.get_ordered_keywords_list(METADATA_KEYWORD,
                                                UserMetaKeywordsList.KEYWORDS_LIMIT)
         meta_keywords = [{'keyword': x, 'frequency': y} for (x, y) in meta_keywords]
         return meta_keywords

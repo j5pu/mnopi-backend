@@ -1,0 +1,52 @@
+{% extends "dashboard_base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{% static "mnopi/css/dashboard_tables.css" %}">
+
+<table class="hor-minimalist-a" summary="Metadata search results" style="margin: 0 auto">
+    <thead>
+    	<tr>
+        	<th scope="col">Metadata keywords</th>
+            <th scope="col">Frequency</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ word_searched }}</td>
+            <td>
+                {% if metadata_frequency == -1 %}
+                    Not found
+                {% else %}
+                    {{ metadata_frequency }}
+                {% endif %}
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<table class="hor-minimalist-a" summary="Site search results" style="margin: 0 auto">
+    <thead>
+    	<tr>
+        	<th scope="col">Site keywords</th>
+            <th scope="col">Frequency</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ word_searched }}</td>
+            <td>
+                {% if site_frequency == -1 %}
+                    Not found
+                {% else %}
+                    {{ site_frequency }}
+                {% endif %}
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+</div>
+
+{% endblock content %}
