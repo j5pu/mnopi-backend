@@ -13,8 +13,6 @@ import math
 
 
 RELEVANT_INTENTION_DAYS = 40
-RELEVANT_INTENTION_ORIGIN_DATE = datetime.datetime.utcnow().replace(tzinfo=utc) -\
-                                 datetime.timedelta(days=RELEVANT_INTENTION_DAYS)
 
 def group_relevant_searches(relevant_searches):
     """
@@ -83,7 +81,11 @@ def compute_search_intentions(username, intention_keywords_set):
     """
 
     user = get_object_or_404(User, username=username)
-    searches = user.get_searches_done(datetime_from=RELEVANT_INTENTION_ORIGIN_DATE)
+
+    relevant_origin_date = datetime.datetime.utcnow().replace(tzinfo=utc) -\
+                           datetime.timedelta(days=RELEVANT_INTENTION_DAYS)
+
+    searches = user.get_searches_done(datetime_from=relevant_origin_date)
 
     relevant_searches = []
     for search in searches:
@@ -98,7 +100,7 @@ def compute_search_intentions(username, intention_keywords_set):
                 object_words = []
                 for j in range (0, i):
                     object_words.append(search_words[j])
-                for j in range(i, len(search_words)):
+                for j in range(i+1, len(search_words)):
                     if search_words[j] in intention_keywords_set:
                         intention_words.append(search_words[j])
                         intention_index += intention_keywords_set[search_words[j]]

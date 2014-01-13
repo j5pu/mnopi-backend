@@ -154,10 +154,13 @@ class User(AbstractUser):
 
     def get_searches_done(self,
                           datetime_from=datetime.datetime.min,
-                          datetime_to=datetime.datetime.utcnow().replace(tzinfo=utc)):
+                          datetime_to=None):
         """
         Get searches queries done in a time interval by the user
         """
+        if datetime_to is None:
+            datetime_to = datetime.datetime.utcnow().replace(tzinfo=utc)
+
         return Search.objects.filter(user=self, date__gte=datetime_from, date__lte=datetime_to)
 
 
