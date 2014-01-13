@@ -107,13 +107,14 @@ def compute_search_intentions(username, intention_keywords_set):
                     else:
                         object_words.append(search_words[j])
 
-                relevant_search = {}
-                relevant_search['intention_words'] = intention_words
-                relevant_search['intention_index'] = intention_index if intention_index <= 1 else 1
-                relevant_search['object_words'] = object_words
-                relevant_search['query'] = search.search_query
-                relevant_search['date'] = search.date
-                relevant_searches.append(relevant_search)
+                if len(object_words) != 0:
+                    relevant_search = {}
+                    relevant_search['intention_words'] = intention_words
+                    relevant_search['intention_index'] = intention_index if intention_index <= 1 else 1
+                    relevant_search['object_words'] = object_words
+                    relevant_search['query'] = search.search_query
+                    relevant_search['date'] = search.date
+                    relevant_searches.append(relevant_search)
 
                 break
 
