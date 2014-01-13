@@ -20,6 +20,8 @@ import simplejson
 from models import User, PageVisited, Search, CategorizedDomain, SITE_KEYWORD, METADATA_KEYWORD
 import models_mongo
 import opendns
+from mnopimining import intention_engine
+from mnopimining.datasets import interests
 import constants
 
 
@@ -339,3 +341,20 @@ class UserMetaKeywordsList(ListView):
                                                UserMetaKeywordsList.KEYWORDS_LIMIT)
         meta_keywords = [{'keyword': x, 'frequency': y} for (x, y) in meta_keywords]
         return meta_keywords
+
+@login_required
+def get_smart_search_information(request):
+    """
+    TODO
+    """
+
+    search_groups = {'search_groups': [{'words': list(x),
+                                        'dates': y['dates'],
+                                        'smart_index': y['smart_index'],
+                                        'ii_index': y['ii_index'],
+                                        'ci_index': y['ci_index']}
+                                       for (x, y) in
+                                       intention_engine.compute_search_intentions\
+                                       (request.user.username, interests.LEXICAL_BUY_INTENTION_ES).items()]
+                    }
+    return render_to_response("mnopi/smart_intentions.html", search_groups, context_instance=RequestContext(request))

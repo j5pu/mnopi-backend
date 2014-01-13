@@ -22,6 +22,7 @@ urlpatterns = patterns(
     url(r'^dashboard/meta_keywords', UserMetaKeywordsList.as_view(), name='user_meta_keywords'),
     url(r'^dashboard/search_results', 'search_results', name='search_results'),
     url(r'^profiler', 'profiler', name='profiler'),
+    url(r'^smart_intentions', 'get_smart_search_information', name='smart_intentions'),
 
     # POST services
     url(r'^new_user', 'new_user', name='new_user'),

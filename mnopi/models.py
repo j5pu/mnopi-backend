@@ -1,10 +1,12 @@
 
 from django.db import models
 from django.db import connection
-
 from django.contrib.auth.models import AbstractUser
+from django.utils.timezone import utc
 
 from nltk import FreqDist
+
+import datetime
 
 import models_mongo
 
@@ -149,6 +151,15 @@ class User(AbstractUser):
                                                          defaults={'weigh': 0})
             categorization.weigh += 1
             categorization.save()
+
+    def get_searches_done(self,
+                          datetime_from=datetime.datetime.min,
+                          datetime_to=datetime.datetime.utcnow().replace(tzinfo=utc)):
+        """
+        Get searches queries done in a time interval by the user
+        """
+        return Search.objects.filter(user=self, date__gte=datetime_from, date__lte=datetime_to)
+
 
 class CategorizedDomain(models.Model):
     domain = models.CharField(max_length=URL_MAX_LENGTH)

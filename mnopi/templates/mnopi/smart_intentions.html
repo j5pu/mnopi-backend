@@ -1,0 +1,56 @@
+{% extends "dashboard_base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+<link rel="stylesheet" type="text/css" href="{% static "mnopi/css/dashboard_tables.css" %}">
+
+<table class="hor-minimalist-a" summary="Buy interests" style="margin: 0 auto">
+    <thead>
+    	<tr>
+        	<th scope="col">Buy interests</th>
+            <th scope="col">Dates searched</th>
+            <th scope="col">iii</th>
+            <th scope="col">cii</th>
+            <th scope="col">Smart index</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for search_group in search_groups %}
+        <tr>
+            <td>{% for word in search_group.words %}{{ word }} {% endfor %}</td>
+            <td>{% for date in search_group.dates %}
+                    {{ date|date:"D d M Y" }},
+                {% endfor %}
+            </td>
+            <td>{{ search_group.ii_index|floatformat:2 }}</td>
+            <td>{{ search_group.ci_index|floatformat:2 }}</td>
+            <td>{{ search_group.smart_index|floatformat:2 }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+{#    <tfoot>#}
+{#        <tr>#}
+{#            <td colspan="4" style="text-align: right">#}
+{#                {% if is_paginated %}#}
+{#                    <div style="position: relative; text-align: right">#}
+{#                        <span class="page-links">#}
+{#                            {% if page_obj.has_previous %}#}
+{#                                <a href="{% url 'user_site_keywords' %}?page={{ page_obj.previous_page_number  }}"><</a>#}
+{#                            {% endif %}#}
+{#                            <span class="page-current">#}
+{#                                {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}#}
+{#                            </span>#}
+{#                            {% if page_obj.has_next %}#}
+{#                                <a href="{% url 'user_site_keywords' %}?page={{ page_obj.next_page_number  }}">></a>#}
+{#                            {% endif %}#}
+{#                        </span>#}
+{#                    </div>#}
+{#                {% endif %}#}
+{#            </td>#}
+{#        </tr>#}
+{#    </tfoot>#}
+</table>
+</div>
+
+{% endblock content %}
