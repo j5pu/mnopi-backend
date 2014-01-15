@@ -6,6 +6,13 @@ from common import *
 #########################################
 #SECRET_KEY = os.environ['SECRET_KEY'] #TODO
 
+# Security settings
+#########################################
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTOCOL', 'https')
+
+
 # Production database
 #########################################
 DATABASES = {
