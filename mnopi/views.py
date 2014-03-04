@@ -1,7 +1,6 @@
 # coding=utf-8
 from django.shortcuts import render, render_to_response
 
-
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
@@ -18,6 +17,7 @@ import json
 import simplejson
 
 from models import User, PageVisited, Search, CategorizedDomain, SITE_KEYWORD, METADATA_KEYWORD
+from invitation.models import InvitationKey
 import models_mongo
 import opendns
 from mnopimining import intention_engine
@@ -78,11 +78,31 @@ def logout_user(request):
     return HttpResponseRedirect(reverse('mnopi.views.index'))
 
 def register(request):
+
+    def code_failed(message):
+        return render(request, 'mnopi/index.html', {'code_error' : message})
+
+    try:
+        invit_code = request.POST['invitation_key']
+    except(KeyError):
+        return render(request, 'mnopi/index.html')
+
+    try:
+        invite_key = InvitationKey.objects.get(key=invit_code)
+    except InvitationKey.DoesNotExist:
+        return code_failed("Invalid code")
+
+    if invite_key.used:
+        return code_failed("Invalid code")
+
+    invite_key.used = True
+    invite_key.save() #TODO: Only one access, allow more than one if not used?
     return render(request, 'mnopi/register.html')
 
 def conditions(request):
     return render(request, 'mnopi/conditions.html')
 
+@login_required
 def plugin(request):
     return render(request, 'mnopi/plugin.html')
 

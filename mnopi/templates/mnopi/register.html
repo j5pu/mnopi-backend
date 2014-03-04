@@ -4,7 +4,7 @@
 
   <div class="container">
     <section class="form">
-      <h1>mnopi alpha - Registro</h1>
+      <h1>mnopi private beta - sign up</h1>
       <form method="post" action="{% url 'new_user' %}">
 
       {%  if error_message %}
@@ -13,21 +13,21 @@
 
       {%  csrf_token %}
       <div class="reg_section personal_info">
-      <h3>Identificador de usuario</h3>
-      <input type="text" name="user_key" value="" placeholder="Por ejemplo, una dirección de email">
+      <h3>User identifier</h3>
+      <input type="text" name="user_key" value="" placeholder="It can be any nickname">
       </div>
       <div class="reg_section password">
-      <h3>Contraseña</h3>
-      <input type="password" name="password" value="" placeholder="Tu contraseña">
-      <input type="password" name="confirm" value="" placeholder="Confirma contraseña">
+      <h3>Password</h3>
+      <input type="password" name="password" value="" placeholder="Your password">
+      <input type="password" name="confirm" value="" placeholder="Confirm your password">
       </div>
       <p class="terms">
         <label>
           <input type="checkbox" name="acceptance" id="acceptance">
-           Entiendo <a href="{% url 'conditions' %}" target="_blank">qué información</a> mía va a ser recogida
+           I understand <a href="{% url 'conditions' %}" target="_blank">what information</a> is going to be collected
         </label>
       </p>
-      <p class="submit"><input type="submit" name="register" value="Registrarse"></p>
+      <p class="submit"><input type="submit" name="register" value="Sign up"></p>
       </form>
     </section>
   </div>

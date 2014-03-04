@@ -1,5 +1,7 @@
-
 from django.db import models
+
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 from django.db import connection
 from django.contrib.auth.models import AbstractUser
 from django.utils.timezone import utc
@@ -7,8 +9,11 @@ from django.utils.timezone import utc
 from nltk import FreqDist
 
 import datetime
+import os
+import base64
 
 import models_mongo
+import constants
 
 # TODO: Documentar modelo
 # Ojo, hay una redundandia en el modelo entre las categorias de las paginas visitadas y el peso de cada
@@ -163,6 +168,14 @@ class User(AbstractUser):
 
         return Search.objects.filter(user=self, date__gte=datetime_from, date__lte=datetime_to)
 
+    def new_session(self):
+        """
+        Opens a new session for the user in a client such as the Mnopi plugin
+        """
+        session_key = base64.b64encode(os.urandom(32))
+        PluginSession.objects.create(user=self, session_key=session_key)
+
+        return session_key
 
 class CategorizedDomain(models.Model):
     domain = models.CharField(max_length=URL_MAX_LENGTH)
@@ -205,3 +218,18 @@ class Search(models.Model):
 
     class Meta:
         db_table = "searches"
+
+def get_new_expiration_time(): # TODO : mover a un utils.py?
+    now = datetime.datetime.utcnow().replace(tzinfo=utc)
+    return now + datetime.timedelta(days=constants.PLUGIN_SESSION_EXPIRY_DAYS)
+
+class PluginSession(models.Model):
+
+    user = models.ForeignKey(User)
+    expiration_time = models.DateTimeField(default=get_new_expiration_time)
+    session_key = models.CharField(max_length=128)
+    user_agent = models.CharField(max_length=300, default="")
+
+    class Meta:
+        db_table = "plugin_sessions"
+

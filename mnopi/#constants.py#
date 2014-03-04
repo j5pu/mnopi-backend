@@ -3,8 +3,10 @@
 Application customizable constants
 """
 
+import os.pathconf
+
 # Current software version, beginning with alpha1
-CURRENT_VERSION = "alpha4"
+CURRENT_VERSION = "alpha3"
 
 USER_KEYWORDS_NUMBER = 50
 

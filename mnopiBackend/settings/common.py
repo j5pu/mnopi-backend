@@ -130,6 +130,8 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'mnopi',
+    'invitation',
+    'tastypie'
 )
 
 AUTH_USER_MODEL = "mnopi.User"
@@ -171,3 +173,5 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'mnopi.server@gmail.com'
 EMAIL_HOST_PASSWORD = '1aragon1'
 EMAIL_PORT = 587
+
+TASTYPIE_DEFAULT_FORMATS = ['json']

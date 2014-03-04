@@ -1,0 +1,225 @@
+from tastypie import fields, http
+from tastypie.resources import ModelResource
+from tastypie.authentication import Authentication
+from tastypie.authorization import Authorization
+from tastypie.validation import Validation
+from tastypie.exceptions import ImmediateHttpResponse
+from tastypie.utils import trailing_slash
+from django.conf.urls import url
+from django.contrib.auth import authenticate
+from django.utils.timezone import utc
+
+import datetime
+import urlparse
+import json
+
+from mnopi.models import User, PageVisited, Search, PluginSession, CategorizedDomain
+import mnopi.constants
+from mnopi import opendns
+from mnopi import models_mongo
+
+#TODO: poner un borrado de sessions de vez en cuando?
+
+def get_user_id_from_resource(user_resource):
+    return user_resource.rsplit("/", 2)[-2]
+
+class MnopiUserAuthentication(Authentication):
+    """
+    Basic API authentication which requires username and correct access_key for the user
+    """
+
+    def is_authenticated(self, request, **kwargs):
+
+        data = json.loads(request.body)
+        user_resource = data.get('user_resource', '')
+        session_key = data.get('session_key', '')
+
+        try:
+            user = User.objects.get(pk=int(get_user_id_from_resource(user_resource)))
+        except Exception:
+            return False
+
+        try:
+            session = PluginSession.objects.get(session_key=session_key, user=user)
+        except PluginSession.DoesNotExist:
+            return False
+
+        if session.expiration_time < datetime.datetime.utcnow().replace(tzinfo=utc):
+            session.delete()
+            return False
+
+        return True
+
+class UserResource(ModelResource):
+
+    class Meta:
+        queryset = User.objects.all()
+        resource_name = 'user'
+        #fields = ['username'] #TODO: Restrict in production
+        allowed_methods = ['get', 'post']
+        filtering = {
+            "username": ('exact') #TODO : Quitar si es posible
+        }
+
+    def prepend_urls(self):
+        return [
+            url(r"^(?P<resource_name>%s)/login%s$" %
+                (self._meta.resource_name, trailing_slash()),
+                self.wrap_view('login'), name="api_login"),
+            url(r'^(?P<resource_name>%s)/logout%s$' %
+                (self._meta.resource_name, trailing_slash()),
+                self.wrap_view('logout'), name='api_logout'),
+            ]
+
+    @staticmethod
+    def generate_user_response(result, reason=None, session_key=None):
+        response = {'result': result}
+        if reason:
+            response['reason'] = reason
+        if session_key:
+            response['session_key'] = session_key
+        return response
+
+    # http://stackoverflow.com/questions/11770501/how-can-i-login-to-django-using-tastypie
+    def login(self, request, **kwargs):
+        self.method_check(request, allowed=['post'])
+
+        data = self.deserialize(request, request.body)
+
+        username = data.get('username', '')
+        key = data.get('key', '')
+        is_automatic = data.get('is_automatic', '')
+        plugin_version = data.get('plugin_version', '')
+
+        if plugin_version != mnopi.constants.CURRENT_VERSION:
+            return self.create_response(request, {
+                'result': "ERR",
+                'reason': "CLIENT_OUTDATED"
+            })
+
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return self.create_response(request, {
+                'result': "ERR",
+                'reason': "INCORRECT_USER_PASSWORD" #TODO: Constantizar, refactorizar
+            })
+
+        if is_automatic:
+            # Use key as session_key for the user
+            try:
+                session = PluginSession.objects.get(session_key=key, user=user)
+            except PluginSession.DoesNotExist:
+                return self.create_response(request, {
+                    'result': "ERR",
+                    'reason': "UNEXPECTED_SESSION"
+                })
+            if session.expiration_time < datetime.datetime.utcnow().replace(tzinfo=utc):
+                session.delete()
+                return self.create_response(request, {
+                    'result': "ERR",
+                    'reason': "UNEXPECTED_SESSION"
+                })
+            else:
+                return self.create_response(request, {
+                    'result': "OK",
+                    'session_key': session.session_key,
+                    'user_resource': self.get_resource_uri(user)
+                })
+        else:
+            # Manual logging, check user and password and create new session object
+            user = authenticate(username=username, password=key)
+            if user and user.is_active:
+                session_key = user.new_session()
+
+                return self.create_response(request, {
+                    'result': "OK",
+                    'session_key': session_key,
+                    'user_resource': self.get_resource_uri(user)
+                })
+            else:
+                return self.create_response(request, {
+                    'result': "ERR",
+                    'reason': "INCORRECT_USER_PASSWORD"
+                })
+
+
+class PageVisitedResource(ModelResource):
+    user = fields.ForeignKey(UserResource, 'user_resource')
+
+    class Meta:
+        queryset = PageVisited.objects.all()
+        authentication = MnopiUserAuthentication()
+        authorization = Authorization()
+        resource_name = 'page_visited'
+
+    def prepend_urls(self):
+        return [url(r"^(?P<resource_name>%s)%s$" %
+                (self._meta.resource_name, trailing_slash()),
+                self.wrap_view('add_page_visited'), name="add_page"),
+                url(r"^(?P<resource_name>%s)/html%s$" %
+                (self._meta.resource_name, trailing_slash()),
+                self.wrap_view('add_html_visited'), name="add_html")]
+
+    def add_page_visited(self, request, **kwargs):
+        self.method_check(request, allowed=['post'])
+        self.is_authenticated(request)
+
+        data = self.deserialize(request, request.body)
+
+        url = data.get('url', '')
+        user_resource = data.get('user_resource', '')
+        if url == '' or user_resource == '':
+            raise ImmediateHttpResponse(response=http.HttpBadRequest("Url and user needed"))
+
+        url_domain = urlparse.urlparse(url)[1]
+        categories = opendns.getCategories(url_domain)
+
+        user = User.objects.get(pk=int(get_user_id_from_resource(user_resource)))
+        categorized_domain = CategorizedDomain.objects.get(domain=url_domain)
+        PageVisited.objects.create(user=user, page_visited=url, domain=categorized_domain)
+        user.update_categories_visited(categories)
+
+        return self.create_response(request, "OK")
+
+    def add_html_visited(self, request, **kwargs):
+        self.method_chechk(request, allowed=['post'])
+        self.is_authenticated(request)
+
+        data = self.deserialize(request, request.body)
+
+        user_resource = data.get('user_resource', '')
+        url = data.get('url', '')
+        html_code = data.get('html_code', '')
+
+        user = User.objects.get(pk=int(get_user_id_from_resource(user_resource)))
+
+        # Automatic keywords mining is performed when creating the object
+        models_mongo.register_html_visited(page_visited=url, html_code=html_code, user=user.username)
+
+
+class SearchQueryValidation(Validation):
+    def is_valid(self, bundle, request=None):
+        errors = {}
+        if 'search_query' not in bundle.data or bundle.data['search_query'] == "":
+            errors['search_query'] = "Not specified"
+        if 'search_results' not in bundle.data or bundle.data['search_results'] == "":
+            errors['search_results'] = "Not specified"
+
+        return errors
+
+
+class SearchQueryResource(ModelResource):
+    user = fields.ForeignKey(UserResource, 'user')
+
+    class Meta:
+        queryset = Search.objects.all()
+        authentication = MnopiUserAuthentication()
+        authorization = Authorization()
+        resource_name = 'search_query'
+        allowed_methods = ['post']
+        validation = SearchQueryValidation()
+
+    def hydrate(self, bundle):
+        bundle.obj.user = UserResource().get_via_uri(bundle.data['user_resource'])
+        return bundle
