@@ -173,7 +173,7 @@ class User(AbstractUser):
         Opens a new session for the user in a client such as the Mnopi plugin
         """
         session_key = base64.b64encode(os.urandom(32))
-        PluginSession.objects.create(user=self, session_key=session_key)
+        ClientSession.objects.create(user=self, session_key=session_key)
 
         return session_key
 
@@ -223,13 +223,12 @@ def get_new_expiration_time(): # TODO : mover a un utils.py?
     now = datetime.datetime.utcnow().replace(tzinfo=utc)
     return now + datetime.timedelta(days=constants.PLUGIN_SESSION_EXPIRY_DAYS)
 
-class PluginSession(models.Model):
+class ClientSession(models.Model):
 
     user = models.ForeignKey(User)
     expiration_time = models.DateTimeField(default=get_new_expiration_time)
     session_key = models.CharField(max_length=128)
-    user_agent = models.CharField(max_length=300, default="")
+    client = models.CharField(max_length=50, default="")
 
     class Meta:
-        db_table = "plugin_sessions"
-
+        db_table = "client_sessions"

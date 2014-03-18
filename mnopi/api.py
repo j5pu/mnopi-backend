@@ -13,7 +13,7 @@ import datetime
 import urlparse
 import json
 
-from mnopi.models import User, PageVisited, Search, PluginSession, CategorizedDomain
+from mnopi.models import User, PageVisited, Search, ClientSession, CategorizedDomain
 import mnopi.constants
 from mnopi import opendns
 from mnopi import models_mongo
@@ -40,8 +40,8 @@ class MnopiUserAuthentication(Authentication):
             return False
 
         try:
-            session = PluginSession.objects.get(session_key=session_key, user=user)
-        except PluginSession.DoesNotExist:
+            session = ClientSession.objects.get(session_key=session_key, user=user)
+        except ClientSession.DoesNotExist:
             return False
 
         if session.expiration_time < datetime.datetime.utcnow().replace(tzinfo=utc):
@@ -109,8 +109,8 @@ class UserResource(ModelResource):
         if renew:
             # Use key as session_key for the user, give a new session key
             try:
-                session = PluginSession.objects.get(session_key=key, user=user)
-            except PluginSession.DoesNotExist:
+                session = ClientSession.objects.get(session_key=key, user=user)
+            except ClientSession.DoesNotExist:
                 return response_err("UNEXPECTED_SESSION")
 
             if session.expiration_time < datetime.datetime.utcnow().replace(tzinfo=utc):

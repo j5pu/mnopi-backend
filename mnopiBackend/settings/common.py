@@ -131,7 +131,8 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'mnopi',
     'invitation',
-    'tastypie'
+    'tastypie',
+    'south'
 )
 
 AUTH_USER_MODEL = "mnopi.User"

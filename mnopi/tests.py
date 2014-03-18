@@ -1,4 +1,4 @@
-from models import UserCategory, User, CategorizedDomain, UserCategorization, PageVisited, Search, PluginSession
+from models import UserCategory, User, CategorizedDomain, UserCategorization, PageVisited, Search, ClientSession
 import opendns
 import constants
 
@@ -50,12 +50,11 @@ class AuthenticableResourceTest(ResourceTestCase):
                 'client': client
             }
         else:
-
-        login_data = {
-            'username': username,
-            'key': key,
-            'renew': renew,
-            'client': client
+            login_data = {
+                'username': username,
+                'key': key,
+                'renew': renew,
+                'client': client
         }
         resp = self.api_client.post(API_URI['login'], data=login_data, format='json')
         deserialized_resp = self.deserialize(resp)
@@ -96,7 +95,7 @@ class UserResourceTest(AuthenticableResourceTest):
 
         # Create an expired session
         self.expired_session_token = self.user.new_session()
-        expired_session = PluginSession.objects.get(session_key=self.expired_session_token)
+        expired_session = ClientSession.objects.get(session_key=self.expired_session_token)
         expired_session.expiration_time -= datetime.timedelta(days=constants.PLUGIN_SESSION_EXPIRY_DAYS + 1)
         expired_session.save()
 
@@ -113,13 +112,12 @@ class UserResourceTest(AuthenticableResourceTest):
         self.assertEqual(deserialized_resp['user_resource'], API_URI['user'] + '%s/' % (self.user.id))
 
         # Check that a new session has been created
-        self.assertEqual(PluginSession.objects.count(), 3)
+        self.assertEqual(ClientSession.objects.count(), 3)
 
     def test_correct_renew_not_specified(self):
         # Renew parameter should not be important if not True
         resp = self.perform_login(username=self.username,
                                   key=self.password,
-                                  renew="lolololol",
                                   client=constants.VALID_CLIENTS[0])
 
         self.assertValidJSONResponse(resp)
@@ -130,7 +128,7 @@ class UserResourceTest(AuthenticableResourceTest):
         self.assertEqual(deserialized_resp['user_resource'], API_URI['user'] + '%s/' % (self.user.id))
 
         # Check that a new session has been created
-        self.assertEqual(PluginSession.objects.count(), 3)
+        self.assertEqual(ClientSession.objects.count(), 3)
 
     def test_correct_renew_login(self):
         resp = self.perform_login(username=self.username,
@@ -144,6 +142,25 @@ class UserResourceTest(AuthenticableResourceTest):
         self.assertEqual(deserialized_resp['result'], 'OK')
         self.assertNotEqual(deserialized_resp['session_token'], self.last_session_token)
         self.assertEqual(deserialized_resp['user_resource'], API_URI['user'] + '%s/' % (self.user.id))
+
+    def test_impossible_to_renew_again(self):
+        resp = self.perform_login(username=self.username,
+                                  key=self.last_session_token,
+                                  renew=True,
+                                  client=constants.VALID_CLIENTS[0])
+        self.assertValidJSONResponse(resp)
+
+        new_resp = self.perform_login(username=self.username,
+                                      key=self.last_session_token,
+                                      renew=True,
+                                      client=constants.VALID_CLIENTS[0])
+        self.assertValidJSONResponse(resp)
+
+        des_resp = self.deserialize(new_resp);
+        self.assertEqual(des_resp, {
+            'result': 'ERR',
+            'reason': "UNEXPECTED_SESSION"
+        })
 
     def test_correct_password_login_plus_correct_renew_session(self):
         resp = self.perform_login(username=self.username,
