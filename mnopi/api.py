@@ -1,3 +1,7 @@
+import datetime
+import urlparse
+import json
+
 from tastypie import fields, http
 from tastypie.resources import ModelResource
 from tastypie.authentication import Authentication
@@ -9,14 +13,11 @@ from django.conf.urls import url
 from django.contrib.auth import authenticate
 from django.utils.timezone import utc
 
-import datetime
-import urlparse
-import json
-
-from mnopi.models import User, PageVisited, Search, ClientSession, CategorizedDomain
+from mnopi.models import User, PageVisited, Search, ClientSession, CategorizedDomain, Client
 import mnopi.constants
 from mnopi import opendns
 from mnopi import models_mongo
+
 
 #TODO: poner un borrado de sessions de vez en cuando?
 
@@ -98,7 +99,13 @@ class UserResource(ModelResource):
         renew = data.get('renew', '')
         client = data.get('client', '')
 
-        if client not in mnopi.constants.VALID_CLIENTS:
+
+        try:
+            client = Client.objects.get(client_name=client)
+        except Client.DoesNotExist:
+            return response_err("CLIENT_ERROR")
+
+        if not client.allowed:
             return response_err("CLIENT_OUTDATED")
 
         try:
@@ -118,7 +125,7 @@ class UserResource(ModelResource):
                 return response_err("UNEXPECTED_SESSION")
             else:
                 session.delete()
-                session_key = user.new_session()
+                session_key = user.new_session(client)
 
                 return self.create_response(request, {
                     'result': "OK",
@@ -129,7 +136,7 @@ class UserResource(ModelResource):
             # Manual logging, check user and password and create new session object
             user = authenticate(username=username, password=key)
             if user and user.is_active:
-                session_key = user.new_session()
+                session_key = user.new_session(client)
 
                 return self.create_response(request, {
                     'result': "OK",

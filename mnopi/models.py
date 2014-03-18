@@ -19,13 +19,13 @@ import constants
 # Ojo, hay una redundandia en el modelo entre las categorias de las paginas visitadas y el peso de cada
 # categoria con el usuario. Esto esta hecho aposta por temas de rendimiento
 
-username_MAX_LENGTH = 40
 PASSWORD_MAX_LENGTH = 100
 URL_MAX_LENGTH = 500
 SEARCH_QUERY_MAX_LENGTH = 300
 CATEGORY_MAX_LENGTH = 50
 TAXONOMY_MAX_LENGTH = 10
 KEYWORD_MAX_LENGTH = 50
+CLIENT_MAX_LENGTH = 50
 
 METADATA_KEYWORD = 1
 SITE_KEYWORD = 2
@@ -35,7 +35,7 @@ class UserCategory(models.Model):
     taxonomy = models.CharField(max_length=TAXONOMY_MAX_LENGTH)
 
     class Meta:
-        db_table = "user_category"
+        db_table = "user_categories"
 
 class User(AbstractUser):
     """
@@ -168,12 +168,12 @@ class User(AbstractUser):
 
         return Search.objects.filter(user=self, date__gte=datetime_from, date__lte=datetime_to)
 
-    def new_session(self):
+    def new_session(self, client):
         """
-        Opens a new session for the user in a client such as the Mnopi plugin
+        Opens a new session for the user in the specified client
         """
         session_key = base64.b64encode(os.urandom(32))
-        ClientSession.objects.create(user=self, session_key=session_key)
+        ClientSession.objects.create(user=self, session_key=session_key, client=client)
 
         return session_key
 
@@ -210,11 +210,22 @@ class PageVisited(models.Model):
     class Meta:
         db_table = "pages_visited"
 
+class Client(models.Model):
+    """
+    Clients that can get connected to the system, such as android applications or browser plugins
+    """
+    client_name = models.CharField(max_length=CLIENT_MAX_LENGTH)
+    allowed = models.BooleanField(default=True)
+
+    #class Meta:
+        #db_table = "clients" # TODO: Change name for consistency
+
 class Search(models.Model):
     search_query = models.CharField(max_length=SEARCH_QUERY_MAX_LENGTH)
     search_results = models.CharField(max_length=URL_MAX_LENGTH)
     user = models.ForeignKey(User)
     date = models.DateTimeField(auto_now_add=True)
+    client = models.ForeignKey(Client)
 
     class Meta:
         db_table = "searches"
@@ -228,7 +239,9 @@ class ClientSession(models.Model):
     user = models.ForeignKey(User)
     expiration_time = models.DateTimeField(default=get_new_expiration_time)
     session_key = models.CharField(max_length=128)
-    client = models.CharField(max_length=50, default="")
+    client = models.ForeignKey(Client)
+
+    # Note: At the moment, no checks are done that renew logins are made by the same client
 
     class Meta:
         db_table = "client_sessions"

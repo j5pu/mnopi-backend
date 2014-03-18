@@ -3,9 +3,6 @@
 Application customizable constants
 """
 
-# Accepted sources of information
-VALID_CLIENTS = ["chrome-alpha4", "android-v1.0a"]
-
 USER_KEYWORDS_NUMBER = 50
 
 #

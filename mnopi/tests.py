@@ -1,4 +1,4 @@
-from models import UserCategory, User, CategorizedDomain, UserCategorization, PageVisited, Search, ClientSession
+from models import UserCategory, User, CategorizedDomain, UserCategorization, PageVisited, Search, ClientSession, Client
 import opendns
 import constants
 
@@ -35,14 +35,20 @@ class AuthenticableResourceTest(ResourceTestCase):
         self.username = 'alfredo'
         self.password = '1aragon1'
         self.user = User.objects.create_user(self.username, 'alfredo@example.com', self.password)
+        self.client = Client.objects.create(client_name="test-client")
+        self.client_name = self.client.client_name
 
-    def perform_login(self, username=None, key=None, renew=False,
-                      client=constants.VALID_CLIENTS[0]):
+    def perform_login(self, username=None, key=None, renew=False, client=None):
+        """
+        If defaulted to none, correct login parameters will be set
+        """
 
         if username is None:
             username = self.username
         if key is None:
             key = self.password
+        if client is None:
+            client = self.client_name
         if renew is None:
             login_data = {
                 'username': username,
@@ -91,19 +97,21 @@ class UserResourceTest(AuthenticableResourceTest):
         super(UserResourceTest, self).setUp()
 
         # Create an already opened session
-        self.last_session_token = self.user.new_session()
+        self.last_session_token = self.user.new_session(self.client)
 
         # Create an expired session
-        self.expired_session_token = self.user.new_session()
+        self.expired_session_token = self.user.new_session(self.client)
         expired_session = ClientSession.objects.get(session_key=self.expired_session_token)
         expired_session.expiration_time -= datetime.timedelta(days=constants.PLUGIN_SESSION_EXPIRY_DAYS + 1)
         expired_session.save()
 
+        # Create a not allowed client
+        self.disallowed_client = Client.objects.create(client_name="not-allowed", allowed=False).client_name
+
     def test_correct_password_login(self):
         resp = self.perform_login(username=self.username,
                                   key=self.password,
-                                  renew=False,
-                                  client=constants.VALID_CLIENTS[0])
+                                  renew=False)
         self.assertValidJSONResponse(resp)
 
         deserialized_resp = self.deserialize(resp)
@@ -117,8 +125,7 @@ class UserResourceTest(AuthenticableResourceTest):
     def test_correct_renew_not_specified(self):
         # Renew parameter should not be important if not True
         resp = self.perform_login(username=self.username,
-                                  key=self.password,
-                                  client=constants.VALID_CLIENTS[0])
+                                  key=self.password)
 
         self.assertValidJSONResponse(resp)
 
@@ -133,8 +140,8 @@ class UserResourceTest(AuthenticableResourceTest):
     def test_correct_renew_login(self):
         resp = self.perform_login(username=self.username,
                                   key=self.last_session_token,
-                                  renew=True,
-                                  client=constants.VALID_CLIENTS[0])
+                                  renew=True)
+
         self.assertValidJSONResponse(resp)
 
         deserialized_resp = self.deserialize(resp)
@@ -146,14 +153,12 @@ class UserResourceTest(AuthenticableResourceTest):
     def test_impossible_to_renew_again(self):
         resp = self.perform_login(username=self.username,
                                   key=self.last_session_token,
-                                  renew=True,
-                                  client=constants.VALID_CLIENTS[0])
+                                  renew=True)
         self.assertValidJSONResponse(resp)
 
         new_resp = self.perform_login(username=self.username,
                                       key=self.last_session_token,
-                                      renew=True,
-                                      client=constants.VALID_CLIENTS[0])
+                                      renew=True)
         self.assertValidJSONResponse(resp)
 
         des_resp = self.deserialize(new_resp);
@@ -165,14 +170,12 @@ class UserResourceTest(AuthenticableResourceTest):
     def test_correct_password_login_plus_correct_renew_session(self):
         resp = self.perform_login(username=self.username,
                                   key=self.password,
-                                  renew=False,
-                                  client=constants.VALID_CLIENTS[0])
+                                  renew=False)
         deserialized_resp = self.deserialize(resp)
 
         new_resp = self.perform_login(username=self.username,
                                       key=deserialized_resp['session_token'],
-                                      renew=True,
-                                      client=constants.VALID_CLIENTS[0])
+                                      renew=True)
         self.assertValidJSONResponse(resp)
 
         deserialized_new_resp = self.deserialize(new_resp)
@@ -185,8 +188,7 @@ class UserResourceTest(AuthenticableResourceTest):
     def test_incorrect_renew_login(self):
         resp = self.perform_login(username="pepito",
                                   key=self.last_session_token,
-                                  renew=True,
-                                  client=constants.VALID_CLIENTS[0])
+                                  renew=True)
         self.assertValidJSONResponse(resp)
 
         deserialized_resp = self.deserialize(resp)
@@ -199,8 +201,7 @@ class UserResourceTest(AuthenticableResourceTest):
     def test_incorrect_token_renew_session_login(self):
         resp = self.perform_login(username=self.username,
                                   key="1111",
-                                  renew=True,
-                                  client=constants.VALID_CLIENTS[0])
+                                  renew=True)
         self.assertValidJSONResponse(resp)
 
         deserialized_resp = self.deserialize(resp)
@@ -213,8 +214,7 @@ class UserResourceTest(AuthenticableResourceTest):
     def test_expired_session_renew_login(self):
         resp = self.perform_login(username=self.username,
                                   key=self.expired_session_token,
-                                  renew=True,
-                                  client=constants.VALID_CLIENTS[0])
+                                  renew=True)
         self.assertValidJSONResponse(resp)
 
         deserialized_resp = self.deserialize(resp)
@@ -235,14 +235,42 @@ class UserResourceTest(AuthenticableResourceTest):
         self.assertKeys(deserialized_resp, ['result', 'reason'])
         self.assertEqual(deserialized_resp, {
             'result': 'ERR',
+            'reason': "CLIENT_ERROR"
+        })
+
+    def test_client_outdated_renew_login(self):
+        resp = self.perform_login(username=self.username,
+                                  key=self.last_session_token,
+                                  renew=False,
+                                  client=self.disallowed_client)
+        self.assertValidJSONResponse(resp)
+
+        deserialized_resp = self.deserialize(resp)
+        self.assertKeys(deserialized_resp, ['result', 'reason'])
+        self.assertEqual(deserialized_resp, {
+            'result': 'ERR',
             'reason': "CLIENT_OUTDATED"
+        })
+
+    def test_client_error_renew_login(self):
+        resp = self.perform_login(username=self.username,
+                                  key=self.last_session_token,
+                                  renew=True,
+                                  client="dummyversion")
+        self.assertValidJSONResponse(resp)
+
+        deserialized_resp = self.deserialize(resp)
+        self.assertKeys(deserialized_resp, ['result', 'reason'])
+        self.assertEqual(deserialized_resp, {
+            'result': 'ERR',
+            'reason': "CLIENT_ERROR"
         })
 
     def test_client_outdated_renew_login(self):
         resp = self.perform_login(username=self.username,
                                   key=self.last_session_token,
                                   renew=True,
-                                  client="dummyversion")
+                                  client=self.disallowed_client)
         self.assertValidJSONResponse(resp)
 
         deserialized_resp = self.deserialize(resp)
@@ -255,8 +283,7 @@ class UserResourceTest(AuthenticableResourceTest):
     def test_password_error_password_login(self):
         resp = self.perform_login(username=self.username,
                                   key="abcdefghi",
-                                  renew=False,
-                                  client=constants.VALID_CLIENTS[0])
+                                  renew=False)
         self.assertValidJSONResponse(resp)
 
         deserialized_resp = self.deserialize(resp)
@@ -269,8 +296,7 @@ class UserResourceTest(AuthenticableResourceTest):
     def test_user_error_password_login(self):
         resp = self.perform_login(username="pepito",
                                   key=self.password,
-                                  renew=False,
-                                  client=constants.VALID_CLIENTS[0])
+                                  renew=False)
         self.assertValidJSONResponse(resp)
 
         deserialized_resp = self.deserialize(resp)
