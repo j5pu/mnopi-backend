@@ -36,18 +36,36 @@ class AuthenticableResourceTest(ResourceTestCase):
         self.password = '1aragon1'
         self.user = User.objects.create_user(self.username, 'alfredo@example.com', self.password)
 
-    def perform_login(self):
+    def perform_login(self, username=None, key=None, renew=False,
+                      client=constants.VALID_CLIENTS[0]):
+
+        if username is None:
+            username = self.username
+        if key is None:
+            key = self.password
+        if renew is None:
+            login_data = {
+                'username': username,
+                'key': key,
+                'client': client
+            }
+        else:
 
         login_data = {
-            'username': self.username,
-            'key': self.password,
-            'is_automatic': False,
-            'plugin_version': constants.CURRENT_VERSION
+            'username': username,
+            'key': key,
+            'renew': renew,
+            'client': client
         }
-        result = self.api_client.post(API_URI['login'], data=login_data, format='json')
-        result_json = json.loads(result.content)
-        self.user_resource = result_json['user_resource']
-        self.session_key = result_json['session_key']
+        resp = self.api_client.post(API_URI['login'], data=login_data, format='json')
+        deserialized_resp = self.deserialize(resp)
+
+        if deserialized_resp['result'] == "OK":
+            self.user_resource = deserialized_resp['user_resource']
+            self.session_token = deserialized_resp['session_token']
+
+        return resp
+
 
 class ModelsMongoTest(TestCase):
     """ Test case that initializes and destroys a mongodb database for testing purposes """
@@ -67,86 +85,91 @@ class ModelsMongoTest(TestCase):
 
 
 
-class UserResourceTest(ResourceTestCase):
+class UserResourceTest(AuthenticableResourceTest):
     """ Login service tests """
 
     def setUp(self):
         super(UserResourceTest, self).setUp()
 
-        # Create a user
-        self.username = 'alfredo'
-        self.password = '1aragon1'
-        self.user = User.objects.create_user(self.username, 'alfredo@example.com', self.password)
-
         # Create an already opened session
-        self.last_session_key = self.user.new_session()
+        self.last_session_token = self.user.new_session()
 
         # Create an expired session
-        self.expired_session_key = self.user.new_session()
-        expired_session = PluginSession.objects.get(session_key=self.expired_session_key)
+        self.expired_session_token = self.user.new_session()
+        expired_session = PluginSession.objects.get(session_key=self.expired_session_token)
         expired_session.expiration_time -= datetime.timedelta(days=constants.PLUGIN_SESSION_EXPIRY_DAYS + 1)
         expired_session.save()
-
-    def perform_login(self, username, key, is_automatic, plugin_version):
-        login_data = {
-            'username': username,
-            'key': key,
-            'is_automatic': is_automatic,
-            'plugin_version': plugin_version
-        }
-        return self.api_client.post(API_URI['login'], data=login_data, format='json')
 
     def test_correct_password_login(self):
         resp = self.perform_login(username=self.username,
                                   key=self.password,
-                                  is_automatic=False,
-                                  plugin_version=constants.CURRENT_VERSION)
+                                  renew=False,
+                                  client=constants.VALID_CLIENTS[0])
         self.assertValidJSONResponse(resp)
 
         deserialized_resp = self.deserialize(resp)
-        self.assertKeys(deserialized_resp, ['result', 'session_key', 'user_resource'])
+        self.assertKeys(deserialized_resp, ['result', 'session_token', 'user_resource'])
         self.assertEqual(deserialized_resp['result'], 'OK')
         self.assertEqual(deserialized_resp['user_resource'], API_URI['user'] + '%s/' % (self.user.id))
 
         # Check that a new session has been created
         self.assertEqual(PluginSession.objects.count(), 3)
 
-    def test_correct_session_login(self):
+    def test_correct_renew_not_specified(self):
+        # Renew parameter should not be important if not True
         resp = self.perform_login(username=self.username,
-                                  key=self.last_session_key,
-                                  is_automatic=True,
-                                  plugin_version=constants.CURRENT_VERSION)
+                                  key=self.password,
+                                  renew="lolololol",
+                                  client=constants.VALID_CLIENTS[0])
+
         self.assertValidJSONResponse(resp)
 
         deserialized_resp = self.deserialize(resp)
-        self.assertKeys(deserialized_resp, ['result', 'session_key', 'user_resource'])
+        self.assertKeys(deserialized_resp, ['result', 'session_token', 'user_resource'])
         self.assertEqual(deserialized_resp['result'], 'OK')
-        self.assertEqual(deserialized_resp['session_key'], self.last_session_key)
         self.assertEqual(deserialized_resp['user_resource'], API_URI['user'] + '%s/' % (self.user.id))
 
-    def test_correct_password_login_plus_correct_session_login(self):
+        # Check that a new session has been created
+        self.assertEqual(PluginSession.objects.count(), 3)
+
+    def test_correct_renew_login(self):
+        resp = self.perform_login(username=self.username,
+                                  key=self.last_session_token,
+                                  renew=True,
+                                  client=constants.VALID_CLIENTS[0])
+        self.assertValidJSONResponse(resp)
+
+        deserialized_resp = self.deserialize(resp)
+        self.assertKeys(deserialized_resp, ['result', 'session_token', 'user_resource'])
+        self.assertEqual(deserialized_resp['result'], 'OK')
+        self.assertNotEqual(deserialized_resp['session_token'], self.last_session_token)
+        self.assertEqual(deserialized_resp['user_resource'], API_URI['user'] + '%s/' % (self.user.id))
+
+    def test_correct_password_login_plus_correct_renew_session(self):
         resp = self.perform_login(username=self.username,
                                   key=self.password,
-                                  is_automatic=False,
-                                  plugin_version=constants.CURRENT_VERSION)
+                                  renew=False,
+                                  client=constants.VALID_CLIENTS[0])
         deserialized_resp = self.deserialize(resp)
 
         new_resp = self.perform_login(username=self.username,
-                                      key=deserialized_resp['session_key'],
-                                      is_automatic=True,
-                                      plugin_version=constants.CURRENT_VERSION)
+                                      key=deserialized_resp['session_token'],
+                                      renew=True,
+                                      client=constants.VALID_CLIENTS[0])
         self.assertValidJSONResponse(resp)
 
         deserialized_new_resp = self.deserialize(new_resp)
-        self.assertKeys(deserialized_resp, ['result', 'session_key', 'user_resource'])
+        self.assertKeys(deserialized_resp, ['result', 'session_token', 'user_resource'])
+        self.assertKeys(deserialized_new_resp, ['result', 'session_token', 'user_resource'])
         self.assertEqual(deserialized_new_resp['result'], 'OK')
+        self.assertNotEqual(deserialized_resp['session_token'], deserialized_new_resp['session_token'])
         self.assertEqual(deserialized_resp['user_resource'], API_URI['user'] + '%s/' % (self.user.id))
 
-    def test_incorrect_user_session_login(self):
+    def test_incorrect_renew_login(self):
         resp = self.perform_login(username="pepito",
-                                  key=self.last_session_key,
-                                  is_automatic=True,
-                                  plugin_version=constants.CURRENT_VERSION)
+                                  key=self.last_session_token,
+                                  renew=True,
+                                  client=constants.VALID_CLIENTS[0])
         self.assertValidJSONResponse(resp)
 
         deserialized_resp = self.deserialize(resp)
@@ -156,11 +179,11 @@ class UserResourceTest(ResourceTestCase):
             'reason': "INCORRECT_USER_PASSWORD"
         })
 
-    def test_incorrect_key_session_login(self):
+    def test_incorrect_token_renew_session_login(self):
         resp = self.perform_login(username=self.username,
                                   key="1111",
-                                  is_automatic=True,
-                                  plugin_version=constants.CURRENT_VERSION)
+                                  renew=True,
+                                  client=constants.VALID_CLIENTS[0])
         self.assertValidJSONResponse(resp)
 
         deserialized_resp = self.deserialize(resp)
@@ -170,11 +193,11 @@ class UserResourceTest(ResourceTestCase):
             'reason': "UNEXPECTED_SESSION"
         })
 
-    def test_expired_key_session_login(self):
+    def test_expired_session_renew_login(self):
         resp = self.perform_login(username=self.username,
-                                  key=self.expired_session_key,
-                                  is_automatic=True,
-                                  plugin_version=constants.CURRENT_VERSION)
+                                  key=self.expired_session_token,
+                                  renew=True,
+                                  client=constants.VALID_CLIENTS[0])
         self.assertValidJSONResponse(resp)
 
         deserialized_resp = self.deserialize(resp)
@@ -187,8 +210,8 @@ class UserResourceTest(ResourceTestCase):
     def test_client_outdated_password_login(self):
         resp = self.perform_login(username=self.username,
                                   key=self.password,
-                                  is_automatic=False,
-                                  plugin_version="dummyversion")
+                                  renew=False,
+                                  client="dummyversion")
         self.assertValidJSONResponse(resp)
 
         deserialized_resp = self.deserialize(resp)
@@ -198,11 +221,11 @@ class UserResourceTest(ResourceTestCase):
             'reason': "CLIENT_OUTDATED"
         })
 
-    def test_client_outdated_session_login(self):
+    def test_client_outdated_renew_login(self):
         resp = self.perform_login(username=self.username,
-                                  key=self.last_session_key,
-                                  is_automatic=True,
-                                  plugin_version="dummyversion")
+                                  key=self.last_session_token,
+                                  renew=True,
+                                  client="dummyversion")
         self.assertValidJSONResponse(resp)
 
         deserialized_resp = self.deserialize(resp)
@@ -215,8 +238,8 @@ class UserResourceTest(ResourceTestCase):
     def test_password_error_password_login(self):
         resp = self.perform_login(username=self.username,
                                   key="abcdefghi",
-                                  is_automatic=False,
-                                  plugin_version=constants.CURRENT_VERSION)
+                                  renew=False,
+                                  client=constants.VALID_CLIENTS[0])
         self.assertValidJSONResponse(resp)
 
         deserialized_resp = self.deserialize(resp)
@@ -229,8 +252,8 @@ class UserResourceTest(ResourceTestCase):
     def test_user_error_password_login(self):
         resp = self.perform_login(username="pepito",
                                   key=self.password,
-                                  is_automatic=False,
-                                  plugin_version=constants.CURRENT_VERSION)
+                                  renew=False,
+                                  client=constants.VALID_CLIENTS[0])
         self.assertValidJSONResponse(resp)
 
         deserialized_resp = self.deserialize(resp)
@@ -239,6 +262,7 @@ class UserResourceTest(ResourceTestCase):
             'result': 'ERR',
             'reason': "INCORRECT_USER_PASSWORD"
         })
+
 
 class PageVisitedResourceTest(AuthenticableResourceTest, CategorizableResourceTest):
     """
@@ -251,16 +275,16 @@ class PageVisitedResourceTest(AuthenticableResourceTest, CategorizableResourceTe
         super(PageVisitedResourceTest, self).setUp()
         self.perform_login()
 
-    def perform_page_visited(self, url, user_resource=None, session_key=None):
+    def perform_page_visited(self, url, user_resource=None, session_token=None):
 
         if user_resource is None:
             user_resource = self.user_resource
-        if session_key is None:
-            session_key = self.session_key
+        if session_token is None:
+            session_token = self.session_token
 
         page_visited_data = {
             'user_resource': user_resource,
-            'session_key': session_key,
+            'session_token': session_token,
             'url': url
         }
         return self.api_client.post(API_URI['page_visited'], data=page_visited_data, format='json')
@@ -268,13 +292,13 @@ class PageVisitedResourceTest(AuthenticableResourceTest, CategorizableResourceTe
     def test_no_user(self):
         resp = self.perform_page_visited(url="http://www.lol.com",
                                          user_resource="/api/v1/user/18/",
-                                         session_key=self.session_key)
+                                         session_token=self.session_token)
         self.assertHttpUnauthorized(resp)
 
-    def test_invalid_session_key(self):
+    def test_invalid_session_token(self):
         resp = self.perform_page_visited(url="http://www.lol.com",
                                          user_resource=self.user_resource,
-                                         session_key=self.session_key + "a")
+                                         session_token=self.session_token + "a")
         self.assertHttpUnauthorized(resp)
 
     def test_no_url(self):
@@ -357,16 +381,16 @@ class HtmlVisitedResourceTest(AuthenticableResourceTest, ModelsMongoTest):
         self.perform_login()
 
 
-    def perform_html_visited(self, url, html_code, user_resource=None, session_key=None):
+    def perform_html_visited(self, url, html_code, user_resource=None, session_token=None):
 
         if user_resource is None:
             user_resource = self.user_resource
-        if session_key is None:
-            session_key = self.session_key
+        if session_token is None:
+            session_token = self.session_token
 
         html_visited_data = {
             'user_resource': user_resource,
-            'session_key': session_key,
+            'session_token': session_token,
             'url': url,
             'html_code': html_code
         }
@@ -381,16 +405,16 @@ class SearchQueryResourceTest(AuthenticableResourceTest):
         super(SearchQueryResourceTest, self).setUp()
         self.perform_login()
 
-    def perform_search_query(self, search_query, search_results, user_resource=None, session_key=None):
+    def perform_search_query(self, search_query, search_results, user_resource=None, session_token=None):
 
         if user_resource is None:
             user_resource = self.user_resource
-        if session_key is None:
-            session_key = self.session_key
+        if session_token is None:
+            session_token = self.session_token
 
         search_query_data = {
             'user_resource': user_resource,
-            'session_key': session_key,
+            'session_token': session_token,
             'search_query': search_query,
             'search_results': search_results
         }
@@ -403,35 +427,35 @@ class SearchQueryResourceTest(AuthenticableResourceTest):
         resp = self.perform_search_query(search_query="lolazos",
                                          search_results="http://lol.com",
                                          user_resource="",
-                                         session_key=self.session_key)
+                                         session_token=self.session_token)
         self.assertHttpUnauthorized(resp)
 
     def test_no_authenticated_user(self):
         resp = self.perform_search_query(search_query="lolazos",
                                          search_results="http://lol.com",
                                          user_resource="/api/v1/user/18/",
-                                         session_key=self.session_key)
+                                         session_token=self.session_token)
         self.assertHttpUnauthorized(resp)
 
-    def test_session_key(self):
+    def test_session_token(self):
         resp = self.perform_search_query(search_query="lolazos",
                                          search_results="http://lol.com",
                                          user_resource=self.user_resource,
-                                         session_key=self.session_key+"a")
+                                         session_token=self.session_token+"a")
         self.assertHttpUnauthorized(resp)
 
     def test_no_query(self):
         resp = self.perform_search_query(search_query="",
                                          search_results="http://lol.com",
                                          user_resource=self.user_resource,
-                                         session_key=self.session_key)
+                                         session_token=self.session_token)
         self.assertHttpBadRequest(resp)
 
     def test_no_search_results(self):
         resp = self.perform_search_query(search_query="lolazo",
                                          search_results="",
                                          user_resource=self.user_resource,
-                                         session_key=self.session_key)
+                                         session_token=self.session_token)
         self.assertHttpBadRequest(resp)
 
     ######################

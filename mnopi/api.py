@@ -82,48 +82,47 @@ class UserResource(ModelResource):
 
     # http://stackoverflow.com/questions/11770501/how-can-i-login-to-django-using-tastypie
     def login(self, request, **kwargs):
+
+        def response_err(reason):
+            return self.create_response(request, {
+                'result': "ERR",
+                'reason': reason
+            })
+
         self.method_check(request, allowed=['post'])
 
         data = self.deserialize(request, request.body)
 
         username = data.get('username', '')
-        key = data.get('key', '')
-        is_automatic = data.get('is_automatic', '')
-        plugin_version = data.get('plugin_version', '')
+        key = data.get('key', '') # password or session token
+        renew = data.get('renew', '')
+        client = data.get('client', '')
 
-        if plugin_version != mnopi.constants.CURRENT_VERSION:
-            return self.create_response(request, {
-                'result': "ERR",
-                'reason': "CLIENT_OUTDATED"
-            })
+        if client not in mnopi.constants.VALID_CLIENTS:
+            return response_err("CLIENT_OUTDATED")
 
         try:
             user = User.objects.get(username=username)
         except User.DoesNotExist:
-            return self.create_response(request, {
-                'result': "ERR",
-                'reason': "INCORRECT_USER_PASSWORD" #TODO: Constantizar, refactorizar
-            })
+            return response_err("INCORRECT_USER_PASSWORD")
 
-        if is_automatic:
-            # Use key as session_key for the user
+        if renew:
+            # Use key as session_key for the user, give a new session key
             try:
                 session = PluginSession.objects.get(session_key=key, user=user)
             except PluginSession.DoesNotExist:
-                return self.create_response(request, {
-                    'result': "ERR",
-                    'reason': "UNEXPECTED_SESSION"
-                })
+                return response_err("UNEXPECTED_SESSION")
+
             if session.expiration_time < datetime.datetime.utcnow().replace(tzinfo=utc):
                 session.delete()
-                return self.create_response(request, {
-                    'result': "ERR",
-                    'reason': "UNEXPECTED_SESSION"
-                })
+                return response_err("UNEXPECTED_SESSION")
             else:
+                session.delete()
+                session_key = user.new_session()
+
                 return self.create_response(request, {
                     'result': "OK",
-                    'session_key': session.session_key,
+                    'session_token': session_key,
                     'user_resource': self.get_resource_uri(user)
                 })
         else:
@@ -134,14 +133,11 @@ class UserResource(ModelResource):
 
                 return self.create_response(request, {
                     'result': "OK",
-                    'session_key': session_key,
+                    'session_token': session_key,
                     'user_resource': self.get_resource_uri(user)
                 })
             else:
-                return self.create_response(request, {
-                    'result': "ERR",
-                    'reason': "INCORRECT_USER_PASSWORD"
-                })
+                return response_err("INCORRECT_USER_PASSWORD")
 
 
 class PageVisitedResource(ModelResource):
