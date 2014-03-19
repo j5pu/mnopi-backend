@@ -101,7 +101,7 @@ class UserResourceTest(AuthenticableResourceTest):
 
         # Create an expired session
         self.expired_session_token = self.user.new_session(self.client)
-        expired_session = ClientSession.objects.get(session_key=self.expired_session_token)
+        expired_session = ClientSession.objects.get(session_token=self.expired_session_token)
         expired_session.expiration_time -= datetime.timedelta(days=constants.PLUGIN_SESSION_EXPIRY_DAYS + 1)
         expired_session.save()
 
@@ -448,7 +448,8 @@ class SearchQueryResourceTest(AuthenticableResourceTest):
         super(SearchQueryResourceTest, self).setUp()
         self.perform_login()
 
-    def perform_search_query(self, search_query, search_results, user_resource=None, session_token=None):
+    def perform_search_query(self, search_query, search_results, date="2014-01-01 00:00:00",
+                             user_resource=None, session_token=None):
 
         if user_resource is None:
             user_resource = self.user_resource
@@ -456,10 +457,11 @@ class SearchQueryResourceTest(AuthenticableResourceTest):
             session_token = self.session_token
 
         search_query_data = {
-            'user_resource': user_resource,
+            'user': user_resource,
             'session_token': session_token,
             'search_query': search_query,
-            'search_results': search_results
+            'search_results': search_results,
+            'date': date
         }
         return self.api_client.post(API_URI['search_query'], data=search_query_data, format='json')
 
@@ -473,7 +475,7 @@ class SearchQueryResourceTest(AuthenticableResourceTest):
                                          session_token=self.session_token)
         self.assertHttpUnauthorized(resp)
 
-    def test_no_authenticated_user(self):
+    def test_not_authenticated_user(self):
         resp = self.perform_search_query(search_query="lolazos",
                                          search_results="http://lol.com",
                                          user_resource="/api/v1/user/18/",
@@ -493,6 +495,9 @@ class SearchQueryResourceTest(AuthenticableResourceTest):
                                          user_resource=self.user_resource,
                                          session_token=self.session_token)
         self.assertHttpBadRequest(resp)
+        resp_data = self.deserialize(resp)
+        self.assertEqual(resp_data['reason'], "BAD_PARAMETERS")
+        self.assertKeys(resp_data['erroneous_parameters'], ['search_query'])
 
     def test_no_search_results(self):
         resp = self.perform_search_query(search_query="lolazo",
@@ -500,6 +505,49 @@ class SearchQueryResourceTest(AuthenticableResourceTest):
                                          user_resource=self.user_resource,
                                          session_token=self.session_token)
         self.assertHttpBadRequest(resp)
+        resp_data = self.deserialize(resp)
+        self.assertEqual(resp_data['reason'], "BAD_PARAMETERS")
+        self.assertKeys(resp_data['erroneous_parameters'], ['search_results'])
+
+    def test_no_date(self):
+        resp = self.perform_search_query(search_query="lolazo",
+                                         search_results="http://www.lol.com",
+                                         user_resource=self.user_resource,
+                                         date="",
+                                         session_token=self.session_token)
+        self.assertHttpBadRequest(resp)
+        resp_data = self.deserialize(resp)
+        self.assertEqual(resp_data['reason'], "BAD_PARAMETERS")
+        self.assertKeys(resp_data['erroneous_parameters'], ['date'])
+
+    ######################
+    # Validation checks
+    ######################
+
+    def test_date_bad_format(self):
+        resp = self.perform_search_query(search_query="lolazo",
+                                         search_results="http://www.lol.com",
+                                         user_resource=self.user_resource,
+                                         date="2005/23/23 00:23:98",
+                                         session_token=self.session_token)
+        self.assertHttpBadRequest(resp)
+        resp_data = self.deserialize(resp)
+        self.assertEqual(resp_data['reason'], "BAD_PARAMETERS")
+        self.assertKeys(resp_data['erroneous_parameters'], ['date'])
+
+    # TODO: More checks to date should be done
+
+    def test_search_results_not_url(self):
+        resp = self.perform_search_query(search_query="lolazo",
+                                         search_results="jajaja.lol.com",
+                                         user_resource=self.user_resource,
+                                         date="2014-01-01 00:10:10",
+                                         session_token=self.session_token)
+        self.assertHttpBadRequest(resp)
+        resp_data = self.deserialize(resp)
+        self.assertEqual(resp_data['reason'], "BAD_PARAMETERS")
+        self.assertKeys(resp_data['erroneous_parameters'], ['search_results'])
+
 
     ######################
     # Behaviour checks
@@ -508,3 +556,12 @@ class SearchQueryResourceTest(AuthenticableResourceTest):
         resp = self.perform_search_query(search_query="lolazo",
                                          search_results="http://lol.com")
         self.assertHttpCreated(resp)
+
+        # Check that the search queary has been saved
+        searches = Search.objects.filter(search_query="lolazo", search_results="http://lol.com",
+                                      user=self.user).count()
+        self.assertEqual(searches, 1)
+
+        # Check that the client was correctly assigned
+        search = Search.objects.get(search_query="lolazo", search_results="http://lol.com", user=self.user)
+        self.assertEqual(search.client, self.client)

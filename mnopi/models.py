@@ -172,10 +172,10 @@ class User(AbstractUser):
         """
         Opens a new session for the user in the specified client
         """
-        session_key = base64.b64encode(os.urandom(32))
-        ClientSession.objects.create(user=self, session_key=session_key, client=client)
+        session_token = base64.b64encode(os.urandom(32))
+        ClientSession.objects.create(user=self, session_token=session_token, client=client)
 
-        return session_key
+        return session_token
 
 class CategorizedDomain(models.Model):
     domain = models.CharField(max_length=URL_MAX_LENGTH)
@@ -224,7 +224,7 @@ class Search(models.Model):
     search_query = models.CharField(max_length=SEARCH_QUERY_MAX_LENGTH)
     search_results = models.CharField(max_length=URL_MAX_LENGTH)
     user = models.ForeignKey(User)
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField(auto_now_add=False)
     client = models.ForeignKey(Client)
 
     class Meta:
@@ -238,7 +238,7 @@ class ClientSession(models.Model):
 
     user = models.ForeignKey(User)
     expiration_time = models.DateTimeField(default=get_new_expiration_time)
-    session_key = models.CharField(max_length=128)
+    session_token = models.CharField(max_length=128)
     client = models.ForeignKey(Client)
 
     # Note: At the moment, no checks are done that renew logins are made by the same client

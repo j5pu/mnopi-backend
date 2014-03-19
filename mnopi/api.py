@@ -12,6 +12,8 @@ from tastypie.utils import trailing_slash
 from django.conf.urls import url
 from django.contrib.auth import authenticate
 from django.utils.timezone import utc
+from django.core.validators import URLValidator
+from django.core.exceptions import ValidationError
 
 from mnopi.models import User, PageVisited, Search, ClientSession, CategorizedDomain, Client
 import mnopi.constants
@@ -32,8 +34,8 @@ class MnopiUserAuthentication(Authentication):
     def is_authenticated(self, request, **kwargs):
 
         data = json.loads(request.body)
-        user_resource = data.get('user_resource', '')
-        session_key = data.get('session_key', '')
+        user_resource = data.get('user', '')
+        session_token = data.get('session_token', '')
 
         try:
             user = User.objects.get(pk=int(get_user_id_from_resource(user_resource)))
@@ -41,7 +43,7 @@ class MnopiUserAuthentication(Authentication):
             return False
 
         try:
-            session = ClientSession.objects.get(session_key=session_key, user=user)
+            session = ClientSession.objects.get(session_token=session_token, user=user)
         except ClientSession.DoesNotExist:
             return False
 
@@ -73,12 +75,12 @@ class UserResource(ModelResource):
             ]
 
     @staticmethod
-    def generate_user_response(result, reason=None, session_key=None):
+    def generate_user_response(result, reason=None, session_token=None):
         response = {'result': result}
         if reason:
             response['reason'] = reason
-        if session_key:
-            response['session_key'] = session_key
+        if session_token:
+            response['session_token'] = session_token
         return response
 
     # http://stackoverflow.com/questions/11770501/how-can-i-login-to-django-using-tastypie
@@ -114,9 +116,9 @@ class UserResource(ModelResource):
             return response_err("INCORRECT_USER_PASSWORD")
 
         if renew:
-            # Use key as session_key for the user, give a new session key
+            # Use key as session_token for the user, give a new session key
             try:
-                session = ClientSession.objects.get(session_key=key, user=user)
+                session = ClientSession.objects.get(session_token=key, user=user)
             except ClientSession.DoesNotExist:
                 return response_err("UNEXPECTED_SESSION")
 
@@ -125,22 +127,22 @@ class UserResource(ModelResource):
                 return response_err("UNEXPECTED_SESSION")
             else:
                 session.delete()
-                session_key = user.new_session(client)
+                session_token = user.new_session(client)
 
                 return self.create_response(request, {
                     'result': "OK",
-                    'session_token': session_key,
+                    'session_token': session_token,
                     'user_resource': self.get_resource_uri(user)
                 })
         else:
             # Manual logging, check user and password and create new session object
             user = authenticate(username=username, password=key)
             if user and user.is_active:
-                session_key = user.new_session(client)
+                session_token = user.new_session(client)
 
                 return self.create_response(request, {
                     'result': "OK",
-                    'session_token': session_key,
+                    'session_token': session_token,
                     'user_resource': self.get_resource_uri(user)
                 })
             else:
@@ -202,12 +204,30 @@ class PageVisitedResource(ModelResource):
 
 
 class SearchQueryValidation(Validation):
+
+    DATE_FORMAT_ACCEPTED = "%Y-%m-%d %H:%M:%S"
+
     def is_valid(self, bundle, request=None):
         errors = {}
         if 'search_query' not in bundle.data or bundle.data['search_query'] == "":
             errors['search_query'] = "Not specified"
         if 'search_results' not in bundle.data or bundle.data['search_results'] == "":
             errors['search_results'] = "Not specified"
+
+        if 'date' not in bundle.data or bundle.data['date'] == "":
+            errors['date'] = "Not specified"
+        try:
+            __ = datetime.datetime.strptime(bundle.data['date'], self.DATE_FORMAT_ACCEPTED)
+        except:
+            errors['date'] = 'Date format must be %Y-%m-%d %H:%M:%S'
+        # TODO: Specify universal time for server and clients and avoid dates in the future
+        # It will be important to check USE_TZ to remain in a consistent client-server-django time state
+
+        val = URLValidator()
+        try:
+            val(bundle.data['search_results'])
+        except ValidationError, e:
+            errors['search_results'] = "Search results must be a valid URL"
 
         return errors
 
@@ -223,6 +243,22 @@ class SearchQueryResource(ModelResource):
         allowed_methods = ['post']
         validation = SearchQueryValidation()
 
+    def is_valid(self, bundle):
+        # Overriden to generate customized overall error
+        errors = self._meta.validation.is_valid(bundle, bundle.request)
+
+        if errors:
+            bundle.errors = {'result': 'ERR',
+                             'reason': 'BAD_PARAMETERS',
+                             'erroneous_parameters': errors}
+            return False
+
+        return True
+
     def hydrate(self, bundle):
-        bundle.obj.user = UserResource().get_via_uri(bundle.data['user_resource'])
+        #bundle.obj.user = UserResource().get_via_uri(bundle.data['user_resource'])
+
+        # Get the client from the current session
+        bundle.obj.client = ClientSession.objects.get(session_token=bundle.data['session_token']).client
+
         return bundle
