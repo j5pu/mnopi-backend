@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from south.utils import datetime_utils as datetime
+import datetime
 from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
@@ -8,14 +8,30 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
+        # Adding field 'PageVisited.client'
+        db.add_column('pages_visited', 'client',
+                      self.gf('django.db.models.fields.related.ForeignKey')(default=None, to=orm['mnopi.Client']),
+                      keep_default=False)
 
-        # Changing field 'Search.date'
-        db.alter_column('searches', 'date', self.gf('django.db.models.fields.DateTimeField')())
+        # Adding field 'PageVisited.html_ref'
+        db.add_column('pages_visited', 'html_ref',
+                      self.gf('django.db.models.fields.CharField')(default=None, max_length=24),
+                      keep_default=False)
+
+
+        # Changing field 'PageVisited.date'
+        db.alter_column('pages_visited', 'date', self.gf('django.db.models.fields.DateTimeField')())
 
     def backwards(self, orm):
+        # Deleting field 'PageVisited.client'
+        db.delete_column('pages_visited', 'client_id')
 
-        # Changing field 'Search.date'
-        db.alter_column('searches', 'date', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True))
+        # Deleting field 'PageVisited.html_ref'
+        db.delete_column('pages_visited', 'html_ref')
+
+
+        # Changing field 'PageVisited.date'
+        db.alter_column('pages_visited', 'date', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True))
 
     models = {
         u'auth.group': {
@@ -53,15 +69,17 @@ class Migration(SchemaMigration):
         u'mnopi.clientsession': {
             'Meta': {'object_name': 'ClientSession', 'db_table': "'client_sessions'"},
             'client': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['mnopi.Client']"}),
-            'expiration_time': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 4, 18, 0, 0)'}),
+            'expiration_time': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 4, 19, 0, 0)'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'session_key': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
+            'session_token': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['mnopi.User']"})
         },
         u'mnopi.pagevisited': {
             'Meta': {'object_name': 'PageVisited', 'db_table': "'pages_visited'"},
-            'date': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'client': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['mnopi.Client']"}),
+            'date': ('django.db.models.fields.DateTimeField', [], {}),
             'domain': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['mnopi.CategorizedDomain']"}),
+            'html_ref': ('django.db.models.fields.CharField', [], {'max_length': '24'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'page_visited': ('django.db.models.fields.CharField', [], {'max_length': '500'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['mnopi.User']"})

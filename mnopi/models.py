@@ -26,6 +26,7 @@ CATEGORY_MAX_LENGTH = 50
 TAXONOMY_MAX_LENGTH = 10
 KEYWORD_MAX_LENGTH = 50
 CLIENT_MAX_LENGTH = 50
+MONGO_DB_ID_LENGTH = 24
 
 METADATA_KEYWORD = 1
 SITE_KEYWORD = 2
@@ -201,14 +202,6 @@ class UserCategorization(models.Model):
     class Meta:
         db_table = "user_categorization"
 
-class PageVisited(models.Model):
-    user = models.ForeignKey(User)
-    page_visited = models.CharField(max_length=URL_MAX_LENGTH)
-    domain = models.ForeignKey(CategorizedDomain)
-    date = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        db_table = "pages_visited"
 
 class Client(models.Model):
     """
@@ -219,6 +212,18 @@ class Client(models.Model):
 
     #class Meta:
         #db_table = "clients" # TODO: Change name for consistency
+
+class PageVisited(models.Model):
+    user = models.ForeignKey(User)
+    page_visited = models.CharField(max_length=URL_MAX_LENGTH)
+    domain = models.ForeignKey(CategorizedDomain)
+    date = models.DateTimeField(auto_now_add=False)
+    client = models.ForeignKey(Client)
+    html_ref = models.CharField(max_length=MONGO_DB_ID_LENGTH)
+
+    class Meta:
+        db_table = "pages_visited"
+
 
 class Search(models.Model):
     search_query = models.CharField(max_length=SEARCH_QUERY_MAX_LENGTH)

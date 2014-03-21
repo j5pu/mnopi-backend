@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from south.utils import datetime_utils as datetime
+import datetime
 from south.db import db
 from south.v2 import SchemaMigration
 from django.db import models
@@ -99,7 +99,7 @@ class Migration(SchemaMigration):
             ('search_query', self.gf('django.db.models.fields.CharField')(max_length=300)),
             ('search_results', self.gf('django.db.models.fields.CharField')(max_length=500)),
             ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['mnopi.User'])),
-            ('date', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
+            ('date', self.gf('django.db.models.fields.DateTimeField')()),
             ('client', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['mnopi.Client'])),
         ))
         db.send_create_signal(u'mnopi', ['Search'])
@@ -108,8 +108,8 @@ class Migration(SchemaMigration):
         db.create_table('client_sessions', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['mnopi.User'])),
-            ('expiration_time', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2014, 4, 17, 0, 0))),
-            ('session_key', self.gf('django.db.models.fields.CharField')(max_length=128)),
+            ('expiration_time', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2014, 4, 19, 0, 0))),
+            ('session_token', self.gf('django.db.models.fields.CharField')(max_length=128)),
             ('client', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['mnopi.Client'])),
         ))
         db.send_create_signal(u'mnopi', ['ClientSession'])
@@ -186,9 +186,9 @@ class Migration(SchemaMigration):
         u'mnopi.clientsession': {
             'Meta': {'object_name': 'ClientSession', 'db_table': "'client_sessions'"},
             'client': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['mnopi.Client']"}),
-            'expiration_time': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 4, 17, 0, 0)'}),
+            'expiration_time': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 4, 19, 0, 0)'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'session_key': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
+            'session_token': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['mnopi.User']"})
         },
         u'mnopi.pagevisited': {
@@ -202,7 +202,7 @@ class Migration(SchemaMigration):
         u'mnopi.search': {
             'Meta': {'object_name': 'Search', 'db_table': "'searches'"},
             'client': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['mnopi.Client']"}),
-            'date': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'date': ('django.db.models.fields.DateTimeField', [], {}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'search_query': ('django.db.models.fields.CharField', [], {'max_length': '300'}),
             'search_results': ('django.db.models.fields.CharField', [], {'max_length': '500'}),
