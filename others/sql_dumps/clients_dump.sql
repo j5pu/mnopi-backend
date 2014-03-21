@@ -36,7 +36,7 @@ CREATE TABLE `clients` (
 
 LOCK TABLES `clients` WRITE;
 /*!40000 ALTER TABLE `clients` DISABLE KEYS */;
-INSERT INTO `clients` VALUES (1,'android-v1.0a',1),(2,'chrome-alpha4',1);
+INSERT INTO `clients` VALUES (1,'android-v1.0a',1),(2,'chrome-plugin-alpha5',1);
 /*!40000 ALTER TABLE `clients` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

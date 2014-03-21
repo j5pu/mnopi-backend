@@ -19,10 +19,10 @@
 -- Table structure for table `user_category`
 --
 
-DROP TABLE IF EXISTS `user_category`;
+DROP TABLE IF EXISTS `user_categories`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user_category` (
+CREATE TABLE `user_categories` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   `taxonomy` varchar(10) NOT NULL,
@@ -31,13 +31,13 @@ CREATE TABLE `user_category` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `user_category`
+-- Dumping data for table `user_categories`
 --
 
-LOCK TABLES `user_category` WRITE;
-/*!40000 ALTER TABLE `user_category` DISABLE KEYS */;
-INSERT INTO `user_category` VALUES (1,'Hate/Discrimination','opendns'),(2,'Travel','opendns'),(3,'Ecommerce/Shopping','opendns'),(4,'Visual Search Engines','opendns'),(5,'Forums/Message boards','opendns'),(6,'Gambling','opendns'),(7,'Dating','opendns'),(8,'News/Media','opendns'),(9,'Tasteless','opendns'),(10,'Drugs','opendns'),(11,'Lingerie/Bikini','opendns'),(12,'Jobs/Employment','opendns'),(13,'Photo Sharing','opendns'),(14,'Instant Messaging','opendns'),(15,'Business Services','opendns'),(16,'Sexuality','opendns'),(17,'Auctions','opendns'),(18,'Proxy/Anonymizer','opendns'),(19,'Portals','opendns'),(20,'Non-Profits','opendns'),(21,'Adult Themes','opendns'),(22,'Web Spam','opendns'),(23,'Academic Fraud','opendns'),(24,'Pornography','opendns'),(25,'Music','opendns'),(26,'Parked Domains','opendns'),(27,'Humor','opendns'),(28,'Alcohol','opendns'),(29,'Educational Institutions','opendns'),(30,'Sports','opendns'),(31,'Weapons','opendns'),(32,'Video Sharing','opendns'),(33,'File Storage','opendns'),(34,'Tobacco','opendns'),(35,'Government','opendns'),(36,'Automotive','opendns'),(37,'Research/Reference','opendns'),(38,'Health and Fitness','opendns'),(39,'Software/Technology','opendns'),(40,'Anime/Manga/Webcomic','opendns'),(41,'Television','opendns'),(42,'Blogs','opendns'),(43,'Podcasts','opendns'),(44,'Movies','opendns'),(45,'Search Engines','opendns'),(46,'Games','opendns'),(47,'Advertising','opendns'),(48,'P2P/File sharing','opendns'),(49,'Social Networking','opendns'),(50,'Nudity','opendns'),(51,'Financial Institutions','opendns'),(52,'Webmail','opendns'),(53,'Radio','opendns'),(54,'Chat','opendns'),(55,'Politics','opendns'),(56,'Classifieds','opendns'),(57,'Religious','opendns');
-/*!40000 ALTER TABLE `user_category` ENABLE KEYS */;
+LOCK TABLES `user_categories` WRITE;
+/*!40000 ALTER TABLE `user_categories` DISABLE KEYS */;
+INSERT INTO `user_categories` VALUES (1,'Hate/Discrimination','opendns'),(2,'Travel','opendns'),(3,'Ecommerce/Shopping','opendns'),(4,'Visual Search Engines','opendns'),(5,'Forums/Message boards','opendns'),(6,'Gambling','opendns'),(7,'Dating','opendns'),(8,'News/Media','opendns'),(9,'Tasteless','opendns'),(10,'Drugs','opendns'),(11,'Lingerie/Bikini','opendns'),(12,'Jobs/Employment','opendns'),(13,'Photo Sharing','opendns'),(14,'Instant Messaging','opendns'),(15,'Business Services','opendns'),(16,'Sexuality','opendns'),(17,'Auctions','opendns'),(18,'Proxy/Anonymizer','opendns'),(19,'Portals','opendns'),(20,'Non-Profits','opendns'),(21,'Adult Themes','opendns'),(22,'Web Spam','opendns'),(23,'Academic Fraud','opendns'),(24,'Pornography','opendns'),(25,'Music','opendns'),(26,'Parked Domains','opendns'),(27,'Humor','opendns'),(28,'Alcohol','opendns'),(29,'Educational Institutions','opendns'),(30,'Sports','opendns'),(31,'Weapons','opendns'),(32,'Video Sharing','opendns'),(33,'File Storage','opendns'),(34,'Tobacco','opendns'),(35,'Government','opendns'),(36,'Automotive','opendns'),(37,'Research/Reference','opendns'),(38,'Health and Fitness','opendns'),(39,'Software/Technology','opendns'),(40,'Anime/Manga/Webcomic','opendns'),(41,'Television','opendns'),(42,'Blogs','opendns'),(43,'Podcasts','opendns'),(44,'Movies','opendns'),(45,'Search Engines','opendns'),(46,'Games','opendns'),(47,'Advertising','opendns'),(48,'P2P/File sharing','opendns'),(49,'Social Networking','opendns'),(50,'Nudity','opendns'),(51,'Financial Institutions','opendns'),(52,'Webmail','opendns'),(53,'Radio','opendns'),(54,'Chat','opendns'),(55,'Politics','opendns'),(56,'Classifieds','opendns'),(57,'Religious','opendns');
+/*!40000 ALTER TABLE `user_categories` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
