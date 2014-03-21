@@ -219,7 +219,7 @@ class PageVisited(models.Model):
     domain = models.ForeignKey(CategorizedDomain)
     date = models.DateTimeField(auto_now_add=False)
     client = models.ForeignKey(Client)
-    html_ref = models.CharField(max_length=MONGO_DB_ID_LENGTH)
+    html_ref = models.CharField(max_length=MONGO_DB_ID_LENGTH, )
 
     class Meta:
         db_table = "pages_visited"

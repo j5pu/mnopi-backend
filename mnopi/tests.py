@@ -318,23 +318,38 @@ class PageVisitedResourceTest(AuthenticableResourceTest, CategorizableResourceTe
         super(PageVisitedResourceTest, self).setUp()
         self.perform_login()
 
-    def perform_page_visited(self, url, user_resource=None, session_token=None):
+    def perform_page_visited(self, url, html_code=None, date="2014-01-01 00:00:00",
+                             user_resource=None, session_token=None):
 
         if user_resource is None:
             user_resource = self.user_resource
         if session_token is None:
             session_token = self.session_token
 
-        page_visited_data = {
-            'user_resource': user_resource,
-            'session_token': session_token,
-            'url': url
-        }
+        if html_code:
+            page_visited_data = {
+                'user': user_resource,
+                'session_token': session_token,
+                'url': url,
+                'html_code': html_code,
+                'date': date
+            }
+        else:
+            page_visited_data = {
+                'user': user_resource,
+                'session_token': session_token,
+                'url': url,
+                'date': date
+            }
+
         return self.api_client.post(API_URI['page_visited'], data=page_visited_data, format='json')
 
+    ######################
+    # Parameters checks
+    ######################
     def test_no_user(self):
         resp = self.perform_page_visited(url="http://www.lol.com",
-                                         user_resource="/api/v1/user/18/",
+                                         user_resource="/api/v1/user/1823456/",
                                          session_token=self.session_token)
         self.assertHttpUnauthorized(resp)
 
@@ -347,53 +362,91 @@ class PageVisitedResourceTest(AuthenticableResourceTest, CategorizableResourceTe
     def test_no_url(self):
         resp = self.perform_page_visited(url="")
         self.assertHttpBadRequest(resp)
+        resp_data = self.deserialize(resp)
+        self.assertEqual(resp_data['reason'], "BAD_PARAMETERS")
+        self.assertKeys(resp_data['erroneous_parameters'], ['url'])
 
-    def test_add_page_added(self):
+    def test_no_date(self):
+        resp = self.perform_page_visited(url="http://molamazo.com", date="")
+        self.assertHttpBadRequest(resp)
+        resp_data = self.deserialize(resp)
+        self.assertEqual(resp_data['reason'], "BAD_PARAMETERS")
+        self.assertKeys(resp_data['erroneous_parameters'], ['date'])
+
+
+    ######################
+    # Validation checks
+    ######################
+    def test_invalid_url_1(self):
+        resp = self.perform_page_visited(url="1234567890")
+        self.assertHttpBadRequest(resp)
+        resp_data = self.deserialize(resp)
+        self.assertEqual(resp_data['reason'], "BAD_PARAMETERS")
+        self.assertKeys(resp_data['erroneous_parameters'], ['url'])
+
+    def test_invalid_url_2(self):
+        resp = self.perform_page_visited(url="www.elmundo.es") # Lacks protocol
+        self.assertHttpBadRequest(resp)
+        resp_data = self.deserialize(resp)
+        self.assertEqual(resp_data['reason'], "BAD_PARAMETERS")
+        self.assertKeys(resp_data['erroneous_parameters'], ['url'])
+
+    def test_invalid_date(self):
+        resp = self.perform_page_visited(url="http://loco.com", date="2014-89-34 00:00:00")
+        self.assertHttpBadRequest(resp)
+        resp_data = self.deserialize(resp)
+        self.assertEqual(resp_data['reason'], "BAD_PARAMETERS")
+        self.assertKeys(resp_data['erroneous_parameters'], ['date'])
+
+    ######################
+    # Behaviour tests
+    ######################
+    def test_add_page(self):
         resp = self.perform_page_visited(url="http://www.lol.com")
-        self.assertHttpOK(resp)
+        self.assertHttpCreated(resp)
 
         num_pages = PageVisited.objects.filter(user=self.user, page_visited="http://www.lol.com").count()
         self.assertEqual(num_pages, 1)
 
         resp = self.perform_page_visited(url="http://lol.com")
-        self.assertHttpOK(resp)
+        self.assertHttpCreated(resp)
 
         num_pages = PageVisited.objects.filter(user=self.user).count()
         self.assertEqual(num_pages, 2)
 
     def test_two_domains_added(self):
         resp = self.perform_page_visited(url="http://www.lol.com")
-        self.assertHttpOK(resp)
+        self.assertHttpCreated(resp)
 
         domains = CategorizedDomain.objects.filter(domain="www.lol.com").count()
         self.assertEqual(domains, 1)
 
         resp = self.perform_page_visited(url="http://lol.com")
-        self.assertHttpOK(resp)
+        self.assertHttpCreated(resp)
 
         domains = CategorizedDomain.objects.filter(domain="lol.com").count()
         self.assertEqual(domains, 1)
 
     def test_domains_repeated(self):
         resp = self.perform_page_visited(url="http://www.lol.com")
-        self.assertHttpOK(resp)
+        self.assertHttpCreated(resp)
 
         resp = self.perform_page_visited(url="http://www.lol.com/2")
-        self.assertHttpOK(resp)
+        self.assertHttpCreated(resp)
 
         domains = CategorizedDomain.objects.filter(domain="www.lol.com").count()
         self.assertEqual(domains, 1)
 
     def test_categorized_domain(self):
         resp = self.perform_page_visited(url="http://www.lol.com")
-        self.assertHttpOK(resp)
+        self.assertHttpCreated(resp)
 
         domain = CategorizedDomain.objects.get(domain="www.lol.com")
         self.assertEqual([x.name for x in domain.categories.all()], ['Humor'])
 
     def test_categorized_domain_multiple_categories(self):
         resp = self.perform_page_visited(url="http://stackoverflow.com")
-        self.assertHttpOK(resp)
+        self.assertHttpCreated(resp)
 
         domain = CategorizedDomain.objects.get(domain="stackoverflow.com")
         self.assertEqual(set([x.name for x in domain.categories.all()]),
@@ -401,7 +454,7 @@ class PageVisitedResourceTest(AuthenticableResourceTest, CategorizableResourceTe
 
     def test_user_categorization(self):
         resp = self.perform_page_visited(url="http://stackoverflow.com")
-        self.assertHttpOK(resp)
+        self.assertHttpCreated(resp)
 
         categories = CategorizedDomain.objects.get(domain="stackoverflow.com").categories.all()
         for cat in categories:
@@ -409,12 +462,14 @@ class PageVisitedResourceTest(AuthenticableResourceTest, CategorizableResourceTe
             self.assertEqual(user_cat.weigh, 1)
 
         resp = self.perform_page_visited(url="http://stackoverflow.com")
-        self.assertHttpOK(resp)
+        self.assertHttpCreated(resp)
 
         categories = CategorizedDomain.objects.get(domain="stackoverflow.com").categories.all()
         for cat in categories:
             user_cat = UserCategorization.objects.get(user=self.user, category=cat)
             self.assertEqual(user_cat.weigh, 2)
+
+    # TODO: More tests
 
 class HtmlVisitedResourceTest(AuthenticableResourceTest, ModelsMongoTest):
     """ Html visited service tests """
@@ -439,7 +494,7 @@ class HtmlVisitedResourceTest(AuthenticableResourceTest, ModelsMongoTest):
         }
         return self.api_client.post(API_URI['html'], data=html_visited_data, format='json')
 
-    #TODO: SEGUIR PRO AQUI
+    #TODO: SEGUIR POR AQUI
 
 class SearchQueryResourceTest(AuthenticableResourceTest):
     """ Test case for search engines queries """
@@ -478,7 +533,7 @@ class SearchQueryResourceTest(AuthenticableResourceTest):
     def test_not_authenticated_user(self):
         resp = self.perform_search_query(search_query="lolazos",
                                          search_results="http://lol.com",
-                                         user_resource="/api/v1/user/18/",
+                                         user_resource="/api/v1/user/183456/",
                                          session_token=self.session_token)
         self.assertHttpUnauthorized(resp)
 
@@ -523,7 +578,6 @@ class SearchQueryResourceTest(AuthenticableResourceTest):
     ######################
     # Validation checks
     ######################
-
     def test_date_bad_format(self):
         resp = self.perform_search_query(search_query="lolazo",
                                          search_results="http://www.lol.com",

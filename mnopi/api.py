@@ -2,13 +2,15 @@ import datetime
 import urlparse
 import json
 
-from tastypie import fields, http
+from tastypie import fields
+from tastypie.http import HttpCreated
 from tastypie.resources import ModelResource
 from tastypie.authentication import Authentication
 from tastypie.authorization import Authorization
 from tastypie.validation import Validation
 from tastypie.exceptions import ImmediateHttpResponse
-from tastypie.utils import trailing_slash
+from tastypie.utils import trailing_slash, dict_strip_unicode_keys
+
 from django.conf.urls import url
 from django.contrib.auth import authenticate
 from django.utils.timezone import utc
@@ -148,6 +150,33 @@ class UserResource(ModelResource):
             else:
                 return response_err("INCORRECT_USER_PASSWORD")
 
+class PageVisitedValidation(Validation):
+
+    DATE_FORMAT_ACCEPTED = "%Y-%m-%d %H:%M:%S"
+
+    def is_valid(self, bundle, request=None):
+
+        errors = {}
+        if 'url' not in bundle.data or bundle.data['url'] == "":
+            errors['url'] = "Not specified"
+        if 'date' not in bundle.data or bundle.data['date'] == "":
+            errors['date'] = "Not specified"
+        else:
+            try:
+                __ = datetime.datetime.strptime(bundle.data['date'], self.DATE_FORMAT_ACCEPTED)
+            except:
+                errors['date'] = 'Date format must be %Y-%m-%d %H:%M:%S'
+
+        val = URLValidator()
+        try:
+            val(bundle.data['url'])
+        except ValidationError, e:
+            errors['url'] = "Must be a valid URL"
+
+        # TODO: Think about Html validation
+
+        return errors
+
 
 class PageVisitedResource(ModelResource):
     user = fields.ForeignKey(UserResource, 'user_resource')
@@ -156,7 +185,20 @@ class PageVisitedResource(ModelResource):
         queryset = PageVisited.objects.all()
         authentication = MnopiUserAuthentication()
         authorization = Authorization()
+        validation = PageVisitedValidation()
         resource_name = 'page_visited'
+
+    def is_valid(self, bundle):
+        # Overriden to generate customized overall error
+        errors = self._meta.validation.is_valid(bundle, bundle.request)
+
+        if errors:
+            bundle.errors = {'result': 'ERR',
+                             'reason': 'BAD_PARAMETERS',
+                             'erroneous_parameters': errors}
+            return False
+
+        return True
 
     def prepend_urls(self):
         return [url(r"^(?P<resource_name>%s)%s$" %
@@ -171,37 +213,34 @@ class PageVisitedResource(ModelResource):
         self.is_authenticated(request)
 
         data = self.deserialize(request, request.body)
+        bundle = self.build_bundle(data=dict_strip_unicode_keys(data), request=request)
+        self.is_valid(bundle)
+        if bundle.errors:
+            raise ImmediateHttpResponse(response=self.error_response(bundle.request, bundle.errors))
 
         url = data.get('url', '')
-        user_resource = data.get('user_resource', '')
-        if url == '' or user_resource == '':
-            raise ImmediateHttpResponse(response=http.HttpBadRequest("Url and user needed"))
+        user_resource = data.get('user', '')
+        date = data.get('date', '')
+        html_code = data.get('html_code', '')
+        session_token = data.get('session_token', '')
 
+        user = User.objects.get(pk=int(get_user_id_from_resource(user_resource)))
+        html_id = ""
+        if html_code:
+            # Automatic keywords mining is performed when creating the object
+            html_id = models_mongo.register_html_visited(page_visited=url, html_code=html_code, user=user.username)
+
+        # TODO: refactor maybe?
         url_domain = urlparse.urlparse(url)[1]
         categories = opendns.getCategories(url_domain)
-
-        user = User.objects.get(pk=int(get_user_id_from_resource(user_resource)))
         categorized_domain = CategorizedDomain.objects.get(domain=url_domain)
-        PageVisited.objects.create(user=user, page_visited=url, domain=categorized_domain)
+
+        client = ClientSession.objects.get(session_token=session_token).client
+        PageVisited.objects.create(user=user, page_visited=url, domain=categorized_domain,
+                                   client=client, date=date, html_ref=html_id)
         user.update_categories_visited(categories)
 
-        return self.create_response(request, "OK")
-
-    def add_html_visited(self, request, **kwargs):
-        self.method_chechk(request, allowed=['post'])
-        self.is_authenticated(request)
-
-        data = self.deserialize(request, request.body)
-
-        user_resource = data.get('user_resource', '')
-        url = data.get('url', '')
-        html_code = data.get('html_code', '')
-
-        user = User.objects.get(pk=int(get_user_id_from_resource(user_resource)))
-
-        # Automatic keywords mining is performed when creating the object
-        models_mongo.register_html_visited(page_visited=url, html_code=html_code, user=user.username)
-
+        return self.create_response(request, '', HttpCreated) #TODO: try to send empty data instead of ""
 
 class SearchQueryValidation(Validation):
 
@@ -216,10 +255,11 @@ class SearchQueryValidation(Validation):
 
         if 'date' not in bundle.data or bundle.data['date'] == "":
             errors['date'] = "Not specified"
-        try:
-            __ = datetime.datetime.strptime(bundle.data['date'], self.DATE_FORMAT_ACCEPTED)
-        except:
-            errors['date'] = 'Date format must be %Y-%m-%d %H:%M:%S'
+        else:
+            try:
+                __ = datetime.datetime.strptime(bundle.data['date'], self.DATE_FORMAT_ACCEPTED)
+            except:
+                errors['date'] = 'Date format must be %Y-%m-%d %H:%M:%S'
         # TODO: Specify universal time for server and clients and avoid dates in the future
         # It will be important to check USE_TZ to remain in a consistent client-server-django time state
 
