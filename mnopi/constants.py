@@ -29,6 +29,13 @@ USER_METADATA_KEYWORDS_PER_PAGE = 25
 # User registration constants
 #
 PASS_MIN_LENGTH = 6
+PASS_MAX_LENGTH = 40
+
+USERNAME_MIN_LENGTH = 1
+USERNAME_MAX_LENGTH = 20
+
+EMAIL_MAX_LENGTH = 80
+
 REGISTRATION_FIELDS_ERROR = "Rellena todos los campos del formulario"
 REGISTRATION_USER_EXISTS = "El usuario ya existe"
 REGISTRATION_USER_EMPTY = "Introduce un identificador de usuario"

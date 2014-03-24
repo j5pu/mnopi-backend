@@ -14,11 +14,11 @@ from tastypie.utils import trailing_slash, dict_strip_unicode_keys
 from django.conf.urls import url
 from django.contrib.auth import authenticate
 from django.utils.timezone import utc
-from django.core.validators import URLValidator
+from django.core.validators import URLValidator, validate_email
 from django.core.exceptions import ValidationError
 
 from mnopi.models import User, PageVisited, Search, ClientSession, CategorizedDomain, Client
-import mnopi.constants
+from mnopi import constants
 from mnopi import opendns
 from mnopi import models_mongo
 
@@ -55,11 +55,58 @@ class MnopiUserAuthentication(Authentication):
 
         return True
 
+class UserCreationValidation(Validation):
+
+    def is_valid(self, bundle, request=None):
+
+        errors = {}
+        if 'username' not in bundle.data or bundle.data['username'] == "":
+            errors['username'] = "Not specified"
+        if 'password' not in bundle.data or bundle.data['password'] == "":
+            errors['password'] = "Not specified"
+        if 'email' not in bundle.data or bundle.data['email'] == "":
+            errors['email'] = "Not specified"
+        if errors:
+            return errors
+
+        if not constants.USERNAME_MIN_LENGTH <= len(bundle.data['username']) <= constants.USERNAME_MAX_LENGTH:
+            errors['username'] = "Username too short or too long"
+        if not constants.PASS_MIN_LENGTH <= len(bundle.data['password']) <= constants.PASS_MAX_LENGTH:
+            errors['password'] = "Password too short or too long"
+        if len(bundle.data['email']) > constants.EMAIL_MAX_LENGTH:
+            errors['email'] = "Too long an email"
+        if errors:
+            return errors
+
+
+        if not bundle.data['username'].isalnum():
+            errors['username'] = "Username characters must be alphanumeric"
+            return errors
+
+        try:
+            validate_email(bundle.data['email'])
+        except ValidationError, e:
+            errors['email'] = "Not an email address"
+            return errors
+
+        # All previous validations should have been performed by the client, the server won't provide
+        # any additional details
+        #TODO: maybe from here this should raise a different response and not a bad request
+        if User.objects.filter(username=bundle.data['username']).count() != 0:
+            errors['username'] = "Username already exists"
+            return errors
+
+        if User.objects.filter(email=bundle.data['email']).count() != 0:
+            errors['email'] = "Email already registered"
+
+        return errors
+
 class UserResource(ModelResource):
 
     class Meta:
         queryset = User.objects.all()
         resource_name = 'user'
+        validation = UserCreationValidation()
         #fields = ['username'] #TODO: Restrict in production
         allowed_methods = ['get', 'post']
         filtering = {
@@ -68,22 +115,53 @@ class UserResource(ModelResource):
 
     def prepend_urls(self):
         return [
+            url(r'^(?P<resource_name>%s)%s$' %
+                (self._meta.resource_name, trailing_slash()),
+                self.wrap_view('sign_up'), name='api_sign_up'),
             url(r"^(?P<resource_name>%s)/login%s$" %
                 (self._meta.resource_name, trailing_slash()),
                 self.wrap_view('login'), name="api_login"),
             url(r'^(?P<resource_name>%s)/logout%s$' %
                 (self._meta.resource_name, trailing_slash()),
-                self.wrap_view('logout'), name='api_logout'),
+                self.wrap_view('logout'), name='api_logout')
             ]
 
-    @staticmethod
-    def generate_user_response(result, reason=None, session_token=None):
-        response = {'result': result}
-        if reason:
-            response['reason'] = reason
-        if session_token:
-            response['session_token'] = session_token
-        return response
+    def is_valid_registration(self, bundle):
+        errors = self._meta.validation.is_valid(bundle, bundle.request)
+
+        if errors:
+            bundle.errors = {'result': 'ERR',
+                             'reason': 'BAD_PARAMETERS',
+                             'erroneous_parameters': errors}
+
+            return False
+
+        return True
+
+    def response_err(self, request, reason):
+        return self.create_response(request, {
+                'result': "ERR",
+                'reason': reason
+        })
+
+    def sign_up(self, request, **kwargs):
+
+        self.method_check(request, allowed=['post'])
+
+        data = self.deserialize(request, request.body)
+        bundle = self.build_bundle(data=dict_strip_unicode_keys(data), request=request)
+        self.is_valid_registration(bundle)
+        if bundle.errors:
+            raise ImmediateHttpResponse(response=self.error_response(bundle.request, bundle.errors))
+
+        username = data.get('username')
+        password = data.get('password')
+        email = data.get('email')
+
+        User.objects.create_user(username=username, password=password, email=email)
+
+        return self.create_response(request, '', HttpCreated)
+
 
     # http://stackoverflow.com/questions/11770501/how-can-i-login-to-django-using-tastypie
     def login(self, request, **kwargs):
@@ -102,7 +180,6 @@ class UserResource(ModelResource):
         key = data.get('key', '') # password or session token
         renew = data.get('renew', '')
         client = data.get('client', '')
-
 
         try:
             client = Client.objects.get(client_name=client)
@@ -270,7 +347,6 @@ class SearchQueryValidation(Validation):
             errors['search_results'] = "Search results must be a valid URL"
 
         return errors
-
 
 class SearchQueryResource(ModelResource):
     user = fields.ForeignKey(UserResource, 'user')

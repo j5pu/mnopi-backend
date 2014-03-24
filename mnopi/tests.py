@@ -11,6 +11,7 @@ import json
 
 API_URI = {
     'user': '/api/v1/user/',
+    'signup': '/api/v1/user/',
     'login': '/api/v1/user/login/',
     'page_visited': '/api/v1/page_visited/',
     'html': '/api/v1/page_visited/html/',
@@ -87,14 +88,179 @@ class ModelsMongoTest(TestCase):
         super(ModelsMongoTest, cls).tearDownClass()
         cls.test_mongo.db.drop()
 
+class UserRegistrationTest(ResourceTestCase):
+    """ Sign up service tests """
 
+    def user_registration(self, username, password, email):
 
+        user_data = {
+            'username': username,
+            'password': password,
+            'email': email
+        }
+        resp = self.api_client.post(API_URI['signup'], data=user_data, format='json')
+        return resp
 
-class UserResourceTest(AuthenticableResourceTest):
+    #######################
+    ## Parameters checks
+    #######################
+    def test_no_username(self):
+        resp = self.user_registration(username="",
+                                      password="1234567890",
+                                      email="amparo@gmail.com")
+        self.assertHttpBadRequest(resp)
+        resp_data = self.deserialize(resp)
+        self.assertEqual(resp_data['reason'], "BAD_PARAMETERS")
+        self.assertKeys(resp_data['erroneous_parameters'], ['username'])
+
+    def test_no_password(self):
+        resp = self.user_registration(username="amparo",
+                                      password="",
+                                      email="amparo@gmail.com")
+        self.assertHttpBadRequest(resp)
+        resp_data = self.deserialize(resp)
+        self.assertEqual(resp_data['reason'], "BAD_PARAMETERS")
+        self.assertKeys(resp_data['erroneous_parameters'], ['password'])
+
+    def test_no_email(self):
+        resp = self.user_registration(username="amparo",
+                                      password="1234567890",
+                                      email="")
+        self.assertHttpBadRequest(resp)
+        resp_data = self.deserialize(resp)
+        self.assertEqual(resp_data['reason'], "BAD_PARAMETERS")
+        self.assertKeys(resp_data['erroneous_parameters'], ['email'])
+
+    ########################
+    ## Validation checks
+    ########################
+    def test_password_too_short(self):
+        resp = self.user_registration(username="amparo",
+                                      password="1" * (constants.PASS_MIN_LENGTH - 1),
+                                      email="amparo@gmail.com")
+        self.assertHttpBadRequest(resp)
+        resp_data = self.deserialize(resp)
+        self.assertEqual(resp_data['reason'], "BAD_PARAMETERS")
+        self.assertKeys(resp_data['erroneous_parameters'], ['password'])
+
+    def test_password_too_long(self):
+        LONG_PASSWORD = "1" * constants.PASS_MAX_LENGTH + "1"
+        resp = self.user_registration(username="amparo",
+                                      password=LONG_PASSWORD,
+                                      email="amparo@gmail.com")
+        self.assertHttpBadRequest(resp)
+        resp_data = self.deserialize(resp)
+        self.assertEqual(resp_data['reason'], "BAD_PARAMETERS")
+        self.assertKeys(resp_data['erroneous_parameters'], ['password'])
+
+    def test_email_is_email_1(self):
+        resp = self.user_registration(username="amparo",
+                                      password="1234567890",
+                                      email="pringao")
+        self.assertHttpBadRequest(resp)
+        resp_data = self.deserialize(resp)
+        self.assertEqual(resp_data['reason'], "BAD_PARAMETERS")
+        self.assertKeys(resp_data['erroneous_parameters'], ['email'])
+
+    def test_email_is_email_2(self):
+        resp = self.user_registration(username="amparo",
+                                      password="1234567890",
+                                      email="pringao@lolazo")
+        self.assertHttpBadRequest(resp)
+        resp_data = self.deserialize(resp)
+        self.assertEqual(resp_data['reason'], "BAD_PARAMETERS")
+        self.assertKeys(resp_data['erroneous_parameters'], ['email'])
+
+    def test_email_is_email_3(self):
+        resp = self.user_registration(username="amparo",
+                                      password="1234567890",
+                                      email="@juasjuas.com")
+        self.assertHttpBadRequest(resp)
+        resp_data = self.deserialize(resp)
+        self.assertEqual(resp_data['reason'], "BAD_PARAMETERS")
+        self.assertKeys(resp_data['erroneous_parameters'], ['email'])
+
+    def test_email_too_long(self):
+        LONG_EMAIL = "a" * (constants.EMAIL_MAX_LENGTH + 1 - 6) + "@a.com"
+        resp = self.user_registration(username="amparo",
+                                      password="1234567890",
+                                      email=LONG_EMAIL)
+        self.assertHttpBadRequest(resp)
+        resp_data = self.deserialize(resp)
+        self.assertEqual(resp_data['reason'], "BAD_PARAMETERS")
+        self.assertKeys(resp_data['erroneous_parameters'], ['email'])
+
+    def test_username_is_alphanumeric(self):
+        resp = self.user_registration(username="amparo@gmail.com",
+                                      password="1234567890",
+                                      email="amparo@gmail.com")
+        self.assertHttpBadRequest(resp)
+        resp_data = self.deserialize(resp)
+        self.assertEqual(resp_data['reason'], "BAD_PARAMETERS")
+        self.assertKeys(resp_data['erroneous_parameters'], ['username'])
+
+    def test_username_too_short(self):
+        resp = self.user_registration(username="a" * (constants.USERNAME_MIN_LENGTH - 1),
+                                      password="1234567890",
+                                      email="amparo@gmail.com")
+        self.assertHttpBadRequest(resp)
+        resp_data = self.deserialize(resp)
+        self.assertEqual(resp_data['reason'], "BAD_PARAMETERS")
+        self.assertKeys(resp_data['erroneous_parameters'], ['username'])
+
+    def test_username_too_long(self):
+        resp = self.user_registration(username="a" * (constants.USERNAME_MAX_LENGTH + 1),
+                                      password="1234567890",
+                                      email="amparo@gmail.com")
+        self.assertHttpBadRequest(resp)
+        resp_data = self.deserialize(resp)
+        self.assertEqual(resp_data['reason'], "BAD_PARAMETERS")
+        self.assertKeys(resp_data['erroneous_parameters'], ['username'])
+
+    def test_username_already_exists(self):
+        User.objects.create(username="amparo", password="1234567890", email="amparo@gmail.com")
+        resp = self.user_registration(username="amparo",
+                                      password="1234567890",
+                                      email="amparito@gmail.com")
+        self.assertHttpBadRequest(resp)
+        resp_data = self.deserialize(resp)
+        self.assertEqual(resp_data['reason'], "BAD_PARAMETERS")
+        self.assertKeys(resp_data['erroneous_parameters'], ['username'])
+
+    def test_email_already_exists(self):
+        User.objects.create(username="amparo", password="1234567890", email="amparo@gmail.com")
+        resp = self.user_registration(username="superamparo",
+                                      password="1234567890",
+                                      email="amparo@gmail.com")
+        self.assertHttpBadRequest(resp)
+        resp_data = self.deserialize(resp)
+        self.assertEqual(resp_data['reason'], "BAD_PARAMETERS")
+        self.assertKeys(resp_data['erroneous_parameters'], ['email'])
+
+    ######################
+    ## Behavior tests
+    ######################
+    def test_registration_successful(self):
+        resp = self.user_registration(username="amparo",
+                                      password="1234567890",
+                                      email="amparo@gmail.com")
+        self.assertHttpCreated(resp)
+
+        self.assertEqual(User.objects.filter(username="amparo", email="amparo@gmail.com").count(), 1)
+
+    def test_password_hashed(self):
+        resp = self.user_registration(username="amparo",
+                                      password="1234567890",
+                                      email="amparo@gmail.com")
+        self.assertHttpCreated(resp)
+
+        self.assertEqual(User.objects.filter(password="1234567890").count(), 0)
+
+class UserLoginTest(AuthenticableResourceTest):
     """ Login service tests """
 
     def setUp(self):
-        super(UserResourceTest, self).setUp()
+        super(UserLoginTest, self).setUp()
 
         # Create an already opened session
         self.last_session_token = self.user.new_session(self.client)
@@ -307,170 +473,6 @@ class UserResourceTest(AuthenticableResourceTest):
         })
 
 
-class PageVisitedResourceTest(AuthenticableResourceTest, CategorizableResourceTest):
-    """
-    Page visited service tests
-
-    Avoid doing many calls to perform_page_visited as they are very slow (query to opendns)
-    """
-
-    def setUp(self):
-        super(PageVisitedResourceTest, self).setUp()
-        self.perform_login()
-
-    def perform_page_visited(self, url, html_code=None, date="2014-01-01 00:00:00",
-                             user_resource=None, session_token=None):
-
-        if user_resource is None:
-            user_resource = self.user_resource
-        if session_token is None:
-            session_token = self.session_token
-
-        if html_code:
-            page_visited_data = {
-                'user': user_resource,
-                'session_token': session_token,
-                'url': url,
-                'html_code': html_code,
-                'date': date
-            }
-        else:
-            page_visited_data = {
-                'user': user_resource,
-                'session_token': session_token,
-                'url': url,
-                'date': date
-            }
-
-        return self.api_client.post(API_URI['page_visited'], data=page_visited_data, format='json')
-
-    ######################
-    # Parameters checks
-    ######################
-    def test_no_user(self):
-        resp = self.perform_page_visited(url="http://www.lol.com",
-                                         user_resource="/api/v1/user/1823456/",
-                                         session_token=self.session_token)
-        self.assertHttpUnauthorized(resp)
-
-    def test_invalid_session_token(self):
-        resp = self.perform_page_visited(url="http://www.lol.com",
-                                         user_resource=self.user_resource,
-                                         session_token=self.session_token + "a")
-        self.assertHttpUnauthorized(resp)
-
-    def test_no_url(self):
-        resp = self.perform_page_visited(url="")
-        self.assertHttpBadRequest(resp)
-        resp_data = self.deserialize(resp)
-        self.assertEqual(resp_data['reason'], "BAD_PARAMETERS")
-        self.assertKeys(resp_data['erroneous_parameters'], ['url'])
-
-    def test_no_date(self):
-        resp = self.perform_page_visited(url="http://molamazo.com", date="")
-        self.assertHttpBadRequest(resp)
-        resp_data = self.deserialize(resp)
-        self.assertEqual(resp_data['reason'], "BAD_PARAMETERS")
-        self.assertKeys(resp_data['erroneous_parameters'], ['date'])
-
-
-    ######################
-    # Validation checks
-    ######################
-    def test_invalid_url_1(self):
-        resp = self.perform_page_visited(url="1234567890")
-        self.assertHttpBadRequest(resp)
-        resp_data = self.deserialize(resp)
-        self.assertEqual(resp_data['reason'], "BAD_PARAMETERS")
-        self.assertKeys(resp_data['erroneous_parameters'], ['url'])
-
-    def test_invalid_url_2(self):
-        resp = self.perform_page_visited(url="www.elmundo.es") # Lacks protocol
-        self.assertHttpBadRequest(resp)
-        resp_data = self.deserialize(resp)
-        self.assertEqual(resp_data['reason'], "BAD_PARAMETERS")
-        self.assertKeys(resp_data['erroneous_parameters'], ['url'])
-
-    def test_invalid_date(self):
-        resp = self.perform_page_visited(url="http://loco.com", date="2014-89-34 00:00:00")
-        self.assertHttpBadRequest(resp)
-        resp_data = self.deserialize(resp)
-        self.assertEqual(resp_data['reason'], "BAD_PARAMETERS")
-        self.assertKeys(resp_data['erroneous_parameters'], ['date'])
-
-    ######################
-    # Behaviour tests
-    ######################
-    def test_add_page(self):
-        resp = self.perform_page_visited(url="http://www.lol.com")
-        self.assertHttpCreated(resp)
-
-        num_pages = PageVisited.objects.filter(user=self.user, page_visited="http://www.lol.com").count()
-        self.assertEqual(num_pages, 1)
-
-        resp = self.perform_page_visited(url="http://lol.com")
-        self.assertHttpCreated(resp)
-
-        num_pages = PageVisited.objects.filter(user=self.user).count()
-        self.assertEqual(num_pages, 2)
-
-    def test_two_domains_added(self):
-        resp = self.perform_page_visited(url="http://www.lol.com")
-        self.assertHttpCreated(resp)
-
-        domains = CategorizedDomain.objects.filter(domain="www.lol.com").count()
-        self.assertEqual(domains, 1)
-
-        resp = self.perform_page_visited(url="http://lol.com")
-        self.assertHttpCreated(resp)
-
-        domains = CategorizedDomain.objects.filter(domain="lol.com").count()
-        self.assertEqual(domains, 1)
-
-    def test_domains_repeated(self):
-        resp = self.perform_page_visited(url="http://www.lol.com")
-        self.assertHttpCreated(resp)
-
-        resp = self.perform_page_visited(url="http://www.lol.com/2")
-        self.assertHttpCreated(resp)
-
-        domains = CategorizedDomain.objects.filter(domain="www.lol.com").count()
-        self.assertEqual(domains, 1)
-
-    def test_categorized_domain(self):
-        resp = self.perform_page_visited(url="http://www.lol.com")
-        self.assertHttpCreated(resp)
-
-        domain = CategorizedDomain.objects.get(domain="www.lol.com")
-        self.assertEqual([x.name for x in domain.categories.all()], ['Humor'])
-
-    def test_categorized_domain_multiple_categories(self):
-        resp = self.perform_page_visited(url="http://stackoverflow.com")
-        self.assertHttpCreated(resp)
-
-        domain = CategorizedDomain.objects.get(domain="stackoverflow.com")
-        self.assertEqual(set([x.name for x in domain.categories.all()]),
-                         set(['Software/Technology', 'Research/Reference', 'Forums/Message boards']))
-
-    def test_user_categorization(self):
-        resp = self.perform_page_visited(url="http://stackoverflow.com")
-        self.assertHttpCreated(resp)
-
-        categories = CategorizedDomain.objects.get(domain="stackoverflow.com").categories.all()
-        for cat in categories:
-            user_cat = UserCategorization.objects.get(user=self.user, category=cat)
-            self.assertEqual(user_cat.weigh, 1)
-
-        resp = self.perform_page_visited(url="http://stackoverflow.com")
-        self.assertHttpCreated(resp)
-
-        categories = CategorizedDomain.objects.get(domain="stackoverflow.com").categories.all()
-        for cat in categories:
-            user_cat = UserCategorization.objects.get(user=self.user, category=cat)
-            self.assertEqual(user_cat.weigh, 2)
-
-    # TODO: More tests
-
 class HtmlVisitedResourceTest(AuthenticableResourceTest, ModelsMongoTest):
     """ Html visited service tests """
 
@@ -495,6 +497,170 @@ class HtmlVisitedResourceTest(AuthenticableResourceTest, ModelsMongoTest):
         return self.api_client.post(API_URI['html'], data=html_visited_data, format='json')
 
     #TODO: SEGUIR POR AQUI
+
+# class PageVisitedResourceTest(AuthenticableResourceTest, CategorizableResourceTest):
+#     """
+#     Page visited service tests
+#
+#     Avoid doing many calls to perform_page_visited as they are very slow (query to opendns)
+#     """
+#
+#     def setUp(self):
+#         super(PageVisitedResourceTest, self).setUp()
+#         self.perform_login()
+#
+#     def perform_page_visited(self, url, html_code=None, date="2014-01-01 00:00:00",
+#                              user_resource=None, session_token=None):
+#
+#         if user_resource is None:
+#             user_resource = self.user_resource
+#         if session_token is None:
+#             session_token = self.session_token
+#
+#         if html_code:
+#             page_visited_data = {
+#                 'user': user_resource,
+#                 'session_token': session_token,
+#                 'url': url,
+#                 'html_code': html_code,
+#                 'date': date
+#             }
+#         else:
+#             page_visited_data = {
+#                 'user': user_resource,
+#                 'session_token': session_token,
+#                 'url': url,
+#                 'date': date
+#             }
+#
+#         return self.api_client.post(API_URI['page_visited'], data=page_visited_data, format='json')
+#
+#     ######################
+#     # Parameters checks
+#     ######################
+#     def test_no_user(self):
+#         resp = self.perform_page_visited(url="http://www.lol.com",
+#                                          user_resource="/api/v1/user/1823456/",
+#                                          session_token=self.session_token)
+#         self.assertHttpUnauthorized(resp)
+#
+#     def test_invalid_session_token(self):
+#         resp = self.perform_page_visited(url="http://www.lol.com",
+#                                          user_resource=self.user_resource,
+#                                          session_token=self.session_token + "a")
+#         self.assertHttpUnauthorized(resp)
+#
+#     def test_no_url(self):
+#         resp = self.perform_page_visited(url="")
+#         self.assertHttpBadRequest(resp)
+#         resp_data = self.deserialize(resp)
+#         self.assertEqual(resp_data['reason'], "BAD_PARAMETERS")
+#         self.assertKeys(resp_data['erroneous_parameters'], ['url'])
+#
+#     def test_no_date(self):
+#         resp = self.perform_page_visited(url="http://molamazo.com", date="")
+#         self.assertHttpBadRequest(resp)
+#         resp_data = self.deserialize(resp)
+#         self.assertEqual(resp_data['reason'], "BAD_PARAMETERS")
+#         self.assertKeys(resp_data['erroneous_parameters'], ['date'])
+#
+#
+#     ######################
+#     # Validation checks
+#     ######################
+#     def test_invalid_url_1(self):
+#         resp = self.perform_page_visited(url="1234567890")
+#         self.assertHttpBadRequest(resp)
+#         resp_data = self.deserialize(resp)
+#         self.assertEqual(resp_data['reason'], "BAD_PARAMETERS")
+#         self.assertKeys(resp_data['erroneous_parameters'], ['url'])
+#
+#     def test_invalid_url_2(self):
+#         resp = self.perform_page_visited(url="www.elmundo.es") # Lacks protocol
+#         self.assertHttpBadRequest(resp)
+#         resp_data = self.deserialize(resp)
+#         self.assertEqual(resp_data['reason'], "BAD_PARAMETERS")
+#         self.assertKeys(resp_data['erroneous_parameters'], ['url'])
+#
+#     def test_invalid_date(self):
+#         resp = self.perform_page_visited(url="http://loco.com", date="2014-89-34 00:00:00")
+#         self.assertHttpBadRequest(resp)
+#         resp_data = self.deserialize(resp)
+#         self.assertEqual(resp_data['reason'], "BAD_PARAMETERS")
+#         self.assertKeys(resp_data['erroneous_parameters'], ['date'])
+#
+#     ######################
+#     # Behaviour tests
+#     ######################
+#     def test_add_page(self):
+#         resp = self.perform_page_visited(url="http://www.lol.com")
+#         self.assertHttpCreated(resp)
+#
+#         num_pages = PageVisited.objects.filter(user=self.user, page_visited="http://www.lol.com").count()
+#         self.assertEqual(num_pages, 1)
+#
+#         resp = self.perform_page_visited(url="http://lol.com")
+#         self.assertHttpCreated(resp)
+#
+#         num_pages = PageVisited.objects.filter(user=self.user).count()
+#         self.assertEqual(num_pages, 2)
+#
+#     def test_two_domains_added(self):
+#         resp = self.perform_page_visited(url="http://www.lol.com")
+#         self.assertHttpCreated(resp)
+#
+#         domains = CategorizedDomain.objects.filter(domain="www.lol.com").count()
+#         self.assertEqual(domains, 1)
+#
+#         resp = self.perform_page_visited(url="http://lol.com")
+#         self.assertHttpCreated(resp)
+#
+#         domains = CategorizedDomain.objects.filter(domain="lol.com").count()
+#         self.assertEqual(domains, 1)
+#
+#     def test_domains_repeated(self):
+#         resp = self.perform_page_visited(url="http://www.lol.com")
+#         self.assertHttpCreated(resp)
+#
+#         resp = self.perform_page_visited(url="http://www.lol.com/2")
+#         self.assertHttpCreated(resp)
+#
+#         domains = CategorizedDomain.objects.filter(domain="www.lol.com").count()
+#         self.assertEqual(domains, 1)
+#
+#     def test_categorized_domain(self):
+#         resp = self.perform_page_visited(url="http://www.lol.com")
+#         self.assertHttpCreated(resp)
+#
+#         domain = CategorizedDomain.objects.get(domain="www.lol.com")
+#         self.assertEqual([x.name for x in domain.categories.all()], ['Humor'])
+#
+#     def test_categorized_domain_multiple_categories(self):
+#         resp = self.perform_page_visited(url="http://stackoverflow.com")
+#         self.assertHttpCreated(resp)
+#
+#         domain = CategorizedDomain.objects.get(domain="stackoverflow.com")
+#         self.assertEqual(set([x.name for x in domain.categories.all()]),
+#                          set(['Software/Technology', 'Research/Reference', 'Forums/Message boards']))
+#
+#     def test_user_categorization(self):
+#         resp = self.perform_page_visited(url="http://stackoverflow.com")
+#         self.assertHttpCreated(resp)
+#
+#         categories = CategorizedDomain.objects.get(domain="stackoverflow.com").categories.all()
+#         for cat in categories:
+#             user_cat = UserCategorization.objects.get(user=self.user, category=cat)
+#             self.assertEqual(user_cat.weigh, 1)
+#
+#         resp = self.perform_page_visited(url="http://stackoverflow.com")
+#         self.assertHttpCreated(resp)
+#
+#         categories = CategorizedDomain.objects.get(domain="stackoverflow.com").categories.all()
+#         for cat in categories:
+#             user_cat = UserCategorization.objects.get(user=self.user, category=cat)
+#             self.assertEqual(user_cat.weigh, 2)
+#
+#             # TODO: More tests
 
 class SearchQueryResourceTest(AuthenticableResourceTest):
     """ Test case for search engines queries """
