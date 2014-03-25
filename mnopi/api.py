@@ -30,14 +30,19 @@ def get_user_id_from_resource(user_resource):
 
 class MnopiUserAuthentication(Authentication):
     """
-    Basic API authentication which requires username and correct access_key for the user
+    Basic API authentication which requires the user resource and the session token in the header
+
+    Users are able to access or modify only their data
     """
 
     def is_authenticated(self, request, **kwargs):
 
+        if not 'HTTP_SESSION_TOKEN' in request.META:
+            return False
+
         data = json.loads(request.body)
         user_resource = data.get('user', '')
-        session_token = data.get('session_token', '')
+        session_token = request.META['HTTP_SESSION_TOKEN']
 
         try:
             user = User.objects.get(pk=int(get_user_id_from_resource(user_resource)))
@@ -299,7 +304,7 @@ class PageVisitedResource(ModelResource):
         user_resource = data.get('user', '')
         date = data.get('date', '')
         html_code = data.get('html_code', '')
-        session_token = data.get('session_token', '')
+        session_token = request.META['HTTP_SESSION_TOKEN']
 
         user = User.objects.get(pk=int(get_user_id_from_resource(user_resource)))
         html_id = ""
@@ -356,7 +361,7 @@ class SearchQueryResource(ModelResource):
         authentication = MnopiUserAuthentication()
         authorization = Authorization()
         resource_name = 'search_query'
-        allowed_methods = ['post']
+        # allowed_methods = ['post']
         validation = SearchQueryValidation()
 
     def is_valid(self, bundle):
@@ -375,6 +380,7 @@ class SearchQueryResource(ModelResource):
         #bundle.obj.user = UserResource().get_via_uri(bundle.data['user_resource'])
 
         # Get the client from the current session
-        bundle.obj.client = ClientSession.objects.get(session_token=bundle.data['session_token']).client
+        bundle.obj.client = ClientSession.objects.get(
+            session_token=bundle.request.META['HTTP_SESSION_TOKEN']).client
 
         return bundle
