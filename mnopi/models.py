@@ -112,11 +112,11 @@ class User(AbstractUser):
              {"News/Media": ["elpais.com", "www.elmundo.es", ...],
               "CategoryX" : ["blabla.com", ...] }
         """
-        sql = ('SELECT DISTINCT domain, user_category.name as category '
+        sql = ('SELECT DISTINCT domain, user_categories.name as category '
                'FROM users INNER JOIN pages_visited ON (users.id = pages_visited.user_id) '
                           'INNER JOIN domains ON (pages_visited.domain_id = domains.id) '
                           'INNER JOIN domains_categories ON (domains.id = domains_categories.categorizeddomain_id) '
-                          'INNER JOIN user_category ON (domains_categories.usercategory_id = user_category.id) '
+                          'INNER JOIN user_categories ON (domains_categories.usercategory_id = user_categories.id) '
                'WHERE username = %s')
 
         # Username automatically escaped
