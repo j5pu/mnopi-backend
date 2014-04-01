@@ -4,6 +4,7 @@ Application customizable constants
 """
 
 USER_KEYWORDS_NUMBER = 50
+WORD_MAX_LENGTH = 30
 
 #
 # Dashboard constants

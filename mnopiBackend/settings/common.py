@@ -14,8 +14,7 @@ DATABASES = {
     "ENGINE": "django.db.backends.mysql",
     "NAME": "mnopi",
     "USER": "root",
-    "PASSWORD": "1aragon1",
-    "HOST": "localhost",
+    "HOST": "127.0.0.1",
     "PORT": "",
     }
 }

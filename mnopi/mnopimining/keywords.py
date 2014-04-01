@@ -6,6 +6,7 @@ from nltk.stem.snowball import SnowballStemmer
 from nltk import FreqDist
 
 import string
+from mnopi.constants import WORD_MAX_LENGTH
 
 REMOVE_PUNCTUATION_MAPPING = dict.fromkeys(map(ord, string.punctuation))
 SPANISH_STOPWORDS_UNICODE = [unicode(word, 'utf-8') for word in stopwords.words('spanish')]
@@ -48,7 +49,7 @@ def clean_invalid_words(words):
     """
     valid_words = []
     for word in words:
-        if not word.isdigit() and not len(word) == 1:
+        if not word.isdigit() and not len(word) == 1 and len(word) <= WORD_MAX_LENGTH:
             valid_words.append(word)
 
     return valid_words
