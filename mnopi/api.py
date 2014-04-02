@@ -8,7 +8,7 @@ from tastypie.resources import ModelResource
 from tastypie.authentication import Authentication
 from tastypie.authorization import Authorization
 from tastypie.validation import Validation
-from tastypie.exceptions import ImmediateHttpResponse
+from tastypie.exceptions import ImmediateHttpResponse, Unauthorized
 from tastypie.utils import trailing_slash, dict_strip_unicode_keys
 
 from django.conf.urls import url
@@ -40,17 +40,11 @@ class MnopiUserAuthentication(Authentication):
         if not 'HTTP_SESSION_TOKEN' in request.META:
             return False
 
-        data = json.loads(request.body)
-        user_resource = data.get('user', '')
         session_token = request.META['HTTP_SESSION_TOKEN']
 
+        # Doesn't check user to session token to avoid load on server
         try:
-            user = User.objects.get(pk=int(get_user_id_from_resource(user_resource)))
-        except Exception:
-            return False
-
-        try:
-            session = ClientSession.objects.get(session_token=session_token, user=user)
+            session = ClientSession.objects.get(session_token=session_token)
         except ClientSession.DoesNotExist:
             return False
 
@@ -58,7 +52,39 @@ class MnopiUserAuthentication(Authentication):
             session.delete()
             return False
 
+        request.user = session.user
+
         return True
+
+class UserObjectsOnlyAuthorization(Authorization):
+    """
+    Allows users to read or create only their data
+
+    Update and deletions unauthorized
+    """
+    def read_list(self, object_list, bundle):
+        return object_list.filter(user=bundle.request.user)
+
+    def read_detail(self, object_list, bundle):
+        return bundle.obj.user == bundle.request.user
+
+    def create_list(self, object_list, bundle):
+        return object_list.filter(user=bundle.request.user)
+
+    def create_detail(self, object_list, bundle):
+        return bundle.obj.user == bundle.request.user
+
+    def update_list(self, object_list, bundle):
+        raise Unauthorized("Update not possible")
+
+    def update_detail(self, object_list, bundle):
+        raise Unauthorized("Update not possible")
+
+    def delete_list(self, object_list, bundle):
+        raise Unauthorized("Deletion not possible")
+
+    def delete_detail(self, object_list, bundle):
+        raise Unauthorized("Deletion not possible")
 
 class UserCreationValidation(Validation):
 
@@ -359,7 +385,7 @@ class SearchQueryResource(ModelResource):
     class Meta:
         queryset = Search.objects.all()
         authentication = MnopiUserAuthentication()
-        authorization = Authorization()
+        authorization = UserObjectsOnlyAuthorization()
         resource_name = 'search_query'
         # allowed_methods = ['post']
         validation = SearchQueryValidation()
