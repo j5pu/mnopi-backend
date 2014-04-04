@@ -2,7 +2,7 @@ import datetime
 import urlparse
 import json
 
-from tastypie import fields
+from tastypie import fields, http
 from tastypie.http import HttpCreated
 from tastypie.resources import ModelResource, ALL
 from tastypie.authentication import Authentication
@@ -15,7 +15,7 @@ from django.conf.urls import url
 from django.contrib.auth import authenticate
 from django.utils.timezone import utc
 from django.core.validators import URLValidator, validate_email
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, ObjectDoesNotExist
 
 from mnopi.models import User, PageVisited, Search, ClientSession, CategorizedDomain, Client
 from mnopi import constants
@@ -315,6 +315,11 @@ class PageVisitedResource(ModelResource):
 
         return True
 
+    def prepend_urls(self):
+        return [url(r"^(?P<resource_name>%s)/(?P<pk>\w[\w/-]*)/categories%s$" %
+                (self._meta.resource_name, trailing_slash()),
+                self.wrap_view('page_categories'), name="page_categories")]
+
     def dispatch(self, request_type, request, **kwargs):
         """
         Overriden to control post behaviour
@@ -358,6 +363,23 @@ class PageVisitedResource(ModelResource):
         user.update_categories_visited(categories)
 
         return self.create_response(request, '', HttpCreated) #TODO: try to send empty data instead of ""
+
+    def page_categories(self, request, **kwargs):
+        self.method_check(request, allowed=['get'])
+        self.is_authenticated(request)
+
+        # Tastypie is so great and easy for authorization...
+        bundle = self.build_bundle(request=request)
+        try:
+            obj = self.cached_obj_get(bundle=bundle, **self.remove_api_resource_names(kwargs))
+        except ObjectDoesNotExist:
+            return http.HttpNotFound()
+        bundle = self.build_bundle(obj=obj, request=request)
+        self.authorized_read_detail(None, bundle)
+
+        page = PageVisited.objects.get(id=kwargs['pk'])
+        return self.create_response(request, [cat.name for cat in page.domain.categories.all()])
+
 
 class SearchQueryValidation(Validation):
 
