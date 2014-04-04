@@ -4,7 +4,7 @@ import json
 
 from tastypie import fields
 from tastypie.http import HttpCreated
-from tastypie.resources import ModelResource
+from tastypie.resources import ModelResource, ALL
 from tastypie.authentication import Authentication
 from tastypie.authorization import Authorization
 from tastypie.validation import Validation
@@ -42,7 +42,6 @@ class MnopiUserAuthentication(Authentication):
 
         session_token = request.META['HTTP_SESSION_TOKEN']
 
-        # Doesn't check user to session token to avoid load on server
         try:
             session = ClientSession.objects.get(session_token=session_token)
         except ClientSession.DoesNotExist:
@@ -69,10 +68,10 @@ class UserObjectsOnlyAuthorization(Authorization):
         return bundle.obj.user == bundle.request.user
 
     def create_list(self, object_list, bundle):
-        return object_list.filter(user=bundle.request.user)
+        return bundle.request.user == UserResource().get_via_uri(bundle.data['user'])
 
     def create_detail(self, object_list, bundle):
-        return bundle.obj.user == bundle.request.user
+        return bundle.request.user == UserResource().get_via_uri(bundle.data['user'])
 
     def update_list(self, object_list, bundle):
         raise Unauthorized("Update not possible")
@@ -292,7 +291,7 @@ class PageVisitedResource(ModelResource):
     class Meta:
         queryset = PageVisited.objects.all()
         authentication = MnopiUserAuthentication()
-        authorization = Authorization()
+        authorization = UserObjectsOnlyAuthorization()
         validation = PageVisitedValidation()
         resource_name = 'page_visited'
 
@@ -386,9 +385,17 @@ class SearchQueryResource(ModelResource):
         queryset = Search.objects.all()
         authentication = MnopiUserAuthentication()
         authorization = UserObjectsOnlyAuthorization()
-        resource_name = 'search_query'
-        # allowed_methods = ['post']
         validation = SearchQueryValidation()
+        resource_name = 'search_query'
+        allowed_methods = ['post', 'get', 'patch', 'put']
+        excludes = ['id']
+        filtering = {
+            'search_query': ALL,
+            'date': ALL
+        }
+        ordering = {
+            'date': ALL
+        }
 
     def is_valid(self, bundle):
         # Overriden to generate customized overall error

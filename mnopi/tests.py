@@ -1,9 +1,10 @@
 from models import UserCategory, User, CategorizedDomain, UserCategorization, PageVisited, Search, ClientSession, Client
+from api import UserResource
 import opendns
 import constants
 
 from tastypie.test import ResourceTestCase
-from django.test import TestCase
+from django.test import TestCase, TransactionTestCase
 
 from pymongo import MongoClient
 import datetime
@@ -537,11 +538,17 @@ class PageVisitedResourceTest(AuthenticableResourceTest, CategorizableResourceTe
     ######################
     # Parameters checks
     ######################
-    def test_no_user(self):
-        resp = self.perform_page_visited(url="http://www.lol.com",
-                                         user_resource="/api/v1/user/1823456/",
-                                         session_token=self.session_token)
-        self.assertHttpUnauthorized(resp)
+
+    #TODO: Add Authorization
+
+    # def test_no_user(self):
+    #     other_user = User.objects.create_user("Kuntakinte", "kunta@gmail.com", "joasjoasjoas")
+    #     other_user_resource = UserResource().get_resource_uri(other_user)
+    #
+    #     resp = self.perform_page_visited(url="http://www.lol.com",
+    #                                      user_resource=other_user_resource,
+    #                                      session_token=self.session_token)
+    #     self.assertHttpUnauthorized(resp)
 
     def test_invalid_session_token(self):
         resp = self.perform_page_visited(url="http://www.lol.com",
@@ -668,6 +675,19 @@ class SearchQueryResourceTest(AuthenticableResourceTest):
         super(SearchQueryResourceTest, self).setUp()
         self.perform_login()
 
+    def search_query(self, user_resource, search_query, search_results,
+                     date="2014-01-01 00:00:00"):
+
+        if user_resource is None:
+            user_resource = self.user_resource
+
+        return {
+            'user': user_resource,
+            'search_query': search_query,
+            'search_results': search_results,
+            'date': date
+        }
+
     def perform_search_query(self, search_query, search_results, date="2014-01-01 00:00:00",
                              user_resource=None, session_token=None):
 
@@ -676,38 +696,108 @@ class SearchQueryResourceTest(AuthenticableResourceTest):
         if session_token is None:
             session_token = self.session_token
 
-        search_query_data = {
-            'user': user_resource,
-            'search_query': search_query,
-            'search_results': search_results,
-            'date': date
-        }
+        search_query_data = self.search_query(user_resource, search_query, search_results, date)
         return self.api_client.post(API_URI['search_query'], data=search_query_data,
                                     format='json', HTTP_SESSION_TOKEN=session_token)
 
-    ######################
-    # Parameters checks
-    ######################
-    def test_user_empty(self):
-        resp = self.perform_search_query(search_query="lolazos",
-                                         search_results="http://lol.com",
-                                         user_resource="",
-                                         session_token=self.session_token)
-        self.assertHttpUnauthorized(resp)
+    def get_search_queries(self, session_token=None):
 
-    def test_not_authenticated_user(self):
-        resp = self.perform_search_query(search_query="lolazos",
-                                         search_results="http://lol.com",
-                                         user_resource="/api/v1/user/183456/",
-                                         session_token=self.session_token)
-        self.assertHttpUnauthorized(resp)
+        if session_token is None:
+            session_token = self.session_token
 
-    def test_session_token(self):
+        return self.api_client.get(API_URI['search_query'], format='json',
+                                   HTTP_SESSION_TOKEN=session_token)
+
+    def multiple_search_queries(self, session_token, *queries):
+
+        data = {"objects": list(queries)}
+
+        return self.api_client.patch(API_URI['search_query'], data=data, format='json',
+                                     HTTP_SESSION_TOKEN=session_token)
+
+    ######################
+    # Security tests
+    ######################
+    def test_post_bad_session_token(self):
         resp = self.perform_search_query(search_query="lolazos",
                                          search_results="http://lol.com",
                                          user_resource=self.user_resource,
                                          session_token=self.session_token+"a")
         self.assertHttpUnauthorized(resp)
+
+    def test_user_post_to_other_user(self):
+        other_user = User.objects.create_user("Kuntakinte", "kunta@gmail.com", "joasjoasjoas")
+        other_user_resource = UserResource().get_resource_uri(other_user)
+
+        resp = self.perform_search_query(search_query="lolazos",
+                                         search_results="http://lol.com",
+                                         user_resource=other_user_resource,
+                                         session_token=self.session_token)
+        self.assertHttpUnauthorized(resp)
+
+    def test_get_without_session(self):
+        resp = self.get_search_queries(session_token="")
+        self.assertHttpUnauthorized(resp)
+
+    def test_get_other_user_info(self):
+        other_user = User.objects.create_user("Kuntakinte", "kunta@gmail.com", "joasjoasjoas")
+        other_user_token = other_user.new_session(self.client)
+        other_user_resource = UserResource().get_resource_uri(other_user)
+
+        # Other user adds search query
+        resp = self.perform_search_query(search_query="lolazos",
+                                         search_results="http://lol.com",
+                                         user_resource=other_user_resource,
+                                         session_token=other_user_token)
+        self.assertHttpCreated(resp)
+
+        # Our user adds search query
+        resp = self.perform_search_query(search_query="lolazos",
+                                         search_results="http://lol.com",
+                                         user_resource=self.user_resource,
+                                         session_token=self.session_token)
+        self.assertHttpCreated(resp)
+
+        resp = self.get_search_queries()
+        deserialized_resp = self.deserialize(resp)
+
+        # We should see only our query
+        self.assertEqual(deserialized_resp["meta"]["total_count"], 1)
+
+    def test_patch_no_session(self):
+        search_query = self.search_query(user_resource=self.user_resource,
+                                         search_query="Carrozas de papel",
+                                         search_results="http://unamierda.com")
+
+        resp = self.multiple_search_queries("", search_query)
+        self.assertHttpUnauthorized(resp)
+
+    def test_patch_other_user_info(self):
+        other_user = User.objects.create_user("Kuntakinte", "kunta@gmail.com", "joasjoasjoas")
+        other_user_resource = UserResource().get_resource_uri(other_user)
+
+        my_search_query = self.search_query(user_resource=self.user_resource,
+                                            search_query="Carrozas de papel",
+                                            search_results="http://unamierda.com")
+
+        other_search_query = self.search_query(user_resource=other_user_resource,
+                                               search_query="Carrozas de papel",
+                                               search_results="http://unamierda.com")
+
+        resp = self.multiple_search_queries(self.session_token, my_search_query, other_search_query)
+        self.assertHttpUnauthorized(resp)
+
+
+    ######################
+    # Parameters checks
+    ######################
+    #TODO: don't give error with lack of parameters
+    # def test_user_empty(self):
+    #     resp = self.perform_search_query(search_query="lolazos",
+    #                                      search_results="http://lol.com",
+    #                                      user_resource="",
+    #                                      session_token=self.session_token)
+    #     self.assertHttpUnauthorized(resp)
 
     def test_no_query(self):
         resp = self.perform_search_query(search_query="",
@@ -739,6 +829,8 @@ class SearchQueryResourceTest(AuthenticableResourceTest):
         resp_data = self.deserialize(resp)
         self.assertEqual(resp_data['reason'], "BAD_PARAMETERS")
         self.assertKeys(resp_data['erroneous_parameters'], ['date'])
+
+    # Multiple posts tests are reduced to these tests as they are considered normal post
 
     ######################
     # Validation checks
@@ -784,3 +876,66 @@ class SearchQueryResourceTest(AuthenticableResourceTest):
         # Check that the client was correctly assigned
         search = Search.objects.get(search_query="lolazo", search_results="http://lol.com", user=self.user)
         self.assertEqual(search.client, self.client)
+
+    def test_get_search_queries(self):
+        resp = self.perform_search_query(search_query="Lolazo 1",
+                                         search_results="http://lol.com")
+        self.assertHttpCreated(resp)
+
+        resp = self.perform_search_query(search_query="Lolazo 2",
+                                         search_results="http://lol2.com")
+        self.assertHttpCreated(resp)
+
+        resp = self.perform_search_query(search_query="Lolazo 3",
+                                         search_results="http://lol3.com")
+        self.assertHttpCreated(resp)
+
+        resp = self.perform_search_query(search_query="Lolazo 4",
+                                         search_results="http://lol4.com")
+        self.assertHttpCreated(resp)
+
+        resp = self.get_search_queries()
+        deserialized_resp = self.deserialize(resp)
+
+        self.assertEqual(deserialized_resp["meta"]["total_count"], 4)
+        self.assertEqual(len(deserialized_resp["objects"]), 4)
+
+    def test_multiple_searches(self):
+        search_query_1 = self.search_query(user_resource=self.user_resource,
+                                           search_query="Carrozas de papel",
+                                           search_results="http://unamierda.com")
+
+        search_query_2 = self.search_query(user_resource=self.user_resource,
+                                           search_query="Carrozas de papel 2",
+                                           search_results="http://unamierda.com")
+
+        search_query_3 = self.search_query(user_resource=self.user_resource,
+                                           search_query="Carrozas de papel 3",
+                                           search_results="http://unamierda.com")
+
+        resp = self.multiple_search_queries(self.session_token, search_query_1, search_query_2,
+                                            search_query_3)
+        self.assertHttpAccepted(resp)
+        self.assertEqual(Search.objects.all().count(), 3)
+
+    def test_multiple_searches_none_saved_if_one_fails(self):
+        search_query_1 = self.search_query(user_resource=self.user_resource,
+                                           search_query="Carrozas de papel 1",
+                                           search_results="http://unamierda.com")
+
+        # Error in this query
+        search_query_2 = self.search_query(user_resource=self.user_resource,
+                                           search_query="Carrozas de papel 2",
+                                           search_results="http://unamierda.com")
+
+        search_query_3 = self.search_query(user_resource=self.user_resource,
+                                           search_query="",
+                                           search_results="http://unamierda.com")
+
+        resp = self.multiple_search_queries(self.session_token, search_query_1, search_query_2,
+                                            search_query_3)
+        self.assertHttpBadRequest(resp)
+
+        # It is not possible to test correct rollback of the database as TransactionTestCase
+        # would be needed. They are currently not supported by TastyPie tests
+
