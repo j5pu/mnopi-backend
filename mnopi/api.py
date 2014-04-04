@@ -339,6 +339,7 @@ class PageVisitedResource(ModelResource):
         self.is_valid(bundle)
         if bundle.errors:
             raise ImmediateHttpResponse(response=self.error_response(bundle.request, bundle.errors))
+        self.authorized_create_detail(None, bundle)
 
         url = data.get('url', '')
         user_resource = data.get('user', '')
