@@ -286,7 +286,7 @@ class PageVisitedValidation(Validation):
 
 
 class PageVisitedResource(ModelResource):
-    user = fields.ForeignKey(UserResource, 'user_resource')
+    user = fields.ForeignKey(UserResource, 'user')
 
     class Meta:
         queryset = PageVisited.objects.all()
@@ -294,6 +294,14 @@ class PageVisitedResource(ModelResource):
         authorization = UserObjectsOnlyAuthorization()
         validation = PageVisitedValidation()
         resource_name = 'page_visited'
+        allowed_methods = ['post', 'get']
+        excludes = ['id', 'html_ref', 'user']
+        filtering = {
+            'date': ALL
+        }
+        ordering = {
+            'date': ALL
+        }
 
     def is_valid(self, bundle):
         # Overriden to generate customized overall error
@@ -307,13 +315,15 @@ class PageVisitedResource(ModelResource):
 
         return True
 
-    def prepend_urls(self):
-        return [url(r"^(?P<resource_name>%s)%s$" %
-                (self._meta.resource_name, trailing_slash()),
-                self.wrap_view('add_page_visited'), name="add_page"),
-                url(r"^(?P<resource_name>%s)/html%s$" %
-                (self._meta.resource_name, trailing_slash()),
-                self.wrap_view('add_html_visited'), name="add_html")]
+    def dispatch(self, request_type, request, **kwargs):
+        """
+        Overriden to control post behaviour
+        """
+        request_method = request.method.lower()
+        if request_method == 'post' and 'post' in self._meta.allowed_methods:
+            return self.add_page_visited(request, **kwargs)
+        else:
+            return super(PageVisitedResource, self).dispatch(request_type, request, **kwargs)
 
     def add_page_visited(self, request, **kwargs):
         self.method_check(request, allowed=['post'])
