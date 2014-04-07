@@ -15,6 +15,7 @@ API_URI = {
     'signup': '/api/v1/user/',
     'login': '/api/v1/user/login/',
     'page_visited': '/api/v1/page_visited/',
+    'page_categories': '/api/v1/page_visited/%s/categories/',
     'html': '/api/v1/page_visited/html/',
     'search_query': '/api/v1/search_query/'
 }
@@ -535,26 +536,105 @@ class PageVisitedResourceTest(AuthenticableResourceTest, CategorizableResourceTe
         return self.api_client.post(API_URI['page_visited'], data=page_visited_data,
                                     format='json', HTTP_SESSION_TOKEN=session_token)
 
+    def get_pages_visited(self, session_token=None):
+
+        if session_token is None:
+            session_token = self.session_token
+
+        return self.api_client.get(API_URI['page_visited'], format='json',
+                                   HTTP_SESSION_TOKEN=session_token)
+
+    def get_page_categories(self, page_id, session_token=None):
+
+        if session_token is None:
+            session_token = self.session_token
+
+        return self.api_client.get(API_URI['page_categories'] % page_id, format='json',
+                                   HTTP_SESSION_TOKEN=session_token)
+
     ######################
-    # Parameters checks
+    # Security tests
     ######################
-
-    #TODO: Add Authorization
-
-    # def test_no_user(self):
-    #     other_user = User.objects.create_user("Kuntakinte", "kunta@gmail.com", "joasjoasjoas")
-    #     other_user_resource = UserResource().get_resource_uri(other_user)
-    #
-    #     resp = self.perform_page_visited(url="http://www.lol.com",
-    #                                      user_resource=other_user_resource,
-    #                                      session_token=self.session_token)
-    #     self.assertHttpUnauthorized(resp)
-
     def test_invalid_session_token(self):
         resp = self.perform_page_visited(url="http://www.lol.com",
                                          user_resource=self.user_resource,
                                          session_token=self.session_token + "a")
         self.assertHttpUnauthorized(resp)
+
+    def test_no_user(self):
+        other_user = User.objects.create_user("Kuntakinte", "kunta@gmail.com", "joasjoasjoas")
+        other_user_resource = UserResource().get_resource_uri(other_user)
+
+        resp = self.perform_page_visited(url="http://www.lol.com",
+                                         user_resource=other_user_resource,
+                                         session_token=self.session_token)
+        self.assertHttpUnauthorized(resp)
+
+    def test_post_to_other_user(self):
+        other_user = User.objects.create_user("Kuntakinte", "kunta@gmail.com", "joasjoasjoas")
+        other_user_resource = UserResource().get_resource_uri(other_user)
+
+        resp = self.perform_page_visited(url="http://www.google.com",
+                                         user_resource=other_user_resource,
+                                         session_token=self.session_token)
+        self.assertHttpUnauthorized(resp)
+
+    def test_get_without_session(self):
+        resp = self.get_pages_visited(session_token="")
+        self.assertHttpUnauthorized(resp)
+
+    def test_get_other_user_pages_visited(self):
+        other_user = User.objects.create_user("Kuntakinte", "kunta@gmail.com", "joasjoasjoas")
+        other_user_token = other_user.new_session(self.client)
+        other_user_resource = UserResource().get_resource_uri(other_user)
+
+        # Other user adds page visited
+        resp = self.perform_page_visited(url="http://www.google.com",
+                                         user_resource=other_user_resource,
+                                         session_token=other_user_token)
+        self.assertHttpCreated(resp)
+
+        # Our user adds two pages
+        resp = self.perform_page_visited(url="http://www.vivaejpania.com",
+                                         user_resource=self.user_resource,
+                                         session_token=self.session_token)
+        self.assertHttpCreated(resp)
+
+        resp = self.perform_page_visited(url="http://www.manquepierda.net",
+                                         user_resource=self.user_resource,
+                                         session_token=self.session_token)
+        self.assertHttpCreated(resp)
+
+        resp = self.get_pages_visited()
+        deserialized_resp = self.deserialize(resp)
+
+        # We should see only our pages
+        self.assertEqual(deserialized_resp["meta"]["total_count"], 2)
+
+    def test_get_categories_without_sesion(self):
+        self.perform_page_visited(url="http://www.vivaejpania.com")
+        resp = self.get_page_categories(page_id=1, session_token="asdasd")
+        self.assertHttpUnauthorized(resp)
+
+    def test_get_categories_of_not_owned_page(self):
+        other_user = User.objects.create_user("Kuntakinte", "kunta@gmail.com", "joasjoasjoas")
+        other_user_token = other_user.new_session(self.client)
+        other_user_resource = UserResource().get_resource_uri(other_user)
+
+        # Other user adds page visited
+        resp = self.perform_page_visited(url="http://www.google.com",
+                                         user_resource=other_user_resource,
+                                         session_token=other_user_token)
+        self.assertHttpCreated(resp)
+
+        # We try to access its categories
+        inserted_page = PageVisited.objects.latest('id')
+        resp = self.get_page_categories(page_id=inserted_page.id, session_token=self.session_token)
+        self.assertHttpUnauthorized(resp)
+
+    ######################
+    # Parameters checks
+    ######################
 
     def test_no_url(self):
         resp = self.perform_page_visited(url="")
@@ -668,6 +748,47 @@ class PageVisitedResourceTest(AuthenticableResourceTest, CategorizableResourceTe
 
             # TODO: More tests
 
+    def test_get_pages_visited(self):
+        resp = self.perform_page_visited(url="http://www.one.com")
+        self.assertHttpCreated(resp)
+
+        resp = self.perform_page_visited(url="http://www.two.com")
+        self.assertHttpCreated(resp)
+
+        resp = self.perform_page_visited(url="http://www.three.com")
+        self.assertHttpCreated(resp)
+
+        resp = self.perform_page_visited(url="http://www.four.com")
+        self.assertHttpCreated(resp)
+
+        resp = self.get_pages_visited()
+        deserialized_resp = self.deserialize(resp)
+
+        self.assertEqual(deserialized_resp["meta"]["total_count"], 4)
+        self.assertEqual(len(deserialized_resp["objects"]), 4)
+
+    def test_get_pages_categories(self):
+        resp = self.perform_page_visited(url="http://www.lol.com")
+        self.assertHttpCreated(resp)
+
+        inserted_page = PageVisited.objects.latest('id')
+        resp = self.get_page_categories(inserted_page.id)
+        self.assertHttpOK(resp)
+
+        resp_data = self.deserialize(resp)
+        self.assertEqual(resp_data, ['Humor'])
+
+        resp = self.perform_page_visited(url="http://stackoverflow.com")
+        self.assertHttpCreated(resp)
+
+        inserted_page = PageVisited.objects.latest('id')
+        resp = self.get_page_categories(inserted_page.id)
+        self.assertHttpOK(resp)
+
+        resp_data = self.deserialize(resp)
+        self.assertEqual(set(resp_data),
+                         set(['Software/Technology', 'Research/Reference', 'Forums/Message boards']))
+
 class SearchQueryResourceTest(AuthenticableResourceTest):
     """ Test case for search engines queries """
 
@@ -739,7 +860,7 @@ class SearchQueryResourceTest(AuthenticableResourceTest):
         resp = self.get_search_queries(session_token="")
         self.assertHttpUnauthorized(resp)
 
-    def test_get_other_user_info(self):
+    def test_get_other_user_search_query(self):
         other_user = User.objects.create_user("Kuntakinte", "kunta@gmail.com", "joasjoasjoas")
         other_user_token = other_user.new_session(self.client)
         other_user_resource = UserResource().get_resource_uri(other_user)
