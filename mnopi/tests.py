@@ -1,12 +1,15 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+from django.core.management import call_command
 from models import UserCategory, User, CategorizedDomain, UserCategorization, PageVisited, Search, ClientSession, Client
 from api import UserResource
 import opendns
 import constants
-
+import management.commands.process_keywords
 from tastypie.test import ResourceTestCase
 from django.test import TestCase, TransactionTestCase
 
-from pymongo import MongoClient
+from pymongo import MongoClient, Connection
 import datetime
 import json
 
@@ -64,7 +67,7 @@ class AuthenticableResourceTest(ResourceTestCase):
                 'key': key,
                 'renew': renew,
                 'client': client
-        }
+            }
         resp = self.api_client.post(API_URI['login'], data=login_data, format='json')
         deserialized_resp = self.deserialize(resp)
 
@@ -85,10 +88,16 @@ class ModelsMongoTest(TestCase):
         super(ModelsMongoTest, cls).setUpClass()
         cls.test_mongo.db = MongoClient().mnopi_test
 
+    def tearDown(self):
+        super(ModelsMongoTest, self).tearDown()
+        self.test_mongo.db.htmlVisited.drop()
+        self.test_mongo.db.userKeywords.drop()
+
     @classmethod
     def tearDownClass(cls):
         super(ModelsMongoTest, cls).tearDownClass()
-        cls.test_mongo.db.drop()
+        c = Connection()
+        c.drop_database("mnopi_test")
 
 class UserRegistrationTest(ResourceTestCase):
     """ Sign up service tests """
@@ -483,7 +492,7 @@ class HtmlVisitedResourceTest(AuthenticableResourceTest, ModelsMongoTest):
         self.perform_login()
 
 
-    def perform_html_visited(self, url, html_code, user_resource=None, session_token=None):
+    def perform_html_visited(self, url, html_code, date, user_resource=None, session_token=None):
 
         if user_resource is None:
             user_resource = self.user_resource
@@ -491,14 +500,206 @@ class HtmlVisitedResourceTest(AuthenticableResourceTest, ModelsMongoTest):
             session_token = self.session_token
 
         html_visited_data = {
-            'user_resource': user_resource,
+            'user': user_resource,
             'url': url,
-            'html_code': html_code
+            'html_code': html_code,
+            'date': date
         }
         return self.api_client.post(API_URI['html'], data=html_visited_data,
                                     format='json', HTTP_SESSION_TOKEN=session_token)
 
-    #TODO: SEGUIR POR AQUI
+    def test_html_inserted(self):
+        # TODO: Comprobar la fecha que se mete
+        self.perform_html_visited(url= "http://molamazo.com",
+                                  html_code= "<hmtl><head></head></html>",
+                                  date="2014-01-01 00:00:00")
+        collection = self.test_mongo.db.htmlVisited
+        id = collection.find({},{"_id" : 1})[0]["_id"]
+        html = collection.find()[0]["html_code"]
+        date = collection.find()[0]["date"]
+        page = collection.find()[0]["page_visited"]
+        self.assertEqual(html, "<hmtl><head></head></html>")
+        self.assertEqual(page, "http://molamazo.com")
+        self.assertEquals(PageVisited.objects.filter(html_ref=id).count(),1)
+
+    def test_html_metadata_words(self):
+        self.perform_html_visited(url= "http://mola.com",
+                                  html_code= "<hmtl><head><meta name=\"description\" content=\"Noticias de última\">"
+                                             "<meta name=\"keywords\" content=\"Noticias de última\">"
+                                             "<title>Noticias de última</title></head><body><a>Hola, Noticias</a></html>",
+                                  date="2014-01-01 00:00:00")
+        collection = self.test_mongo.db.htmlVisited
+        metadata_words = collection.find()[0]["keywords_freq"]["metadata"]
+        a = metadata_words["noticias"]
+        b = metadata_words["última"]
+        self.assertEquals(a,3)
+        self.assertEquals(b,3)
+
+    def test_clean_invalid_words(self):
+        self.perform_html_visited(url= "http://mola.com",
+                                  html_code= "<hmtl><head><meta name=\"description\" content=\"Noticias de última\">"
+                                             "</head><body><a>Hola 1, s, " + "d" * (constants.WORD_MAX_LENGTH+1) +" </a></html>",
+                                  date="2014-01-01 00:00:00")
+        collection = self.test_mongo.db.htmlVisited
+        valid_words = collection.find()[0]["keywords_freq"]["text"]
+        long_word = "d" * (constants.WORD_MAX_LENGTH+1)
+        self.assertNotIn("1", valid_words)
+        self.assertNotIn("s", valid_words)
+        self.assertNotIn(long_word, valid_words)
+
+    def test_html_text_words(self):
+        self.perform_html_visited(url= "http://mola.com",
+                                  html_code= "<hmtl><head><meta name=\"description\" content=\"Noticias de última\">"
+                                             "</head><body><a>Hola, Noticias Hola </a></html>",
+                                  date="2014-01-01 00:00:00")
+        collection = self.test_mongo.db.htmlVisited
+        text_words = collection.find()[0]["keywords_freq"]["text"]
+        self.assertEquals(text_words["noticias"],1)
+        self.assertEquals(text_words["hola"],2)
+
+    def test_html_title(self):
+        self.perform_html_visited(url= "http://mola.com",
+                                  html_code= "<hmtl><head><meta name=\"description\" content=\"Noticias de última\">"
+                                             "<title>Noticias de última</title></head><body><a>Hola, Noticias Hola </a></html>",
+                                  date="2014-01-01 00:00:00")
+        collection = self.test_mongo.db.htmlVisited
+        title = collection.find()[0]["properties"]["title"]
+        self.assertEquals(title,"Noticias de última")
+
+    def test_html_keywords(self):
+        self.perform_html_visited(url= "http://mola.com",
+                                  html_code= "<hmtl><head><meta name=\"description\" content=\"Noticias de última\">"
+                                             "<meta name=\"keywords\" content=\"estas son las keywords\"></head>"
+                                             "<body><a>Hola, Noticias Hola </a></html>",
+                                  date="2014-01-01 00:00:00")
+        collection = self.test_mongo.db.htmlVisited
+        keywords = collection.find()[0]["properties"]["keywords"]
+        self.assertEquals(keywords,"estas son las keywords")
+
+    def test_html_description(self):
+        self.perform_html_visited(url= "http://mola.com",
+                                  html_code= "<hmtl><head><meta name=\"description\" content=\"Noticias de última\">"
+                                             "<meta name=\"keywords\" content=\"estas son las keywords\"></head>"
+                                             "<body><a>Hola, Noticias Hola </a></html>",
+                                  date="2014-01-01 00:00:00")
+        collection = self.test_mongo.db.htmlVisited
+        description = collection.find()[0]["properties"]["description"]
+        self.assertEquals(description,"Noticias de última")
+
+    def test_html_clean_punctuation(self):
+        self.perform_html_visited(url= "http://mola.com",
+                                  html_code= "<hmtl><head><meta name=\"description\" content=\"Noticias de última\">"
+                                             "</head><body><a>Hola, Noti.cias H-ola </a></html>",
+                                  date="2014-01-01 00:00:00")
+        collection = self.test_mongo.db.htmlVisited
+        valid_words = collection.find()[0]["keywords_freq"]["text"]
+        self.assertNotIn("h-ola", valid_words)
+        self.assertNotIn("noti.cias", valid_words)
+        self.assertNotIn("hola,", valid_words)
+        self.assertEquals(valid_words["hola"],2)
+        self.assertEquals(valid_words["noticias"],1)
+
+    def test_html_lowercase(self):
+        self.perform_html_visited(url= "http://mola.com",
+                                  html_code= "<hmtl><head><meta name=\"description\" content=\"Noticias de última\">"
+                                             "</head><body><a>Hola Noticias Hola hola </a></html>",
+                                  date="2014-01-01 00:00:00")
+        collection = self.test_mongo.db.htmlVisited
+        valid_words = collection.find()[0]["keywords_freq"]["text"]
+        self.assertNotIn("Hola", valid_words)
+        self.assertEquals(valid_words["hola"], 3)
+        self.assertEquals(valid_words["noticias"], 1)
+
+    def test_html_clean_stopwords_es(self):
+        self.perform_html_visited(url= "http://molamazisimo.com",
+                                  html_code= "<hmtl><head><meta name=\"description\" content=\"Noticias de última\">"
+                                             "</head><body><a>desde mi casa pienso cosas de casa </a></html>",
+                                  date="2014-01-01 00:00:00")
+        collection = self.test_mongo.db.htmlVisited
+        valid_words = collection.find()[0]["keywords_freq"]["text"]
+        self.assertNotIn("desde", valid_words)
+        self.assertNotIn("mi", valid_words)
+        self.assertNotIn("de", valid_words)
+
+    def test_html_clean_stopwords_en(self):
+        self.perform_html_visited(url= "http://molamazisimo.com",
+                                  html_code= "<hmtl><head><meta name=\"description\" content=\"last news\">"
+                                             "</head><body><a>from my home i think about things of home </a></html>",
+                                  date="2014-01-01 00:00:00")
+        collection = self.test_mongo.db.htmlVisited
+        valid_words = collection.find()[0]["keywords_freq"]["text"]
+        self.assertNotIn("from", valid_words)
+        self.assertNotIn("my", valid_words)
+        self.assertNotIn("i", valid_words)
+        self.assertNotIn("about", valid_words)
+        self.assertNotIn("of", valid_words)
+
+    def test_detect_language_spanish(self):
+        self.perform_html_visited(url= "http://molamazisimo.com",
+                                  html_code= "<hmtl><head><meta name=\"description\" content=\"Noticias de última\">"
+                                             "</head><body><a>esto es un texto en español claramente</a></html>",
+                                  date="2014-01-01 00:00:00")
+        collection = self.test_mongo.db.htmlVisited
+        language = collection.find()[0]["language"]
+        self.assertEquals(language, "spanish")
+
+    def test_detect_language_english(self):
+        self.perform_html_visited(url= "http://itiscoolalot.com",
+                                  html_code= "<hmtl><head><meta name=\"description\" content=\"last news\">"
+                                             "</head><body><a>this of course is an english text oh my god!</a></html>",
+                                  date="2014-01-01 00:00:00")
+        collection = self.test_mongo.db.htmlVisited
+        language = collection.find()[0]["language"]
+        self.assertEquals(language, "english")
+
+    def test_clean_html(self):
+        self.perform_html_visited(url= "http://molamazisimo.com",
+                                  html_code= "<hmtl><head><meta name=\"description\" content=\"Noticias de última\">"
+                                             "</head><body><a>esto es un html muy limpito</a>"
+                                             "<div> lol</div><p> lolazooooo</p></html>",
+                                  date="2014-01-01 00:00:00")
+        collection = self.test_mongo.db.htmlVisited
+        clean_html = collection.find()[0]["clean_html"]
+        self.assertEquals(clean_html, "esto es un html muy limpito lol lolazooooo")
+
+    def test_process_keywords(self):
+        self.perform_html_visited(url= "http://molamazisimo.com",
+                                  html_code= "<hmtl><head><meta name=\"description\" content=\"Noticias de última\">"
+                                             "</head><body><a>limpito</a>"
+                                             "<div> lol</div><p> lolazo lolazo</p></html>",
+                                  date="2014-01-01 00:00:00")
+        collection = self.test_mongo.db.userKeywords
+        collectionHtml = self.test_mongo.db.htmlVisited
+        self.assertNotIn("processed", collectionHtml.find()[0])
+        call_command('process_keywords')
+        user_keywords = collection.find()[0]
+        site_keywords = user_keywords["site_keywords_freq"]
+        user = user_keywords["user"]
+        metadata_keywords = user_keywords["metadata_keywords_freq"]
+        self.assertEquals(site_keywords["lolazo"], 2)
+        self.assertEquals(site_keywords["lol"], 1)
+        self.assertEquals(site_keywords["limpito"], 1)
+        self.assertEquals(metadata_keywords["noticias"], 1)
+        self.assertEquals(metadata_keywords["última"], 1)
+        self.assertEqual(collectionHtml.find()[0]["processed"], True)
+        self.perform_html_visited(url= "http://molamazisimomas.com",
+                                  html_code= "<hmtl><head><meta name=\"description\" content=\"Noticias\">"
+                                             "</head><body><a>limpito limpito</a>"
+                                             "<div> lol</div><p> lolazo lolazo</p></html>",
+                                  date="2014-01-01 00:00:00")
+        self.assertNotIn("processed", collectionHtml.find()[1])
+        call_command('process_keywords')
+        user_keywords = collection.find()[0]
+        site_keywords = user_keywords["site_keywords_freq"]
+        metadata_keywords = user_keywords["metadata_keywords_freq"]
+        self.assertEquals(site_keywords["lolazo"], 4)
+        self.assertEquals(site_keywords["lol"], 2)
+        self.assertEquals(site_keywords["limpito"], 3)
+        self.assertEquals(metadata_keywords["noticias"], 2)
+        self.assertEquals(metadata_keywords["última"], 1)
+        self.assertEqual(collectionHtml.find()[1]["processed"], True)
+        self.assertEqual(user, "alfredo")
+
 
 class PageVisitedResourceTest(AuthenticableResourceTest, CategorizableResourceTest):
     """
@@ -551,6 +752,7 @@ class PageVisitedResourceTest(AuthenticableResourceTest, CategorizableResourceTe
 
         return self.api_client.get(API_URI['page_categories'] % page_id, format='json',
                                    HTTP_SESSION_TOKEN=session_token)
+
 
     ######################
     # Security tests

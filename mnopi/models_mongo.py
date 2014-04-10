@@ -83,7 +83,10 @@ class HtmlVisited(object):
         self.page_visited = page_visited
         self.html_code = html_code
         self.user = user
-        self.date = datetime.datetime.utcnow()
+        if date==None:
+            self.date = datetime.datetime.utcnow()
+        else:
+            self.date = date
 
     def process(self):
         """
