@@ -1,5 +1,7 @@
-
 from django.db import models
+
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 from django.db import connection
 from django.contrib.auth.models import AbstractUser
 from django.utils.timezone import utc
@@ -7,20 +9,24 @@ from django.utils.timezone import utc
 from nltk import FreqDist
 
 import datetime
+import os
+import base64
 
 import models_mongo
+import constants
 
 # TODO: Documentar modelo
 # Ojo, hay una redundandia en el modelo entre las categorias de las paginas visitadas y el peso de cada
 # categoria con el usuario. Esto esta hecho aposta por temas de rendimiento
 
-username_MAX_LENGTH = 40
 PASSWORD_MAX_LENGTH = 100
 URL_MAX_LENGTH = 500
 SEARCH_QUERY_MAX_LENGTH = 300
 CATEGORY_MAX_LENGTH = 50
 TAXONOMY_MAX_LENGTH = 10
 KEYWORD_MAX_LENGTH = 50
+CLIENT_MAX_LENGTH = 50
+MONGO_DB_ID_LENGTH = 24
 
 METADATA_KEYWORD = 1
 SITE_KEYWORD = 2
@@ -30,7 +36,7 @@ class UserCategory(models.Model):
     taxonomy = models.CharField(max_length=TAXONOMY_MAX_LENGTH)
 
     class Meta:
-        db_table = "user_category"
+        db_table = "user_categories"
 
 class User(AbstractUser):
     """
@@ -106,11 +112,11 @@ class User(AbstractUser):
              {"News/Media": ["elpais.com", "www.elmundo.es", ...],
               "CategoryX" : ["blabla.com", ...] }
         """
-        sql = ('SELECT DISTINCT domain, user_category.name as category '
+        sql = ('SELECT DISTINCT domain, user_categories.name as category '
                'FROM users INNER JOIN pages_visited ON (users.id = pages_visited.user_id) '
                           'INNER JOIN domains ON (pages_visited.domain_id = domains.id) '
                           'INNER JOIN domains_categories ON (domains.id = domains_categories.categorizeddomain_id) '
-                          'INNER JOIN user_category ON (domains_categories.usercategory_id = user_category.id) '
+                          'INNER JOIN user_categories ON (domains_categories.usercategory_id = user_categories.id) '
                'WHERE username = %s')
 
         # Username automatically escaped
@@ -163,6 +169,14 @@ class User(AbstractUser):
 
         return Search.objects.filter(user=self, date__gte=datetime_from, date__lte=datetime_to)
 
+    def new_session(self, client):
+        """
+        Opens a new session for the user in the specified client
+        """
+        session_token = base64.b64encode(os.urandom(32))
+        ClientSession.objects.create(user=self, session_token=session_token, client=client)
+
+        return session_token
 
 class CategorizedDomain(models.Model):
     domain = models.CharField(max_length=URL_MAX_LENGTH)
@@ -188,20 +202,51 @@ class UserCategorization(models.Model):
     class Meta:
         db_table = "user_categorization"
 
+
+class Client(models.Model):
+    """
+    Clients that can get connected to the system, such as android applications or browser plugins
+    """
+    client_name = models.CharField(max_length=CLIENT_MAX_LENGTH)
+    allowed = models.BooleanField(default=True)
+
+    #class Meta:
+        #db_table = "clients" # TODO: Change name for consistency
+
 class PageVisited(models.Model):
     user = models.ForeignKey(User)
     page_visited = models.CharField(max_length=URL_MAX_LENGTH)
     domain = models.ForeignKey(CategorizedDomain)
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField(auto_now_add=False)
+    client = models.ForeignKey(Client)
+    html_ref = models.CharField(max_length=MONGO_DB_ID_LENGTH, )
 
     class Meta:
         db_table = "pages_visited"
+
 
 class Search(models.Model):
     search_query = models.CharField(max_length=SEARCH_QUERY_MAX_LENGTH)
     search_results = models.CharField(max_length=URL_MAX_LENGTH)
     user = models.ForeignKey(User)
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField(auto_now_add=False)
+    client = models.ForeignKey(Client)
 
     class Meta:
         db_table = "searches"
+
+def get_new_expiration_time(): # TODO : mover a un utils.py?
+    now = datetime.datetime.utcnow().replace(tzinfo=utc)
+    return now + datetime.timedelta(days=constants.PLUGIN_SESSION_EXPIRY_DAYS)
+
+class ClientSession(models.Model):
+
+    user = models.ForeignKey(User)
+    expiration_time = models.DateTimeField(default=get_new_expiration_time)
+    session_token = models.CharField(max_length=128)
+    client = models.ForeignKey(Client)
+
+    # Note: At the moment, no checks are done that renew logins are made by the same client
+
+    class Meta:
+        db_table = "client_sessions"

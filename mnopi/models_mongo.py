@@ -10,11 +10,16 @@ from pymongo import MongoClient
 db = MongoClient().mnopi # TODO: casque cuando no hay
 
 def register_html_visited(page_visited, user, html_code):
-    """ Saves an htmlVisited object in the database """
+    """
+    Saves an htmlVisited object in the database
+
+    Returns the _id ob the object created
+    """
 
     html_visited = HtmlVisited(page_visited, html_code, user)
     html_visited.process()
-    db.htmlVisited.insert(html_visited.__dict__)
+    object_id = db.htmlVisited.insert(html_visited.__dict__)
+    return object_id
 
 def get_user_html_visited(user):
     """ Gets the complete html code history of an user """
@@ -53,6 +58,8 @@ def get_user_keywords(username):
     else:
         return user_keywords
 
+
+
 def set_users_keywords(user_keywords_document):
     db.userKeywords.save(user_keywords_document)
 
@@ -76,7 +83,10 @@ class HtmlVisited(object):
         self.page_visited = page_visited
         self.html_code = html_code
         self.user = user
-        self.date = datetime.datetime.utcnow()
+        if date==None:
+            self.date = datetime.datetime.utcnow()
+        else:
+            self.date = date
 
     def process(self):
         """

@@ -4,7 +4,7 @@
 
   <div class="container">
     <section class="form">
-      <h1>mnopi alpha - Login</h1>
+      <h1>mnopi private beta - login</h1>
       <form method="post" action="{% url 'login' %}">
 
       {%  if error_message %}
@@ -13,10 +13,10 @@
 
       {%  csrf_token %}
       <div class="reg_section personal_info">
-      <h3>Identificador de usuario</h3>
-      <input type="text" name="user_key" value="" placeholder="Tu identificador de usuario">
-      <h3>Contraseña</h3>
-      <input type="password" name="password" value="" placeholder="Tu contraseña">
+      <h3>User identifier</h3>
+      <input type="text" name="user_key" value="" placeholder="Your user id">
+      <h3>Password</h3>
+      <input type="password" name="password" value="" placeholder="Your password">
       </div>
 
       <p class="submit"><input type="submit" name="login" value="Login"></p>
@@ -26,11 +26,21 @@
 
   <div class="container">
       <section class="form">
-          <p class="terms"><label>¿No tienes cuenta en mnopi?</label></p>
-          <p class="register-login"><a href="{% url 'register' %}"><input type="submit" name="commit" value="Registrarse"></a></p>
-      </section>
-      <section class="form">
-          <p class="register-login" style="text-align: center"><a href="{% url 'plugin' %}"><input type="submit" name="commit" value="Descargar plugin"></a></p>
+          <form method="post" action="{% url 'register' %}">
+           {%  csrf_token %}
+              <div class="reg_section personal_info">
+
+              <h3>Were you invited to mnopi?</h3>
+              <input type="text" name="invitation_key" value="" placeholder="Your invitation code here">
+
+              {%  if code_error %}
+                  <div><p class="error_message">{{ code_error }}</p></div>
+              {%  endif %}
+               </div>
+
+              <p class="submit"><input type="submit" name="commit" value="Redeem code"></p>
+
+          </form>
       </section>
   </div>
 
